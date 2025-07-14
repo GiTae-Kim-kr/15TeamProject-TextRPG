@@ -1,13 +1,13 @@
 ﻿// See https://aka.ms/new-console-template for more information
 class Player
 {
-    public static int level;
-    public static string name;
-    public static string job;
-    public static int atk;
-    public static int def;
-    public static int hp;
-    public static int gold;
+    public int level;
+    public string name;
+    public string job;
+    public int atk;
+    public int def;
+    public int hp;
+    public int gold;
 
 
     
