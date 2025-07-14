@@ -31,21 +31,20 @@ public static class MonsterDB
 public class Monster
 {
     public MonsterData data;
-    public int level;
-    public string name;
     public int hp;
-    public int atk;
     public bool isDead;
 
     // 생성자
     public Monster(MonsterData data)
     {
         this.data = data;
-        this.level = data.level;
-        this.name = data.name;
         this.hp = data.hp;
-        this.atk = data.atk;
         this.isDead = false;    // 살아있는 상태로 시작
     }
+
+    // 읽기전용 속성
+    public int level => data.level;
+    public string name => data.name;
+    public int atk => data.atk;
 
 }
