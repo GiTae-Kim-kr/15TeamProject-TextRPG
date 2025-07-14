@@ -8,7 +8,7 @@ namespace _15TeamProject
 {
     internal class HpPotion
     {
-        Player player = new Player();
+        Player player = Player.Instance;
         int potionCount = 3;
         int addHp = 30;
         public void UsePotion()
