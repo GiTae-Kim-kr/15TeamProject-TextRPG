@@ -34,6 +34,8 @@ public class Monster
     public int hp;
     public bool isDead;
 
+    Random random = new Random();
+
     // 생성자
     public Monster(MonsterData data)
     {
@@ -49,4 +51,12 @@ public class Monster
     public int atk => data.atk;
 
 
+    // 회피 - bool 반환
+    public bool Dodge()
+    {
+        int num = random.Next(1, 101);
+
+        if (num <= 10) { return true; } // 10%확률로 회피    
+        else { return false; }
+    }
 }
