@@ -27,7 +27,7 @@ class BattleScene
         Console.WriteLine("1. 공격\n");
         Console.WriteLine("2. 포션 사용\n");
         Console.Write("원하시는 행동을 입력해주세요. \n>>");
-        int input = Input.GetInt();  // 일단 아무거나 입력하면 PlayerPhase로 넘어감
+        int input = Input.GetInt();  
 
         switch(input)
         {
