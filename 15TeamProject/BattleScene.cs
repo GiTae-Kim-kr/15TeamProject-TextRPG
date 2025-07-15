@@ -1,4 +1,5 @@
 ﻿
+using _15TeamProject;
 using System.Diagnostics;
 
 class BattleScene
@@ -21,10 +22,16 @@ class BattleScene
         Console.WriteLine($"Lv.{player.level}  {player.name} ({player.job})");
         Console.WriteLine($"HP : {player.hp}/100\n");    // 한 칸 띄움
         Console.WriteLine("1. 공격\n");
+        Console.WriteLine("2. 포션 사용\n");
         Console.Write("원하시는 행동을 입력해주세요. \n>>");
         string input = Console.ReadLine();  // 일단 아무거나 입력하면 PlayerPhase로 넘어감
 
         if (input == "1") BattlePhase();  // 공격을 선택하면 BattlePhase로 넘어감
+        else if (input == "2")
+        { 
+            HpPotion hpPotion = new HpPotion();
+            hpPotion.UsePotion();
+        }
         else
         {
             Console.WriteLine("잘못된 입력입니다. 다시 시도해주세요.");
