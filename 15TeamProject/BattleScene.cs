@@ -14,13 +14,24 @@ class BattleScene
         Console.Write("원하시는 행동을 입력해주세요. \n>>");
         string input = Console.ReadLine();  // 일단 아무거나 입력하면 PlayerPhase로 넘어감
 
-        PlayerPhase();
+        // 임시
+        int target = 1; 
+        PlayerPhase(target);
     }
 
 
-    void PlayerPhase()
+    void PlayerPhase(int target)
     {
+        Console.Clear();
 
+        Console.ForegroundColor = ConsoleColor.Magenta;
+        Console.WriteLine("Battle!!");
+        Console.WriteLine();
+        Console.ResetColor();
+
+        Console.WriteLine($"{Player.name} 의 공격!");
+        int demage = Player.Instance.Attack();
+        // Console.WriteLine($"Lv.{monster[target].level} {monster[target].name} 을(를) 맞췄습니다. [데미지 : {}]");
     }
 
     void EnemyPhase()
