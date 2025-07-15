@@ -6,14 +6,17 @@ class BattleScene
 {
     Player player = Player.Instance;
     private Monster[]? monsterInfo;       
+    private int pastPlayerHP;
+    private int beforeHp;
 
     public void Run()
     {
         Console.Clear();
+        pastPlayerHP = player.hp;
         Console.ForegroundColor = ConsoleColor.Magenta;
         Console.WriteLine("Battle!!\n");
         Console.ResetColor();
-        RandomMonster(); // 몬스터 랜덤으로 생성해서 monsterInfo에 저장 => 지금 Run으로 올때마다 몬스터 초기화 되는 현상 발생 => 그냥 생성을 시작화면에서
+        RandomMonster(); // 몬스터 랜덤으로 생성해서 monsterInfo에 저장 => 나중에 시작화면으로 이동.
         foreach (Monster monster in monsterInfo)        // 랜덤으로 출력한 몬스터 정보 가져와서 다시 출력하기
         {
             Console.WriteLine($"Lv.{monster.data.level} {monster.data.name}  HP {monster.hp}");
@@ -83,7 +86,7 @@ class BattleScene
         Console.WriteLine($"Lv.{monster.level} {monster.name} 을(를) 맞췄습니다. [데미지 : {demage}]\n");
 
         // 적 남은 hp 계산
-        int beforeHp = monster.hp;
+        beforeHp = monster.hp;
         monster.hp -= demage;
         if (monster.hp <= 0)
         {
@@ -126,7 +129,7 @@ class BattleScene
                 Console.WriteLine($"{player.name} 을(를) 맞췄습니다. [데미지 : {monster.atk}]\n");
 
                 // 플레이어 남은 체력 계산
-                int beforeHp = player.hp;
+                beforeHp = player.hp;
                 player.hp -= monster.atk;
                 if (player.hp <= 0)     // 체력이 0이 되면 패배 (패배 화면으로 바로 이동)
                 {
@@ -162,13 +165,12 @@ class BattleScene
 
     void ResultVictory()    // 전투 승리시 나오는 씬 메서드
     {
+        Console.Clear();
         Console.WriteLine("Battle!! - Result\n");
         Console.WriteLine("Victory\n");
-        
-
         Console.WriteLine($"던전에서 몬스터 {monsterInfo.Length}마리를 잡았습니다.\n");  // 몇 마리인지 표시하는 코드 추가 필요 => 어차피 생성된 모든 몬스터 잡아야 승리니까
-        Console.WriteLine($"Lv.{player.level}  Chad ({player.job})");
-        Console.WriteLine($"HP {player.hp} -> \n");  // 플레이어의 체력 표시 코드 추가 필요/ 아마 추가적인 hp 필드가 필요할 수도?
+        Console.WriteLine($"Lv.{player.level}  {player.name} ({player.job})");
+        Console.WriteLine($"HP {pastPlayerHP} -> {player.hp}\n");  // 플레이어의 체력 표시 코드 추가 필요/ 아마 추가적인 hp 필드가 필요할 수도?
         Console.WriteLine($"0. 다음\n>>");
         string next = Console.ReadLine();
 
@@ -176,10 +178,11 @@ class BattleScene
 
     void ResultLose()    // 전투 패배시 나오는 씬 메서드
     {
+        Console.Clear();
         Console.WriteLine("Battle!! - Result\n");
         Console.WriteLine("You Lose\n");
-        Console.WriteLine($"Lv.{player.level}  Chad ({player.job})");
-        Console.WriteLine($"HP {player.hp} -> 0 \n");  // 플레이어의 체력 표시 코드 추가 필요/ 아마 추가적인 hp 필드가 필요할 수도?
+        Console.WriteLine($"Lv.{player.level}  {player.name} ({player.job})");
+        Console.WriteLine($"HP {beforeHp} -> 0 \n");  // 플레이어의 체력 표시 코드 추가 필요/ 아마 추가적인 hp 필드가 필요할 수도?
         Console.WriteLine($"0. 다음\n>>");
         string next = Console.ReadLine();
     }
