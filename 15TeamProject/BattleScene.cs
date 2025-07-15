@@ -8,6 +8,7 @@ class BattleScene
     private Monster[]? monsterInfo;       
     private int pastPlayerHP;
     private int beforeHp;
+    private int droppedPotion;
 
 
     public void Run()
@@ -191,6 +192,7 @@ class BattleScene
         Console.ResetColor();
         Console.WriteLine("Victory\n");
         Console.WriteLine($"던전에서 몬스터 {monsterInfo.Length}마리를 잡았습니다.\n");  // 몇 마리인지 표시하는 코드 추가 필요 => 어차피 생성된 모든 몬스터 잡아야 승리니까
+        GetPotion();
         Console.WriteLine($"Lv.{player.level}  {player.name} ({player.job})");
         Console.WriteLine($"HP {pastPlayerHP} -> {player.hp}\n");  // 플레이어의 체력 표시 코드 추가 필요/ 아마 추가적인 hp 필드가 필요할 수도?
         Console.WriteLine($"0. 다음\n>>");
@@ -233,6 +235,7 @@ class BattleScene
     {
         player.potionCount += droppedPotion;
         Console.WriteLine($"포션을 {droppedPotion} 개 획득 하셨습니다.");
+        droppedPotion = 0;
     }
 
 }
