@@ -17,6 +17,7 @@ class BattleScene
         Console.WriteLine($"Lv.{player.level}  Chad ({player.job})");
         Console.WriteLine($"HP : {player.hp}/100\n");    // 한 칸 띄움
         Console.WriteLine("1. 공격\n");
+        Console.WriteLine("2. 포션 사용\n");
         Console.Write("원하시는 행동을 입력해주세요. \n>>");
         string input = Console.ReadLine();  // 일단 아무거나 입력하면 PlayerPhase로 넘어감
 
