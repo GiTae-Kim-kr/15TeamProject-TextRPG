@@ -8,6 +8,7 @@ class Player
     public int def;
     public int hp;
     public int gold;
+    public int potionCount=3;
 
     private Random rand = new Random();
 
