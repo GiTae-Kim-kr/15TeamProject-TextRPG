@@ -9,6 +9,7 @@ class Player
     public int hp;
     public int gold;
 
+    private Random rand = new Random();
 
     
     // 싱글톤
@@ -35,5 +36,11 @@ class Player
         hp = 100; // 초기 체력
         gold = 1500; // 초기 골드
     }
-        
+
+    public int Attack()
+    {
+        int variance = (int)Math.Ceiling(atk * 0.1f); // 분산
+        int demage = rand.Next(atk - variance, atk + variance + 1);
+        return demage;
+    }
 }
