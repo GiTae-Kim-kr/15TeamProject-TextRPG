@@ -34,6 +34,8 @@ public class Monster
     public int hp;
     public bool isDead;
 
+    Random random = new Random();
+
     // 생성자
     public Monster(MonsterData data)
     {
@@ -48,5 +50,11 @@ public class Monster
     public string name => data.name;
     public int atk => data.atk;
 
+    public bool Dodge()
+    {
+        int num = random.Next(1, 101);
 
+        if (num <= 10) { return true; }        
+        else { return false; }
+    }
 }
