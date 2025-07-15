@@ -86,7 +86,7 @@ class BattleScene
         Console.WriteLine($"Lv.{monster.level} {monster.name} 을(를) 맞췄습니다. [데미지 : {demage}]\n");
 
         // 적 남은 hp 계산
-        beforeHp = monster.hp;
+        int enemyBeforeHp = monster.hp;
         monster.hp -= demage;
         if (monster.hp <= 0)
         {
@@ -96,7 +96,7 @@ class BattleScene
         // 적 남은 hp 출력
         string afterHp = monster.isDead ? "Dead" : monster.hp.ToString();
         Console.WriteLine($"Lv.{monster.level} {monster.name}");
-        Console.WriteLine($"HP {beforeHp} -> {afterHp}\n");
+        Console.WriteLine($"HP {enemyBeforeHp} -> {afterHp}\n");
 
         // 입력 대기 - 판정 기능은 나중에 추가
         Console.WriteLine("0. 다음\n");
