@@ -4,6 +4,7 @@ using System.Diagnostics;
 class BattleScene
 {
     Player player = Player.Instance;
+    private Monster[] monsterInfo;
 
     public void Run()
     {
@@ -24,16 +25,43 @@ class BattleScene
 
     void PlayerPhase(int target)
     {
-        Console.Clear();
+        // 지정한 대상을 저장
+        Monster monster = monsterInfo[target];
 
+        // 화면 리셋
+        Console.Clear();    
+        
+        // 상단에 Battle 색 입혀서 출력
         Console.ForegroundColor = ConsoleColor.Magenta;
         Console.WriteLine("Battle!!");
         Console.WriteLine();
         Console.ResetColor();
 
-        Console.WriteLine($"{Player.name} 의 공격!");
-        int demage = Player.Instance.Attack();
-        // Console.WriteLine($"Lv.{monster[target].level} {monster[target].name} 을(를) 맞췄습니다. [데미지 : {}]");
+        // 플레이어 공격 데미지 출력
+        Console.WriteLine($"{player.name} 의 공격!");
+        int demage = player.Attack();
+        Console.WriteLine($"Lv.{monster.level} {monster.name} 을(를) 맞췄습니다. [데미지 : {demage}]");
+        Console.WriteLine();
+
+        // 적 남은 hp 계산
+        int beforeHp = monster.hp;
+        monster.hp -= demage;
+        if (monster.hp <= 0)
+        {
+            monster.isDead = true;
+        }
+
+        // 적 남은 hp 출력
+        string afterHp = monster.isDead ? "Dead" : monster.hp.ToString();
+        Console.WriteLine($"Lv.{monster.level} {monster.name}");
+        Console.WriteLine($"HP {beforeHp} -> {afterHp}");
+        Console.WriteLine();
+
+        // 입력 대기 - 판정 기능은 나중에 추가
+        Console.WriteLine("0. 다음");
+        Console.WriteLine();
+        Console.Write(">>");
+        Console.ReadLine();
     }
 
     void EnemyPhase()
@@ -66,6 +94,7 @@ class BattleScene
     public void RandomMonster()   // 몬스터 랜덤으로 출력하는 메서드
     {
         Random random = new Random();
+
         
         int monsterNumber = random.Next(1, 5); // 1부터 4까지의 랜덤 숫자 생성
         Monster[] monsterInfo = new Monster[monsterNumber];    // 랜덤으로 뽑힌 몬스터 정보 저장 배열
@@ -76,6 +105,7 @@ class BattleScene
             monsterInfo[i] = monster;
             Console.WriteLine($"Lv.{monster.data.level} {monster.data.name}  HP {monster.hp}");
             //Console.WriteLine($"몬스터 {i + 1}: {monsterInfo[i].data.name}");  //잘 저장됬는지 디버깅용
+
         }
 
     }
