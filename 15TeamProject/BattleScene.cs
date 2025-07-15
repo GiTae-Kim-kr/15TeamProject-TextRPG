@@ -88,11 +88,65 @@ class BattleScene
         Console.WriteLine("0. 다음\n");
         Console.Write(">>");
         Console.ReadLine();
+        EnemyPhase();
     }
 
     void EnemyPhase()
     {
-         
+        // 남은 적 확인
+        int aliveCount = 0;
+        foreach (Monster monster in monsterInfo)
+        {
+            if (!monster.isDead)    // 살아있는 몬스터 공격
+            {
+                // 남은 몬스터 수에 반영
+                aliveCount++;
+
+                // 화면 리셋
+                Console.Clear();
+
+                // 상단에 Battle 색 입혀서 출력
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine("Battle!!\n");
+                Console.ResetColor();
+
+                // 적 공격 메시지 출력
+                Console.WriteLine($"Lv.{monster.level} {monster.name} 의 공격!");
+                Console.WriteLine($"{player.name} 을(를) 맞췄습니다. [데미지 : {monster.atk}]\n");
+
+                // 플레이어 남은 체력 계산
+                int beforeHp = player.hp;
+                player.hp -= monster.atk;
+                if (player.hp <= 0)     // 체력이 0이 되면 패배 (패배 화면으로 바로 이동)
+                {
+                    player.hp = 0;
+                    ResultLose();
+                    return;
+                }
+
+                // 플레이어 남은 체력 출력
+                Console.WriteLine($"Lv.{player.level} {player.name}");
+                Console.WriteLine($"HP {beforeHp} -> {player.hp}\n");
+
+                // 입력 대기
+                Console.WriteLine("0. 다음\n");
+                Console.WriteLine("대상을 선택해주세요.");
+                Console.Write(">>");
+                Console.ReadLine();
+            }
+        }
+        
+        // 전투 결과 판정
+        if (aliveCount == 0)
+        {
+            // 몬스터가 모두 죽으면 종료 (승리 화면으로 이동)
+            ResultVictory();
+        }
+        else
+        {
+            // 아직 적이 남아있으면 Run()으로 다시 이동
+            Run();
+        }
     }
 
     void ResultVictory()    // 전투 승리시 나오는 씬 메서드
