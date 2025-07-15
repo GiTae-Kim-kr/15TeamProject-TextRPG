@@ -38,10 +38,20 @@ class Player
         gold = 1500; // 초기 골드
     }
 
+    // 공격 - 데미지를반환
     public int Attack()
     {
         int variance = (int)Math.Ceiling(atk * 0.1f); // 분산
         int demage = rand.Next(atk - variance, atk + variance + 1);
         return demage;
+    }
+    
+    // 치명타 - 치명 배율 반환
+    public float Critical()
+    {
+        int num = rand.Next(1, 101);
+
+        if (num <= 15) { return 1.6f; } // 15% 확률로 치명타
+        else { return 1.0f; }
     }
 }
