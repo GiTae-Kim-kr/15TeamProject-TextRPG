@@ -25,7 +25,7 @@ class BattleScene
 
     void PlayerPhase(int target)
     {
-        // 지정한 대상을 저장
+        // 지정한 대상(적)을 저장
         Monster monster = monsterInfo[target];
 
         // 화면 리셋
@@ -33,15 +33,13 @@ class BattleScene
         
         // 상단에 Battle 색 입혀서 출력
         Console.ForegroundColor = ConsoleColor.Magenta;
-        Console.WriteLine("Battle!!");
-        Console.WriteLine();
+        Console.WriteLine("Battle!!\n");
         Console.ResetColor();
 
         // 플레이어 공격 데미지 출력
         Console.WriteLine($"{player.name} 의 공격!");
         int demage = player.Attack();
-        Console.WriteLine($"Lv.{monster.level} {monster.name} 을(를) 맞췄습니다. [데미지 : {demage}]");
-        Console.WriteLine();
+        Console.WriteLine($"Lv.{monster.level} {monster.name} 을(를) 맞췄습니다. [데미지 : {demage}]\n");
 
         // 적 남은 hp 계산
         int beforeHp = monster.hp;
@@ -54,12 +52,10 @@ class BattleScene
         // 적 남은 hp 출력
         string afterHp = monster.isDead ? "Dead" : monster.hp.ToString();
         Console.WriteLine($"Lv.{monster.level} {monster.name}");
-        Console.WriteLine($"HP {beforeHp} -> {afterHp}");
-        Console.WriteLine();
+        Console.WriteLine($"HP {beforeHp} -> {afterHp}\n");
 
         // 입력 대기 - 판정 기능은 나중에 추가
-        Console.WriteLine("0. 다음");
-        Console.WriteLine();
+        Console.WriteLine("0. 다음\n");
         Console.Write(">>");
         Console.ReadLine();
     }
