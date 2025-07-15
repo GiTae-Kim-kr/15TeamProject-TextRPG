@@ -7,6 +7,7 @@ class Player
     public int atk;
     public int def;
     public int hp;
+    public int mp;
     public int gold;
     public int potionCount=3;
 
@@ -35,6 +36,7 @@ class Player
         atk = 10;
         def = 5;
         hp = 100; // 초기 체력
+        mp = 50; // 초기 마나
         gold = 1500; // 초기 골드
     }
 
