@@ -39,8 +39,17 @@ namespace _15TeamProject
             for (int i = 0; i < inventory.Count; i++)
             {
                 int TargetItem = inventory[i] - 1;
-                string EquipDisplay = equipList.Contains(TargetItem) ? "[E]" : "";
-                Console.WriteLine($"- {EquipDisplay} {ItemNames[TargetItem]}    |    {(ItemTypes[TargetItem] == 0 ? "공격력" : "방어력")} + {ItemValue[TargetItem]}    |    {ItemDesc[TargetItem]}");
+                bool IsEquipped = equipList.Contains(TargetItem);
+                if (IsEquipped)
+                {
+                    Console.BackgroundColor = ConsoleColor.Blue;
+                }
+                string EquipDisplay = IsEquipped ? "[E]" : "";
+                Console.WriteLine($"- {i + 1}. {EquipDisplay} {ItemNames[TargetItem]}    |    {(ItemTypes[TargetItem] == 0 ? "공격력" : "방어력")} + {ItemValue[TargetItem]}    |    {ItemDesc[TargetItem]}");
+                if (IsEquipped)
+                {
+                    Console.ResetColor();
+                }
             }
             Console.WriteLine("");
             Console.WriteLine("1. 장착관리");
@@ -82,8 +91,17 @@ namespace _15TeamProject
             for (int i = 0; i < inventory.Count; i++)
             {
                 int TargetItem = inventory[i] - 1;
-                string EquipDisplay = equipList.Contains(TargetItem) ? "[E]" : "";
+                bool IsEquipped = equipList.Contains(TargetItem);
+                if (IsEquipped)
+                {
+                    Console.BackgroundColor = ConsoleColor.Blue;
+                }
+                string EquipDisplay = IsEquipped ? "[E]" : "";
                 Console.WriteLine($"- {i + 1}. {EquipDisplay} {ItemNames[TargetItem]}    |    {(ItemTypes[TargetItem] == 0 ? "공격력" : "방어력")} + {ItemValue[TargetItem]}    |    {ItemDesc[TargetItem]}");
+                if (IsEquipped)
+                {
+                    Console.ResetColor();
+                }
             }
             Console.WriteLine("");
             Console.WriteLine("0. 나가기");
