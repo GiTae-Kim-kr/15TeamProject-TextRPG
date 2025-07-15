@@ -12,7 +12,11 @@ class BattleScene
         Console.ForegroundColor = ConsoleColor.Magenta;
         Console.WriteLine("Battle!!\n");
         Console.ResetColor();
-        RandomMonster();// 몬스터 랜덤으로 출력하는 코드
+        RandomMonster(); // 몬스터 랜덤으로 생성해서 monsterInfo에 저장 => 지금 Run으로 올때마다 몬스터 초기화 되는 현상 발생 => 그냥 생성을 시작화면에서
+        foreach (Monster monster in monsterInfo)        // 랜덤으로 출력한 몬스터 정보 가져와서 다시 출력하기
+        {
+            Console.WriteLine($"Lv.{monster.data.level} {monster.data.name}  HP {monster.hp}");
+        }
         Console.WriteLine("\n\n[내정보]");
         Console.WriteLine($"Lv.{player.level}  {player.name} ({player.job})");
         Console.WriteLine($"HP : {player.hp}/100\n");    // 한 칸 띄움
@@ -185,8 +189,6 @@ class BattleScene
             int monsterIndex = random.Next(0,monsterListIndex); // 0부터 2까지의 랜덤 숫자 생성 -> 하드코딩했던거 수정했습니다.
             Monster monster = new Monster(MonsterDB.monsterList[monsterIndex]);
             monsterInfo[i] = monster;
-            Console.WriteLine($"Lv.{monster.data.level} {monster.data.name}  HP {monster.hp}");
-
             //Console.WriteLine($"몬스터 {i + 1}: {monsterInfo[i].data.name}");  //잘 저장됬는지 디버깅용
         }
 
