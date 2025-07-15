@@ -63,12 +63,24 @@ class BattleScene
         Console.WriteLine($"HP : {player.hp}/100\n");    // 한 칸 띄움
         Console.WriteLine("0. 취소\n");
         Console.Write("대상을 선택해주세요. \n>>");
-        int target = Input.GetInt(); ;   // 몇 번 몬스터 맞출지.
-        switch (target)
+        
+        while (true)
         {
-            case 0: Run(); break;
-            default: PlayerPhase(target - 1); break; // 0을 입력하면 취소로 작동되야해서 -1 해줌. 그 외의 숫자를 입력하면 PlayerPhase로 넘어감
-        }
+            int target = Input.GetInt(); ;   // 몇 번 몬스터 맞출지.
+            if (target == 0)
+            {
+                Run();
+                break;
+            }
+            else if (target <= monsterInfo.Length)
+            {
+                PlayerPhase(target - 1);
+                break;
+            }
+            else if (target > monsterInfo.Length)
+                Console.WriteLine("생성되지 않은 몬스터를 선택하셨습니다! 다시 선택하여 주세요");
+
+         }
     }
 
 
