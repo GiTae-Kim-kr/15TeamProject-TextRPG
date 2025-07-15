@@ -4,11 +4,13 @@ using System.Diagnostics;
 class BattleScene
 {
     Player player = Player.Instance;
-    private Monster[] monsterInfo;
+    public Monster[]? monsterInfo;       
 
     public void Run()
     {
-        Console.WriteLine("Battle!!\n\n");  // 한 칸 아래로 띄움
+        Console.ForegroundColor = ConsoleColor.Magenta;
+        Console.WriteLine("Battle!!\n");
+        Console.ResetColor();
         RandomMonster();// 몬스터 랜덤으로 출력하는 코드
         Console.WriteLine("\n\n[내정보]");
         Console.WriteLine($"Lv.{player.level}  Chad ({player.job})");
@@ -17,9 +19,36 @@ class BattleScene
         Console.Write("원하시는 행동을 입력해주세요. \n>>");
         string input = Console.ReadLine();  // 일단 아무거나 입력하면 PlayerPhase로 넘어감
 
-        // 임시
-        int target = 1; 
-        PlayerPhase(target);
+        if (input == "1") BattlePhase();  // 공격을 선택하면 BattlePhase로 넘어감
+        else
+        {
+            Console.WriteLine("잘못된 입력입니다. 다시 시도해주세요.");
+            Run();  // 1말고 다른거 입력하면 다시 Run() 메서드 호출 => 나중에 시작 화면으로 변경.
+        }
+
+
+    }
+
+    void BattlePhase()
+    {
+        int count = 1;
+        Console.Clear();
+        Console.ForegroundColor = ConsoleColor.Magenta;
+        Console.WriteLine("Battle!!\n");
+        Console.ResetColor();
+        foreach (Monster monster in monsterInfo)        // 랜덤으로 출력한 몬스터 정보 가져와서 다시 출력하기
+        {
+            Console.WriteLine($"{count} Lv.{monster.data.level} {monster.data.name}  HP {monster.hp}");
+            count++;
+        }
+        Console.WriteLine("\n\n[내정보]");
+        Console.WriteLine($"Lv.{player.level}  Chad ({player.job})");
+        Console.WriteLine($"HP : {player.hp}/100\n");    // 한 칸 띄움
+        Console.WriteLine("0. 취소\n");
+        Console.Write("대상을 선택해주세요. \n>>");
+        int target = int.Parse(Console.ReadLine());   // 몇 번 몬스터 맞출지.
+        if (target == 0) Run();
+        else PlayerPhase(target - 1);  // 0을 입력하면 취소로 작동되야해서 -1 해줌. 그 외의 숫자를 입력하면 PlayerPhase로 넘어감
     }
 
 
