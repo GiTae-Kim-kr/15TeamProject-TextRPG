@@ -9,6 +9,7 @@ class BattleScene
     private int pastPlayerHP;
     private int beforeHp;
 
+
     public void Run()
     {
         Console.Clear();
@@ -48,7 +49,7 @@ class BattleScene
 
     void BattlePhase()
     {
-        int count = 1;
+        int count = 1;        
         Console.Clear();
         Console.ForegroundColor = ConsoleColor.Magenta;
         Console.WriteLine("Battle!!\n");
@@ -108,6 +109,7 @@ class BattleScene
         if (monster.hp <= 0)
         {
             monster.isDead = true;
+            droppedPotion++;
         }
 
         // 적 남은 hp 출력
@@ -227,5 +229,10 @@ class BattleScene
 
     }
 
+    public void GetPotion()
+    {
+        player.potionCount += droppedPotion;
+        Console.WriteLine($"포션을 {droppedPotion} 개 획득 하셨습니다.");
+    }
 
 }
