@@ -19,8 +19,9 @@ namespace _15TeamProject
             Console.WriteLine("이제 전투를 시작할 수 있습니다.\n");
 
             Console.WriteLine("1. 상태보기");
-            Console.WriteLine("2. 전투 시작");
-            Console.WriteLine("3. 회복 아이템");
+            Console.WriteLine("2. 인벤토리");
+            Console.WriteLine("3. 전투 시작");
+            Console.WriteLine("4. 회복 아이템");
             Console.WriteLine();
             Console.Write("원하시는 행동을 입력해주세요. \n>>");
             int choice = Input.GetInt();
@@ -30,13 +31,17 @@ namespace _15TeamProject
                     Console.WriteLine("추후 추가"); 
                     break;
                 case 2:
+                    Inventory inventory = new Inventory();
+                    inventory.InventoryUI();
+                    break;
+                case 3:
                     // 몬스터 랜덤으로 생성해서 monsterInfo에 저장.
                     battleScene.RandomMonster();
                     pastPlayerHP = Player.Instance.hp; // 현재 플레이어의 HP를 pastPlayerHP에 저장
                     // battleScene의 전투 시작화면으로 이동.
                     battleScene.Run();
                     break;
-                case 3:
+                case 4:
                     Console.Clear();
                     // 회복 아이템 사용 화면으로 이동
                     hpPotion.ViewPotionInfo();
