@@ -50,11 +50,13 @@ public class Monster
     public string name => data.name;
     public int atk => data.atk;
 
+
+    // 회피 - bool 반환
     public bool Dodge()
     {
         int num = random.Next(1, 101);
 
-        if (num <= 10) { return true; }        
+        if (num <= 10) { return true; } // 10%확률로 회피    
         else { return false; }
     }
 }
