@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace _15TeamProject
 {
     internal class Inventory
@@ -16,8 +17,8 @@ namespace _15TeamProject
 
         private static List<int> inventory = new List<int>();
         private static List<int> equipList = new List<int>();
-        private static bool equipmentWeapon = false;
-        private static bool equipmentArmor = false;
+        private static int[] equipmentWeapon = new int[1] { 0 };
+        private static int[] equipmentArmor = new int[1] { 0 };
 
 
         public void InventoryUI() //Inventory UI Scene
@@ -127,55 +128,47 @@ namespace _15TeamProject
                         if (Inventory.ItemTypes[input - 1] == 0)// 장착한 무기 해제
                         {
                             equipList.Remove(input - 1);
-                            equipmentWeapon = false;
+                            equipmentWeapon[0] = 0;
                             Console.Write("장비를 해제했습니다. (Enter키 입력 시 진행)");
                             Console.ReadLine();
                             EquipUI();
                         }
-                        else if (Inventory.ItemTypes[input - 1] == 1)
+                        else if (Inventory.ItemTypes[input - 1] == 1) // 장착한 방어구 해제
                         {
                             equipList.Remove(input - 1);
-                            equipmentArmor = false;
+                            equipmentWeapon[0] = 0;
                             Console.Write("장비를 해제했습니다. (Enter키 입력 시 진행)");
                             Console.ReadLine();
                             EquipUI();
                         }
                     }
-                    else // 올바른 장비를 선택했을 때
+                    else // 새로운 장비를 선택했을 때
                     {
                         if (Inventory.ItemTypes[input - 1] == 0) // 무기인 경우
                         {
-                            if (equipmentWeapon == false)
+                            if (equipmentWeapon[0] != 0)
                             {
-                                equipmentWeapon = true;
-                                equipList.Add(input - 1);
-                                Console.Write("장비를 장착했습니다. (Enter키 입력 시 진행)");
-                                Console.ReadLine();
-                                EquipUI();
+                                equipList.Remove(equipmentWeapon[0]);
                             }
-                            else
-                            {
-                                Console.WriteLine("해당 부위는 이미 장비를 착용하고 있습니다.\n 장착한 장비를 해제후 사용해주세요. (Enter키 입력 시 진행)");
-                                Console.ReadLine();
-                                EquipUI();
-                            }
+                            equipmentWeapon[0] = input - 1;
+                            equipList.Add(input - 1);
+                            Console.Write("장비를 장착했습니다. (Enter키 입력 시 진행)");
+                            Console.ReadLine();
+                            EquipUI();
+
                         }
                         else if (Inventory.ItemTypes[input - 1] == 1) // 방어구인 경우
                         {
-                            if (equipmentArmor == false)
+                            if (equipmentArmor[0] != 0)
                             {
-                                equipmentArmor = true;
-                                equipList.Add(input - 1);
-                                Console.Write("장비를 장착했습니다. (Enter키 입력 시 진행)");
-                                Console.ReadLine();
-                                EquipUI();
+                                equipList.Remove(equipmentArmor[0]);
                             }
-                            else
-                            {
-                                Console.WriteLine("해당 부위는 이미 장비를 착용하고 있습니다.\n 장착한 장비를 해제후 사용해주세요. (Enter키 입력 시 진행)");
-                                Console.ReadLine();
-                                EquipUI();
-                            }
+                            equipmentArmor[0] = input - 1;
+                            equipList.Add(input - 1);
+                            Console.Write("장비를 장착했습니다. (Enter키 입력 시 진행)");
+                            Console.ReadLine();
+                            EquipUI();
+                           
                         }
                     }
                 }
