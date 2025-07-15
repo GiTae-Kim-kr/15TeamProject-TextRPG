@@ -6,28 +6,31 @@ class BattleScene
 {
     Player player = Player.Instance;
     private Monster[]? monsterInfo;       
-    private int pastPlayerHP;
+    
     private int beforeHp;
+    private int droppedPotion;
+
 
     public void Run()
     {
         Console.Clear();
-        pastPlayerHP = player.hp;     // 이것도 시작화면에서 넣어놓고 여기로 불러오도록 함. 지금은 Run 될때마다 현재 HP가 저장되서 의미가 없음
         Console.ForegroundColor = ConsoleColor.Magenta;
         Console.WriteLine("Battle!!\n");
         Console.ResetColor();
-        RandomMonster(); // 몬스터 랜덤으로 생성해서 monsterInfo에 저장 => 나중에 시작화면으로 이동.
-        foreach (Monster monster in monsterInfo)        // 랜덤으로 출력한 몬스터 정보 가져와서 다시 출력하기
+        // 랜덤으로 출력한 몬스터 정보 가져와서 다시 출력하기
+        foreach (Monster monster in monsterInfo)        
         {
-            Console.WriteLine($"Lv.{monster.data.level} {monster.data.name}  HP {monster.hp}");
+            string afterHp = monster.isDead ? "Dead" : monster.hp.ToString();
+            Console.WriteLine($"Lv.{monster.data.level} {monster.data.name}  HP {afterHp}");
         }
         Console.WriteLine("\n\n[내정보]");
         Console.WriteLine($"Lv.{player.level}  {player.name} ({player.job})");
         Console.WriteLine($"HP : {player.hp}/100\n");    // 한 칸 띄움
         Console.WriteLine("1. 공격\n");
         Console.WriteLine("2. 포션 사용\n");
+        Console.WriteLine("0. 나가기\n");
         Console.Write("원하시는 행동을 입력해주세요. \n>>");
-        int input = Input.GetInt();  // 일단 아무거나 입력하면 PlayerPhase로 넘어감
+        int input = Input.GetInt();  
 
         switch(input)
         {
@@ -37,10 +40,16 @@ class BattleScene
             case 2:
                 HpPotion hpPotion = new HpPotion();
                 hpPotion.UsePotion();
+                Console.ReadLine();
+                Run();
                 break;
+            case 0:
+                Console.Clear();
+                StartScene.Instance.GameStartScene();  // 시작 화면으로 돌아가기
+                break; 
             default:
                 Console.WriteLine("잘못된 입력입니다. 다시 시도해주세요.");
-                Run();  // 1말고 다른거 입력하면 다시 Run() 메서드 호출 => 나중에 시작 화면으로 변경.
+                Run();  // 잘못된 입력시 다시 전투 시작화면으로 돌아감
                 break;
         }
 
@@ -48,14 +57,15 @@ class BattleScene
 
     void BattlePhase()
     {
-        int count = 1;
+        int count = 1;        
         Console.Clear();
         Console.ForegroundColor = ConsoleColor.Magenta;
         Console.WriteLine("Battle!!\n");
         Console.ResetColor();
         foreach (Monster monster in monsterInfo)        // 랜덤으로 출력한 몬스터 정보 가져와서 다시 출력하기
         {
-            Console.WriteLine($"{count} Lv.{monster.data.level} {monster.data.name}  HP {monster.hp}");
+            string afterHp = monster.isDead ? "Dead" : monster.hp.ToString();
+            Console.WriteLine($"{count} Lv.{monster.data.level} {monster.data.name}  HP {afterHp}");
             count++;
         }
         Console.WriteLine("\n\n[내정보]");
@@ -108,6 +118,8 @@ class BattleScene
         if (monster.hp <= 0)
         {
             monster.isDead = true;
+            monster.hp = 0;    // 체력이 0이 되면 죽은 상태로 변경
+            droppedPotion++;
         }
 
         // 적 남은 hp 출력
@@ -189,10 +201,13 @@ class BattleScene
         Console.ResetColor();
         Console.WriteLine("Victory\n");
         Console.WriteLine($"던전에서 몬스터 {monsterInfo.Length}마리를 잡았습니다.\n");  // 몇 마리인지 표시하는 코드 추가 필요 => 어차피 생성된 모든 몬스터 잡아야 승리니까
+        GetPotion();
         Console.WriteLine($"Lv.{player.level}  {player.name} ({player.job})");
-        Console.WriteLine($"HP {pastPlayerHP} -> {player.hp}\n");  // 플레이어의 체력 표시 코드 추가 필요/ 아마 추가적인 hp 필드가 필요할 수도?
+        Console.WriteLine($"HP {StartScene.Instance.pastPlayerHP} -> {player.hp}\n");  // 플레이어의 체력 표시 코드 추가 필요/ 아마 추가적인 hp 필드가 필요할 수도?
         Console.WriteLine($"0. 다음\n>>");
-        int next = Input.GetInt();  // 나중에 시작화면으로 넘어가게 코드 작성.
+        Input.GetInt();  // 나중에 시작화면으로 넘어가게 코드 작성.
+
+        StartScene.Instance.GameStartScene();  // 시작 화면으로 돌아가기
 
     }   
 
@@ -207,7 +222,9 @@ class BattleScene
         Console.WriteLine($"Lv.{player.level}  {player.name} ({player.job})");
         Console.WriteLine($"HP {beforeHp} -> 0 \n");  // 플레이어의 체력 표시 코드 추가 필요/ 아마 추가적인 hp 필드가 필요할 수도?
         Console.WriteLine($"0. 다음\n>>");
-        int next = Input.GetInt();  // 나중에 시작화면으로 넘어가게 코드 작성.
+        Input.GetInt();  // 나중에 시작화면으로 넘어가게 코드 작성.
+
+        StartScene.Instance.GameStartScene();  // 시작 화면으로 돌아가기
     }
 
     public void RandomMonster()   // 몬스터 랜덤으로 출력하는 메서드
@@ -227,5 +244,11 @@ class BattleScene
 
     }
 
+    public void GetPotion()
+    {
+        player.potionCount += droppedPotion;
+        Console.WriteLine($"포션을 {droppedPotion} 개 획득 하셨습니다.");
+        droppedPotion = 0;
+    }
 
 }

@@ -14,21 +14,21 @@ namespace _15TeamProject
         {
             if (player.potionCount > 0)
             {
-                if (player.hp > 71)
+                if (player.hp == 100)
+                {
+                    Console.WriteLine($"체력이 가득 찼습니다. 남은포션개수 : {player.potionCount}");
+                }                
+                else if (player.hp > 71)
                 {
                     player.hp = 100;
                     player.potionCount--;
-                    Console.WriteLine($"회복을 완료했습니다. 남은포션개수{player.potionCount}");
-                }
-                else if(player.hp==100)
-                {
-                    Console.WriteLine($"체력이 가득 찼습니다. 남은포션개수{player.potionCount}");
+                    Console.WriteLine($"회복을 완료했습니다. 남은포션개수 : {player.potionCount}");
                 }
                 else
                 {
                     player.hp += addHp;
                     player.potionCount--;
-                    Console.WriteLine($"회복을 완료했습니다. 남은포션개수{player.potionCount}");
+                    Console.WriteLine($"회복을 완료했습니다. 남은포션개수 : {player.potionCount}");
                 }
             }
             else
