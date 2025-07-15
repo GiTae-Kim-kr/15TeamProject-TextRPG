@@ -1,4 +1,6 @@
 ﻿
+using System.Diagnostics;
+
 class BattleScene
 {
     Player player = Player.Instance;
@@ -53,12 +55,16 @@ class BattleScene
     public void RandomMonster()   // 몬스터 랜덤으로 출력하는 메서드
     {
         Random random = new Random();
-        int monsternumber = random.Next(1, 5); // 1부터 4까지의 랜덤 숫자 생성
-        for (int i = 0; i < monsternumber; i++)
+        
+        int monsterNumber = random.Next(1, 5); // 1부터 4까지의 랜덤 숫자 생성
+        Monster[] monsterInfo = new Monster[monsterNumber];    // 랜덤으로 뽑힌 몬스터 정보 저장 배열
+        for (int i = 0; i < monsterNumber; i++)
         {
-            int monsterindex = random.Next(0,3); // 0부터 2까지의 랜덤 숫자 생성
-            Monster monster = new Monster(MonsterDB.monsterList[monsterindex]);
+            int monsterIndex = random.Next(0,3); // 0부터 2까지의 랜덤 숫자 생성
+            Monster monster = new Monster(MonsterDB.monsterList[monsterIndex]);
+            monsterInfo[i] = monster;
             Console.WriteLine($"Lv.{monster.data.level} {monster.data.name}  HP {monster.hp}");
+            //Console.WriteLine($"몬스터 {i + 1}: {monsterInfo[i].data.name}");  //잘 저장됬는지 디버깅용
         }
 
     }
