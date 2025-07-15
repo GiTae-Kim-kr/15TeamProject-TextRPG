@@ -5,15 +5,14 @@ class BattleScene
 
     public void Run()
     {
-        Console.WriteLine("Battle!!\n");  // 한 칸 아래로 띄움
+        Console.WriteLine("Battle!!\n\n");  // 한 칸 아래로 띄움
         RandomMonster();// 몬스터 랜덤으로 출력하는 코드
-        Console.WriteLine("\n[내정보]");
+        Console.WriteLine("\n\n[내정보]");
         Console.WriteLine($"Lv.{player.level}  Chad ({player.job})");
         Console.WriteLine($"HP : {player.hp}/100\n");    // 한 칸 띄움
         Console.WriteLine("1. 공격\n");
         Console.Write("원하시는 행동을 입력해주세요. \n>>");
-        string input = Console.ReadLine();
-
+        string input = Console.ReadLine();  // 일단 아무거나 입력하면 PlayerPhase로 넘어감
 
         PlayerPhase();
     }
@@ -29,17 +28,29 @@ class BattleScene
          
     }
 
-    void ResultVictory()
+    void ResultVictory()    // 전투 승리시 나오는 씬 메서드
     {
+        Console.WriteLine("Battle!! - Result\n");
+        Console.WriteLine("Victory\n");
+        Console.WriteLine($"던전에서 몬스터 마리를 잡았습니다.\n");  // 몇 마리인지 표시하는 코드 추가 필요
+        Console.WriteLine($"Lv.{player.level}  Chad ({player.job})");
+        Console.WriteLine($"HP {player.hp} -> \n");  // 플레이어의 체력 표시 코드 추가 필요/ 아마 추가적인 hp 필드가 필요할 수도?
+        Console.WriteLine($"0. 다음\n>>");
+        string next = Console.ReadLine();
 
+    }   
+
+    void ResultLose()    // 전투 패배시 나오는 씬 메서드
+    {
+        Console.WriteLine("Battle!! - Result\n");
+        Console.WriteLine("You Lose\n");
+        Console.WriteLine($"Lv.{player.level}  Chad ({player.job})");
+        Console.WriteLine($"HP {player.hp} -> 0 \n");  // 플레이어의 체력 표시 코드 추가 필요/ 아마 추가적인 hp 필드가 필요할 수도?
+        Console.WriteLine($"0. 다음\n>>");
+        string next = Console.ReadLine();
     }
 
-    void ResultLose()
-    {
-
-    }
-
-    public void RandomMonster()
+    public void RandomMonster()   // 몬스터 랜덤으로 출력하는 메서드
     {
         Random random = new Random();
         int monsternumber = random.Next(1, 5); // 1부터 4까지의 랜덤 숫자 생성
