@@ -47,7 +47,7 @@ class BattleScene
         {
             int monsterindex = random.Next(0,3); // 0부터 2까지의 랜덤 숫자 생성
             Monster monster = new Monster(MonsterDB.monsterList[monsterindex]);
-            Console.WriteLine($"Lv.{monster.level} {monster.name}  HP {monster.hp}");
+            Console.WriteLine($"Lv.{monster.data.level} {monster.data.name}  HP {monster.data.hp}");
         }
 
     }
