@@ -25,6 +25,15 @@ class Player
         }
     }
 
-
+    private Player()
+    {
+        level = 1;
+        name = "르탄이";
+        job = "전사";
+        atk = 10;
+        def = 5;
+        hp = 100; // 초기 체력
+        gold = 1500; // 초기 골드
+    }
         
 }

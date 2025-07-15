@@ -1,13 +1,12 @@
 ﻿
 class Program
 {
-    static void main(String[] args)
+    
+
+    static void Main(String[] args)
     {
-
-
-        Console.WriteLine("Hello, World!");
-
-        Program program = new Program();
+        BattleScene battleScene = new BattleScene();
+        battleScene.Run();
 
     }
 }

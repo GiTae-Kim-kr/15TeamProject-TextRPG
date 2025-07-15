@@ -48,4 +48,6 @@ public class Monster
         this.isDead = false;    // 살아있는 상태로 시작
     }
 
+
+
 }
