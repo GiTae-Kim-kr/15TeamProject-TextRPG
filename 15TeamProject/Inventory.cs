@@ -9,16 +9,10 @@ namespace _15TeamProject
 {
     internal class Inventory
     {
-        private static string[] ItemNames = { "수련자의 갑옷", "무쇠갑옷", "스파르타의 갑옷", "낡은 검", "청동 도끼", "스파르타의 창" };
-        private static int[] ItemTypes = { 1, 1, 1, 0, 0, 0 }; //0: 무기, 1: 상의
-        private static int[] ItemValue = { 5, 9, 15, 2, 5, 7 };
-        private static string[] ItemDesc = { "수련에 도움을 주는 갑옷입니다.", "무쇠로 만들어져 튼튼한 갑옷입니다.", "스파르타의 전사들이 사용했다는 전설의 갑옷입니다.", "쉽게 볼 수 있는 낡은 검입니다.", "어디선가 사용했던거 같은 도끼입니다.", "스파르타의 전사들이 사용했다는 전설의 창입니다." };
-        private static int[] ItemPrice = { 1000, 2000, 3500, 600, 1000, 2500 };
-
-        private static List<int> inventory = new List<int>();
-        private static List<int> equipList = new List<int>();
-        private static int[] equipmentWeapon = new int[1] { -1 };
-        private static int[] equipmentArmor = new int[1] { -1 };
+        private static List<int> inventory = new List<int>();       // 인벤토리에 있는 장비
+        private static List<int> equipList = new List<int>();       // 장착한 장비
+        private static int[] equipmentWeapon = new int[1] { -1 };   // 무기 칸에 어떤 장비가 있는지 확인. -1 이 초기화값
+        private static int[] equipmentArmor = new int[1] { -1 };    // 방어구 칸에 어떤 장비가 있는지 확인. -1 이 초기화값
 
 
         public void InventoryUI() //Inventory UI Scene
@@ -41,12 +35,13 @@ namespace _15TeamProject
             {
                 int TargetItem = inventory[i] - 1;
                 bool IsEquipped = equipList.Contains(TargetItem);
+                ItemData item = ItemDB.ItemList[TargetItem];
                 if (IsEquipped)
                 {
                     Console.BackgroundColor = ConsoleColor.Blue;
                 }
                 string EquipDisplay = IsEquipped ? "[E]" : "";
-                Console.WriteLine($"- {i + 1}. {EquipDisplay} {ItemNames[TargetItem]}    |    {(ItemTypes[TargetItem] == 0 ? "공격력" : "방어력")} + {ItemValue[TargetItem]}    |    {ItemDesc[TargetItem]}");
+                Console.WriteLine($"- {i + 1}. {EquipDisplay} {item.ItemNames}    |    {(item.ItemTypes == 0 ? "공격력" : "방어력")} + {item.ItemValue}    |    {item.ItemDesc}");
                 if (IsEquipped)
                 {
                     Console.ResetColor();
@@ -83,6 +78,8 @@ namespace _15TeamProject
 
         public void EquipUI() // 장비 장착 관리
         {
+
+            
             Console.Clear();
             Console.WriteLine("인벤토리 - 장착 관리");
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.");
@@ -93,12 +90,13 @@ namespace _15TeamProject
             {
                 int TargetItem = inventory[i] - 1;
                 bool IsEquipped = equipList.Contains(TargetItem);
+                ItemData item = ItemDB.ItemList[TargetItem];
                 if (IsEquipped)
                 {
                     Console.BackgroundColor = ConsoleColor.Blue;
                 }
                 string EquipDisplay = IsEquipped ? "[E]" : "";
-                Console.WriteLine($"- {i + 1}. {EquipDisplay} {ItemNames[TargetItem]}    |    {(ItemTypes[TargetItem] == 0 ? "공격력" : "방어력")} + {ItemValue[TargetItem]}    |    {ItemDesc[TargetItem]}");
+                Console.WriteLine($"- {i + 1}. {EquipDisplay} {item.ItemNames}    |    {(item.ItemTypes == 0 ? "공격력" : "방어력")} + {item.ItemValue}    |    {item.ItemDesc}");
                 if (IsEquipped)
                 {
                     Console.ResetColor();
@@ -121,11 +119,13 @@ namespace _15TeamProject
             {
                 if (input == 0) InventoryUI(); // 0번 누르면 인벤토리로 이동
 
+
                 else if (input >= 1 && input <= inventory.Count) // 장비를 선택한 경우
                 {
+                    ItemData item = ItemDB.ItemList[input -1 ];
                     if (equipList.Contains(input - 1)) // 이미 장착한 장비를 선택했을 때
                     {
-                        if (Inventory.ItemTypes[input - 1] == 0)// 장착한 무기 해제
+                        if (item.ItemTypes == 0)// 장착한 무기 해제
                         {
                             equipList.Remove(input - 1);            // 장착 리스트에서 제거
                             equipmentWeapon[0] = -1;                // 무기 칸 초기화라는 의미
@@ -133,7 +133,7 @@ namespace _15TeamProject
                             Console.ReadLine();
                             EquipUI();
                         }
-                        else if (Inventory.ItemTypes[input - 1] == 1) // 장착한 방어구 해제
+                        else if (item.ItemTypes == 1) // 장착한 방어구 해제
                         {
                             equipList.Remove(input - 1);            // 장착 리스트 제거
                             equipmentArmor[0] = -1;                 // 방어구 칸 초기화라는 의미
@@ -144,7 +144,7 @@ namespace _15TeamProject
                     }
                     else // 새로운 장비를 선택했을 때 
                     {
-                        if (Inventory.ItemTypes[input - 1] == 0) // 무기인 경우
+                        if (item.ItemTypes == 0) // 무기인 경우
                         {
                             if (equipmentWeapon[0] != -1)             // 이미 "무기 칸"에 무기 장비가 있다면
                             {
@@ -157,7 +157,7 @@ namespace _15TeamProject
                             EquipUI();
 
                         }
-                        else if (Inventory.ItemTypes[input - 1] == 1) // 방어구인 경우
+                        else if (item.ItemTypes == 1) // 방어구인 경우
                         {
                             if (equipmentArmor[0] != -1)                // 이미 "방어구 칸"에 방어구 장비가 있다면
                             {
