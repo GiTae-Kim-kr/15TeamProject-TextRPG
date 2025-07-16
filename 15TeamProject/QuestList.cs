@@ -97,7 +97,8 @@ namespace _15TeamProject
                         // 나중에 플레이어 경험치 추가하면 주석 해제
                         Player.Instance.exp += QuestDB.questList[num].questExpReward;    
                         Console.WriteLine($"경험치 : {QuestDB.questList[num].questExpReward}를 획득하셨습니다!  [현재 경험치: {Player.Instance.exp}] ");
-                        Console.WriteLine($"경험치 : {QuestDB.questList[num].questGoldReward}를 획득하셨습니다!  [현재 골드: {Player.Instance.gold}] ");
+                        Console.WriteLine($"골드 : {QuestDB.questList[num].questGoldReward}를 획득하셨습니다!  [현재 골드: {Player.Instance.gold}] ");
+                        //Inventory.AddItem(QuestDB.questList[num].rewardItemIndex);  // 인벤토리에 아이템 추가
                         QuestDB.questList[num].isQuestAccept = false;  // 보상받고 일단은 다시 수락 안한 상태로
                         QuestDB.questList[num].currentProgressCount = 0;
                         Console.ReadKey();
