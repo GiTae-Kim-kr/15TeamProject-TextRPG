@@ -27,8 +27,8 @@ class BattleScene
         Console.WriteLine("\n\n[내정보]");
         Console.WriteLine($"Lv.{player.level}  {player.name} ({player.job})");
         Console.WriteLine($"HP : {player.hp}/100\n");    // 한 칸 띄움
-        Console.WriteLine("1. 공격\n");
-        Console.WriteLine("2. 포션 사용\n");
+        Console.WriteLine("1. 공격");
+        Console.WriteLine("2. 포션 사용");
         Console.WriteLine("0. 나가기\n");
         Console.Write("원하시는 행동을 입력해주세요. \n>>");
         int input = Input.GetInt();  
@@ -86,16 +86,25 @@ class BattleScene
             {
                 Run();
                 break;
+            }            
+            else if (target > monsterInfo.Length)
+            {
+                Console.WriteLine("생성되지 않은 몬스터를 선택하셨습니다! 다시 선택하여 주세요");
             }
-            else if (target <= monsterInfo.Length)
+            else if (target < 0)
+            {
+                Console.WriteLine("유효하지 않은 입력입니다. 다시 선택하여 주세요");
+            }
+            else if (monsterInfo[target - 1].isDead == true)
+            {
+                Console.WriteLine("이미 죽은 몬스터입니다! 다시 선택하여 주세요");
+            }
+            else
             {
                 PlayerPhase(target - 1);
                 break;
             }
-            else if (target > monsterInfo.Length)
-                Console.WriteLine("생성되지 않은 몬스터를 선택하셨습니다! 다시 선택하여 주세요");
-
-         }
+        }
     }
 
 
@@ -133,9 +142,8 @@ class BattleScene
         Console.WriteLine($"Lv.{monster.level} {monster.name}");
         Console.WriteLine($"HP {enemyBeforeHp} -> {afterHp}\n");
 
-        // 입력 대기 - 판정 기능은 나중에 추가
-        Console.WriteLine("0. 다음\n");
-        Console.Write(">>");
+        // 입력 대기 
+        Console.WriteLine($"{player.name} 의 공격이 진행 중입니다.. \n(Enter키 입력 시 진행)");
         Console.ReadLine();
         EnemyPhase();
     }
@@ -178,9 +186,7 @@ class BattleScene
                 Console.WriteLine($"HP {beforeHp} -> {player.hp}\n");
 
                 // 입력 대기
-                Console.WriteLine("0. 다음\n");
-                Console.WriteLine("대상을 선택해주세요.");
-                Console.Write(">>");
+                Console.WriteLine("적의 공격이 진행 중입니다.. \n(Enter키 입력 시 진행)");
                 Console.ReadLine();
             }
         }
