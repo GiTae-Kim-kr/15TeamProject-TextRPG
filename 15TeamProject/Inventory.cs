@@ -17,8 +17,8 @@ namespace _15TeamProject
 
         private static List<int> inventory = new List<int>();
         private static List<int> equipList = new List<int>();
-        private static int[] equipmentWeapon = new int[1] { 0 };
-        private static int[] equipmentArmor = new int[1] { 0 };
+        private static int[] equipmentWeapon = new int[1] { -1 };
+        private static int[] equipmentArmor = new int[1] { -1 };
 
 
         public void InventoryUI() //Inventory UI Scene
@@ -127,31 +127,31 @@ namespace _15TeamProject
                     {
                         if (Inventory.ItemTypes[input - 1] == 0)// 장착한 무기 해제
                         {
-                            equipList.Remove(input - 1);
-                            equipmentWeapon[0] = 0;
+                            equipList.Remove(input - 1);            // 장착 리스트에서 제거
+                            equipmentWeapon[0] = -1;                // 무기 칸 초기화라는 의미
                             Console.Write("장비를 해제했습니다. (Enter키 입력 시 진행)");
                             Console.ReadLine();
                             EquipUI();
                         }
                         else if (Inventory.ItemTypes[input - 1] == 1) // 장착한 방어구 해제
                         {
-                            equipList.Remove(input - 1);
-                            equipmentWeapon[0] = 0;
+                            equipList.Remove(input - 1);            // 장착 리스트 제거
+                            equipmentArmor[0] = -1;                 // 방어구 칸 초기화라는 의미
                             Console.Write("장비를 해제했습니다. (Enter키 입력 시 진행)");
                             Console.ReadLine();
                             EquipUI();
                         }
                     }
-                    else // 새로운 장비를 선택했을 때
+                    else // 새로운 장비를 선택했을 때 
                     {
                         if (Inventory.ItemTypes[input - 1] == 0) // 무기인 경우
                         {
-                            if (equipmentWeapon[0] != 0)
+                            if (equipmentWeapon[0] != -1)             // 이미 "무기 칸"에 무기 장비가 있다면
                             {
-                                equipList.Remove(equipmentWeapon[0]);
+                                equipList.Remove(equipmentWeapon[0]); // 그 무기 장비를 "장착 리스트"에서 제거
                             }
-                            equipmentWeapon[0] = input - 1;
-                            equipList.Add(input - 1);
+                            equipmentWeapon[0] = input - 1;           // "무기 칸"에 해당 장비가 있음을 표시
+                            equipList.Add(input - 1);                 // "장착 리스트"에 장비(무기) 추가
                             Console.Write("장비를 장착했습니다. (Enter키 입력 시 진행)");
                             Console.ReadLine();
                             EquipUI();
@@ -159,12 +159,12 @@ namespace _15TeamProject
                         }
                         else if (Inventory.ItemTypes[input - 1] == 1) // 방어구인 경우
                         {
-                            if (equipmentArmor[0] != 0)
+                            if (equipmentArmor[0] != -1)                // 이미 "방어구 칸"에 방어구 장비가 있다면
                             {
-                                equipList.Remove(equipmentArmor[0]);
+                                equipList.Remove(equipmentArmor[0]);    // 그 방어구 장비를 "장착 리스트"에서 제거
                             }
-                            equipmentArmor[0] = input - 1;
-                            equipList.Add(input - 1);
+                            equipmentArmor[0] = input - 1;              // "방어구 칸"에 해당 방어구가 있음을 표시
+                            equipList.Add(input - 1);                   // "장착 리스트:에 장비(방어구) 추가
                             Console.Write("장비를 장착했습니다. (Enter키 입력 시 진행)");
                             Console.ReadLine();
                             EquipUI();
