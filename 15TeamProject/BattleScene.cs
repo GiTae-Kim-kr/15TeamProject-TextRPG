@@ -1,5 +1,6 @@
 ﻿
 using _15TeamProject;
+using System;
 using System.Diagnostics;
 
 class BattleScene
@@ -38,8 +39,12 @@ class BattleScene
                 BattlePhase();  // 공격을 선택하면 BattlePhase로 넘어감
                 break;
             case 2:
+                Console.Clear();
+                Console.WriteLine();
                 HpPotion hpPotion = new HpPotion();
                 hpPotion.UsePotion();
+                Console.WriteLine();
+                Console.Write("아무키나 눌러 전투에 돌아가세요.");
                 Console.ReadLine();
                 Run();
                 break;
@@ -119,7 +124,7 @@ class BattleScene
         {
             monster.isDead = true;
             monster.hp = 0;    // 체력이 0이 되면 죽은 상태로 변경
-            droppedPotion++;
+            DroppedPotion();
         }
 
         // 적 남은 hp 출력
@@ -244,6 +249,15 @@ class BattleScene
 
     }
 
+    public void DroppedPotion()
+    {
+        Random random = new Random();
+        int persent = random.Next(0, 100);
+        if (persent < 30)
+        {
+            droppedPotion++;
+        }
+    }
     public void GetPotion()
     {
         player.potionCount += droppedPotion;
