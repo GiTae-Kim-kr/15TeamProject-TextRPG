@@ -136,23 +136,50 @@ class BattleScene
     {
         // 지정한 대상(적)을 저장
         Monster monster = monsterInfo[target];
+        int enemyBeforeHp = monster.hp;
 
         // 화면 리셋
         Console.Clear();    
         
-        // 상단에 Battle 색 입혀서 출력
+        // 상단에 Battle 색 입혀서 출력, 공격 메시지 출력
         Console.ForegroundColor = ConsoleColor.Magenta;
         Console.WriteLine("Battle!!\n");
         Console.ResetColor();
-
-        // 플레이어 공격 데미지 출력
         Console.WriteLine($"{player.name} 의 공격!");
-        int demage = player.Attack();
-        Console.WriteLine($"Lv.{monster.level} {monster.name} 을(를) 맞췄습니다. [데미지 : {demage}]\n");
 
-        // 적 남은 hp 계산
-        int enemyBeforeHp = monster.hp;
-        monster.hp -= demage;
+        // 몬스터 회피 확인
+        bool isMiss = monster.Dodge();
+        if (isMiss) // 공격 회피 시
+        {
+            Console.WriteLine($"Lv.{monster.level} {monster.name} 을(를) 공격했지만 아무일도 일어나지 않았습니다.\n");
+        }
+        else // 공격 적중 시
+        {
+            // 플레이어 공격 데미지 계산        
+            int damage = player.Attack();
+            float damageRatio = player.Critical();
+            damage = (int)(damage * damageRatio);
+
+            // 플레이어 공격 데미지 출력
+            Console.Write($"Lv.{monster.level} {monster.name} 을(를) 맞췄습니다. [데미지 : {damage}] ");
+            string isCritical;
+            if (damageRatio != 1.0) // 치명타 여부 확인
+            {
+                isCritical = "- 치명타 공격 !!";
+                Console.ForegroundColor = ConsoleColor.Yellow;
+            }
+            else
+            {
+                isCritical = "";
+            }
+            Console.WriteLine($"{isCritical}\n");
+            Console.ResetColor();
+
+            // 적 hp에 데미지 적용
+            monster.hp -= damage;
+        }                 
+
+        // 적 사망 확인
         if (monster.hp <= 0)
         {
             monster.isDead = true;
@@ -290,6 +317,7 @@ class BattleScene
             droppedPotion++;
         }
     }
+
     public void GetPotion()
     {
         player.potionCount += droppedPotion;
