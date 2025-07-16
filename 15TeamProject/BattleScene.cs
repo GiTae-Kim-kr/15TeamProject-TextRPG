@@ -59,8 +59,8 @@ class BattleScene
                 case 3:
                     Console.Clear();
                     Console.WriteLine();
-                    HpPotion hpPotion = new HpPotion();
-                    hpPotion.UsePotion();
+                    HpPotion potion = new HpPotion();
+                    potion.UsePotion();
                     Console.WriteLine();
                     Console.Write("아무키나 눌러 전투에 돌아가세요.");
                     Console.ReadLine();
