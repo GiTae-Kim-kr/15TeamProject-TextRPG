@@ -9,7 +9,8 @@ class BattleScene
     private Monster[]? monsterInfo;       
     
     private int beforeHp;
-    private int droppedPotion;
+    private int droppedHPPotion;
+    private int droppedMPPotion;
 
 
     public void Run()
@@ -41,8 +42,8 @@ class BattleScene
             case 2:
                 Console.Clear();
                 Console.WriteLine();
-                HpPotion hpPotion = new HpPotion();
-                hpPotion.UsePotion();
+                HpPotion potion = new HpPotion();
+                potion.UsePotion();
                 Console.WriteLine();
                 Console.Write("아무키나 눌러 전투에 돌아가세요.");
                 Console.ReadLine();
@@ -253,17 +254,22 @@ class BattleScene
     public void DroppedPotion()
     {
         Random random = new Random();
-        int persent = random.Next(0, 100);
-        if (persent < 30)
+        int dromHPPotion = random.Next(0, 100);
+        int dromMPPotion = random.Next(0, 100);
+        if (dromHPPotion < 30)
         {
-            droppedPotion++;
+            droppedHPPotion++;
+        }
+        if (dromMPPotion < 20)
+        {
+            droppedMPPotion++;
         }
     }
     public void GetPotion()
     {
-        player.potionCount += droppedPotion;
-        Console.WriteLine($"포션을 {droppedPotion} 개 획득 하셨습니다.");
-        droppedPotion = 0;
+        player.potionCount += droppedHPPotion;
+        Console.WriteLine($"포션을 {droppedHPPotion} 개 획득 하셨습니다.");
+        droppedHPPotion = 0;
     }
 
 }
