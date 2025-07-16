@@ -98,7 +98,13 @@ namespace _15TeamProject
                         Player.Instance.exp += QuestDB.questList[num].questExpReward;    
                         Console.WriteLine($"경험치 : {QuestDB.questList[num].questExpReward}를 획득하셨습니다!  [현재 경험치: {Player.Instance.exp}] ");
                         Console.WriteLine($"골드 : {QuestDB.questList[num].questGoldReward}를 획득하셨습니다!  [현재 골드: {Player.Instance.gold}] ");
-                        //Inventory.AddItem(QuestDB.questList[num].rewardItemIndex);  // 인벤토리에 아이템 추가
+                        AddItem.Inven(QuestDB.questList[num].rewardItemIndex);  // 인벤토리에 아이템 추가
+                        if (QuestDB.questList[num].questItemReward != "없음")
+                        {
+                            Console.WriteLine($"아이템 : {QuestDB.questList[num].questItemReward}를 획득하셨습니다!");  // 아이템 획득 메시지
+                        }
+                        else Console.WriteLine();
+
                         QuestDB.questList[num].isQuestAccept = false;  // 보상받고 일단은 다시 수락 안한 상태로
                         QuestDB.questList[num].currentProgressCount = 0;
                         Console.ReadKey();
