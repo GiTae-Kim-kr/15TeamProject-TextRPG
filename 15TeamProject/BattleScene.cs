@@ -31,31 +31,35 @@ class BattleScene
         Console.WriteLine("2. 포션 사용");
         Console.WriteLine("0. 나가기\n");
         Console.Write("원하시는 행동을 입력해주세요. \n>>");
-        int input = Input.GetInt();  
 
-        switch(input)
+
+        while (true)
         {
-            case 1:
-                BattlePhase();  // 공격을 선택하면 BattlePhase로 넘어감
-                break;
-            case 2:
-                Console.Clear();
-                Console.WriteLine();
-                HpPotion hpPotion = new HpPotion();
-                hpPotion.UsePotion();
-                Console.WriteLine();
-                Console.Write("아무키나 눌러 전투에 돌아가세요.");
-                Console.ReadLine();
-                Run();
-                break;
-            case 0:
-                Console.Clear();
-                StartScene.Instance.GameStartScene();  // 시작 화면으로 돌아가기
-                break; 
-            default:
-                Console.WriteLine("잘못된 입력입니다. 다시 시도해주세요.");
-                Run();  // 잘못된 입력시 다시 전투 시작화면으로 돌아감
-                break;
+            int input = Input.GetInt();
+
+            switch (input)
+            {
+                case 1:
+                    BattlePhase();  // 공격을 선택하면 BattlePhase로 넘어감
+                    return;
+                case 2:
+                    Console.Clear();
+                    Console.WriteLine();
+                    HpPotion hpPotion = new HpPotion();
+                    hpPotion.UsePotion();
+                    Console.WriteLine();
+                    Console.Write("아무키나 눌러 전투에 돌아가세요.");
+                    Console.ReadLine();
+                    Run();
+                    return;
+                case 0:
+                    Console.Clear();
+                    StartScene.Instance.GameStartScene();  // 시작 화면으로 돌아가기
+                    return;
+                default:
+                    Console.WriteLine("잘못된 입력입니다. 다시 시도해주세요."); // 잘못된 입력시 다시 전투 시작화면으로 돌아감
+                    break;
+            }
         }
 
     }
