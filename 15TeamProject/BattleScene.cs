@@ -242,11 +242,10 @@ class BattleScene
         GetPotion();
         Console.WriteLine($"Lv.{player.level}  {player.name} ({player.job})");
         Console.WriteLine($"HP {StartScene.Instance.pastPlayerHP} -> {player.hp}\n");  // 플레이어의 체력 표시 코드 추가 필요/ 아마 추가적인 hp 필드가 필요할 수도?
-        Console.WriteLine($"0. 다음\n>>");
-        Input.GetInt();  // 나중에 시작화면으로 넘어가게 코드 작성.
+        Console.WriteLine("전투에서 승리했습니다! \n(Enter키 입력 시 진행)");
+        Console.ReadLine();
 
         StartScene.Instance.GameStartScene();  // 시작 화면으로 돌아가기
-
     }   
 
     void ResultLose()    // 전투 패배시 나오는 씬 메서드
@@ -259,8 +258,8 @@ class BattleScene
         Console.WriteLine("You Lose\n");
         Console.WriteLine($"Lv.{player.level}  {player.name} ({player.job})");
         Console.WriteLine($"HP {beforeHp} -> 0 \n");  // 플레이어의 체력 표시 코드 추가 필요/ 아마 추가적인 hp 필드가 필요할 수도?
-        Console.WriteLine($"0. 다음\n>>");
-        Input.GetInt();  // 나중에 시작화면으로 넘어가게 코드 작성.
+        Console.WriteLine("전투에서 패배했습니다... \n(Enter키 입력 시 진행)");
+        Console.ReadLine();
 
         StartScene.Instance.GameStartScene();  // 시작 화면으로 돌아가기
     }
