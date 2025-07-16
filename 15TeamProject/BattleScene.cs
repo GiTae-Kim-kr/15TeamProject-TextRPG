@@ -11,7 +11,6 @@ class BattleScene
     private int beforeHp;
     private int droppedPotion;
 
-
     public void Run()
     {
         Console.Clear();
@@ -21,8 +20,19 @@ class BattleScene
         // 랜덤으로 출력한 몬스터 정보 가져와서 다시 출력하기
         foreach (Monster monster in monsterInfo)        
         {
-            string afterHp = monster.isDead ? "Dead" : monster.hp.ToString();
+            string afterHp;
+            if (monster.isDead)
+            {
+                afterHp = "Dead";
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+            }
+            else
+            {
+                afterHp = monster.hp.ToString();
+            }
+
             Console.WriteLine($"Lv.{monster.data.level} {monster.data.name}  HP {afterHp}");
+            Console.ResetColor();
         }
         Console.WriteLine("\n\n[내정보]");
         Console.WriteLine($"Lv.{player.level}  {player.name} ({player.job})");
@@ -73,8 +83,19 @@ class BattleScene
         Console.ResetColor();
         foreach (Monster monster in monsterInfo)        // 랜덤으로 출력한 몬스터 정보 가져와서 다시 출력하기
         {
-            string afterHp = monster.isDead ? "Dead" : monster.hp.ToString();
+            string afterHp;
+            if (monster.isDead)
+            {
+                afterHp = "Dead";
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+            }
+            else
+            {
+                afterHp = monster.hp.ToString();
+            }
+
             Console.WriteLine($"{count} Lv.{monster.data.level} {monster.data.name}  HP {afterHp}");
+            Console.ResetColor();
             count++;
         }
         Console.WriteLine("\n\n[내정보]");
@@ -110,7 +131,6 @@ class BattleScene
             }
         }
     }
-
 
     void PlayerPhase(int target)
     {
@@ -178,12 +198,7 @@ class BattleScene
                 // 플레이어 남은 체력 계산
                 beforeHp = player.hp;
                 player.hp -= monster.atk;
-                if (player.hp <= 0)     // 체력이 0이 되면 패배 (패배 화면으로 바로 이동)
-                {
-                    player.hp = 0;
-                    ResultLose();
-                    return;
-                }
+                if (player.hp <= 0) player.hp = 0;  // 체력이 0 이하면 0으로 리셋                              
 
                 // 플레이어 남은 체력 출력
                 Console.WriteLine($"Lv.{player.level} {player.name}");
@@ -192,6 +207,13 @@ class BattleScene
                 // 입력 대기
                 Console.WriteLine("적의 공격이 진행 중입니다.. \n(Enter키 입력 시 진행)");
                 Console.ReadLine();
+
+                // 체력이 0이 되면 패배 (패배 화면으로 바로 이동)
+                if (player.hp <= 0)     
+                {
+                    ResultLose();
+                    return;
+                }
             }
         }
         
