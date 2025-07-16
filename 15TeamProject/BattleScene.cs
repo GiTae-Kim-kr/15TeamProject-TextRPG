@@ -38,7 +38,8 @@ class BattleScene
         Console.WriteLine($"Lv.{player.level}  {player.name} ({player.job})");
         Console.WriteLine($"HP : {player.hp}/100\n");    // 한 칸 띄움
         Console.WriteLine("1. 공격");
-        Console.WriteLine("2. 포션 사용");
+        Console.WriteLine("2. 스킬 사용");
+        Console.WriteLine("3. 포션 사용\n");
         Console.WriteLine("0. 나가기\n");
         Console.Write("원하시는 행동을 입력해주세요. \n>>");
 
@@ -53,6 +54,9 @@ class BattleScene
                     BattlePhase();  // 공격을 선택하면 BattlePhase로 넘어감
                     return;
                 case 2:
+                    SkillSelect();
+                    return;
+                case 3:
                     Console.Clear();
                     Console.WriteLine();
                     HpPotion hpPotion = new HpPotion();
@@ -126,13 +130,13 @@ class BattleScene
             }
             else
             {
-                PlayerPhase(target - 1);
+                PlayerAttackPhase(target - 1);
                 break;
             }
         }
     }
 
-    void PlayerPhase(int target)
+    void PlayerAttackPhase(int target)
     {
         // 지정한 대상(적)을 저장
         Monster monster = monsterInfo[target];
@@ -306,6 +310,16 @@ class BattleScene
             //Console.WriteLine($"몬스터 {i + 1}: {monsterInfo[i].data.name}");  //잘 저장됬는지 디버깅용
         }
 
+    }
+
+    void SkillSelect() 
+    {
+        
+    }
+
+    void PlayerSkillPhase(Skill skill, List<Monster> monsters)
+    {
+        
     }
 
     public void DroppedPotion()
