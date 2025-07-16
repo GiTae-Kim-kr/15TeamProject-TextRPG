@@ -10,6 +10,12 @@ internal abstract class Skill
     protected int consumeMp;  // 소비마나
     protected string description; // 설명 
 
+
+    // 읽기 전용
+    public string Name => name;    
+    public int ConsumeMp => consumeMp;  
+    public string Description => description;
+
     public Skill(string name, int consumeMp, string description)
     {
         this.name = name;
@@ -17,7 +23,7 @@ internal abstract class Skill
         this.description = description;
     }
 
-    public void Description()  // 스킬 설명
+    public void Describe()  // 스킬 설명
     {
         Console.WriteLine($"{name} - MP {consumeMp}");
         Console.WriteLine(description);
