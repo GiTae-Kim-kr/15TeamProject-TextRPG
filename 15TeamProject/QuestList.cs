@@ -65,7 +65,7 @@ namespace _15TeamProject
             Console.Write($"-{QuestDB.questList[num].questCondition}  ");  //완료 조건, 진행도 추가
             Console.WriteLine($"({QuestDB.questList[num].currentProgressCount}/{QuestDB.questList[num].questProgress})\n");  // 진행도 추가
             Console.WriteLine($"-보상-");
-            Console.WriteLine($"금액: {QuestDB.questList[num].questMoneyReward} G");
+            Console.WriteLine($"금액: {QuestDB.questList[num].questGoldReward} G");
             Console.WriteLine($"경험치: {QuestDB.questList[num].questExpReward} EXP");
             Console.WriteLine($"아이템: {QuestDB.questList[num].questItemReward}\n");
 
@@ -93,12 +93,15 @@ namespace _15TeamProject
                 {
                     case 1:
                         Console.WriteLine("보상이 무사히 지급되었습니다!");
-                        Player.Instance.gold += QuestDB.questList[num].questMoneyReward;
+                        Player.Instance.gold += QuestDB.questList[num].questGoldReward;
                         // 나중에 플레이어 경험치 추가하면 주석 해제
-                        //Player.Instance.exp += QuestDB.questList[num].questExpReward;    
-                        
+                        Player.Instance.exp += QuestDB.questList[num].questExpReward;    
+                        Console.WriteLine($"경험치 : {QuestDB.questList[num].questExpReward}를 획득하셨습니다!  [현재 경험치: {Player.Instance.exp}] ");
+                        Console.WriteLine($"경험치 : {QuestDB.questList[num].questGoldReward}를 획득하셨습니다!  [현재 골드: {Player.Instance.gold}] ");
                         QuestDB.questList[num].isQuestAccept = false;  // 보상받고 일단은 다시 수락 안한 상태로
                         QuestDB.questList[num].currentProgressCount = 0;
+                        Console.ReadKey();
+                        QuestScene();
                         break;
                     case 2:
                         QuestScene();

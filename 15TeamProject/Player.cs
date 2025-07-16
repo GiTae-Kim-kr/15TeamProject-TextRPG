@@ -9,6 +9,7 @@ class Player
     public int hp;
     public int mp;
     public int gold;
+    public int exp;
     public int potionCount=3;
 
     private Random rand = new Random();
@@ -38,6 +39,7 @@ class Player
         hp = 100; // 초기 체력
         mp = 50; // 초기 마나
         gold = 1500; // 초기 골드
+        exp = 0; // 초기 경험치
     }
 
     // 공격 - 데미지를반환
