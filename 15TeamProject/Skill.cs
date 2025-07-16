@@ -25,7 +25,7 @@ internal abstract class Skill
 
 
     public abstract List<Monster> Targeting(List<Monster> monsters);
-    public abstract void Use(out int damage);  // 스킬 사용 - 각 클래스에서 구현
+    public abstract void CalculateDamage(out int damage);  // 스킬 사용 - 각 클래스에서 구현
 }
 
 internal static class SkillDB
@@ -62,7 +62,7 @@ class AlphaStrike : Skill
         }
     }
 
-    public override void Use(out int damage)
+    public override void CalculateDamage(out int damage)
     {
         damage = Player.Instance.atk * 2;
     }
@@ -90,7 +90,7 @@ class DoubleStrike : Skill
         return new List<Monster> { first, second };
     }
 
-    public override void Use(out int damage)
+    public override void CalculateDamage(out int damage)
     {
         damage = (int)(Player.Instance.atk * 1.5f);
     }
