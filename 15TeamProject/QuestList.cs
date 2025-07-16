@@ -10,7 +10,7 @@ namespace _15TeamProject
     {
         
         public int num { get; private set; }   //내가 선택한 퀘스트 인덱스
-
+        
         public void QuestScene()
         {
             Console.Clear();
@@ -93,6 +93,12 @@ namespace _15TeamProject
                 {
                     case 1:
                         Console.WriteLine("보상이 무사히 지급되었습니다!");
+                        Player.Instance.gold += QuestDB.questList[num].questMoneyReward;
+                        // 나중에 플레이어 경험치 추가하면 주석 해제
+                        //Player.Instance.exp += QuestDB.questList[num].questExpReward;    
+                        
+                        QuestDB.questList[num].isQuestAccept = false;  // 보상받고 일단은 다시 수락 안한 상태로
+                        QuestDB.questList[num].currentProgressCount = 0;
                         break;
                     case 2:
                         QuestScene();
