@@ -18,8 +18,11 @@ namespace _15TeamProject
         public string questItemReward { get; set; }  // 퀘스트 완료시 보상 아이템
         public int rewardItemIndex { get; set; }  // 퀘스트 완료시 보상 아이템 인덱스 (인벤토리에서 아이템을 찾기 위해 추가)
         public bool isQuestAccept { get; set; }  // 퀘스트 수락 여부
-        public int currentProgressCount { get; set; }  // 현재 진행도 카운트
         public string targetMonsterName { get; set; }  // 퀘스트 대상 몬스터
+        public int currentProgressCount { get; set; }  // 현재 진행도 카운트
+        public bool isQuestComplete { get; set; }  // 퀘스트 완료 여부
+
+
         public Quest(string name, string description, string condition, string targetName, int progress, int moneyReward, int expReward, string itemReward, int itemRewardIndex)
         {
             questName = name;
@@ -32,6 +35,7 @@ namespace _15TeamProject
             rewardItemIndex = itemRewardIndex;  // 인벤토리에서 아이템을 찾기 위한 인덱스
             targetMonsterName = targetName;
             isQuestAccept = false;  // 기본적으로 퀘스트는 수락하지 않은 상태로 시작
+            isQuestComplete = false;
             currentProgressCount = 0;  // 현재 진행도 카운트는 0으로 초기화
 
         }
