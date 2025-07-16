@@ -22,32 +22,60 @@ namespace _15TeamProject
             {
                 if (QuestDB.questList[i].isQuestAccept)
                 {
-                    Console.WriteLine($"{i + 1}. {QuestDB.questList[i].questName} - 수행중!");
+                    
+                    if (QuestDB.questList[i].currentProgressCount == QuestDB.questList[i].questProgress)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Blue; // 완료 가능 퀘스트
+                        Console.WriteLine($"{i + 1}. {QuestDB.questList[i].questName} - 완료 가능!"); // 퀘스트 완료 가능 표시
+                        Console.ResetColor();
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine($"{i + 1}. {QuestDB.questList[i].questName} - 수행중!");
+                        Console.ResetColor();
+                    }
                 }
-                else
+                else if (!QuestDB.questList[i].isQuestAccept)
                 {
-                    Console.WriteLine($"{i + 1}. {QuestDB.questList[i].questName}");
+                    if (QuestDB.questList[i].isQuestComplete)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkGray; // 완료한 퀘스트 회색 표시
+                        Console.WriteLine($"{i + 1}. {QuestDB.questList[i].questName} - 완료!"); // 퀘스트 완료 표시
+                        Console.ResetColor(); // 색상 초기화
+                    }
+                    else Console.WriteLine($"{i + 1}. {QuestDB.questList[i].questName}");
                 }
             }
             Console.WriteLine("\n\n0. 시작 화면으로 돌아가기"); // 0 입력시 시작 화면으로 돌아감
-            // 퀘스트를 리스트로 관리해서 출력.
             Console.Write("\n원하시는 퀘스트를 선택해주세요.\n>>");
-            int questChoice = Input.GetInt();
-            
-            if (questChoice == 0)
+
+            // 퀘스트 선택 입력
+            while (true)
             {
-                StartScene.Instance.GameStartScene(); // 0 입력시 시작 화면으로 돌아감
-            }
-            else if ( questChoice <= QuestDB.questList.Count && questChoice > 0)
-            {
-                    QuestAcceptScene(questChoice);
-            }
-            else
-            {
+                int questChoice = Input.GetInt();
+                if (questChoice == 0)
+                {
+                    StartScene.Instance.GameStartScene(); // 0 입력시 시작 화면으로 돌아감
+                    return;
+                }
+                else if (questChoice <= QuestDB.questList.Count && questChoice > 0)
+                {
+                    if (QuestDB.questList[questChoice - 1].isQuestComplete)
+                    {
+                        Console.WriteLine("이미 완료한 퀘스트입니다. 다른 퀘스트를 선택해주세요.");
+                    }
+                    else
+                    {
+                        QuestAcceptScene(questChoice);
+                        return;
+                    }
+                }
+                else
+                {
                     Console.WriteLine("잘못된 퀘스트 번호입니다. 다시 시도해주세요.");
-                    QuestScene(); // 잘못된 입력시 다시 퀘스트 목록으로 돌아감
+                }
             }
-            
         }
 
         public void QuestAcceptScene(int questChoice)
@@ -106,6 +134,7 @@ namespace _15TeamProject
                         else Console.WriteLine();
 
                         QuestDB.questList[num].isQuestAccept = false;  // 보상받고 일단은 다시 수락 안한 상태로
+                        QuestDB.questList[num].isQuestComplete = true;  // 퀘스트 완료 상태로 변경
                         QuestDB.questList[num].currentProgressCount = 0;
                         Console.ReadKey();
                         QuestScene();
@@ -172,7 +201,9 @@ namespace _15TeamProject
                     if (monster.name == QuestDB.questList[i].targetMonsterName)
                     {
                         if (QuestDB.questList[i].currentProgressCount >= QuestDB.questList[i].questProgress)
-                            QuestDB.questList[i].currentProgressCount = QuestDB.questList[i].questProgress;  // 퀘스트 완료시 진행도 맞춰주기)
+                        {
+                            QuestDB.questList[i].currentProgressCount = QuestDB.questList[i].questProgress;  // 퀘스트 완료시 진행도 맞춰주기
+                        }
                         else QuestDB.questList[i].currentProgressCount++;
                     }
                     
