@@ -26,8 +26,9 @@ namespace _15TeamProject
                     Console.WriteLine($"{i + 1}. {QuestDB.questList[i].questName}");
                 }
             }
+            Console.WriteLine("\n\n0. 시작 화면으로 돌아가기"); // 0 입력시 시작 화면으로 돌아감
             // 퀘스트를 리스트로 관리해서 출력.
-            Console.WriteLine("\n\n원하시는 퀘스트를 선택해주세요.\n>>");
+            Console.Write("\n원하시는 퀘스트를 선택해주세요.\n>>");
             int questChoice = Input.GetInt();
             
             if (questChoice == 0)
@@ -73,16 +74,25 @@ namespace _15TeamProject
                 case 1:
                     QuestDB.questList[num].isQuestAccept = true;  // 퀘스트 수락
                     Console.WriteLine($"퀘스트 '{QuestDB.questList[num].questName}'을(를) 수락했습니다.");
+                    Console.ReadKey();            // 아무키 누르면 계속 진행
+                    QuestAcceptScene(questChoice);
                     break;
                 case 2:
                     QuestDB.questList[num].isQuestAccept = false;  // 퀘스트 거절
                     Console.WriteLine($"퀘스트 '{QuestDB.questList[num].questName}'을(를) 취소했습니다.");
+                    Console.ReadKey();
+                    QuestAcceptScene(questChoice);                   
                     break;
                 case 0:
                     QuestScene();  // 퀘스트 목록으로 돌아가기
                     break;
             }
 
+        }
+
+        public void QuestClearScene()
+        {
+            Console.Clear();
         }
     }
 }
