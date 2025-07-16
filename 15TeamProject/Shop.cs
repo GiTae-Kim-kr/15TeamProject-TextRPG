@@ -25,7 +25,7 @@ namespace _15TeamProject
             Console.WriteLine($"{Player.Instance.gold} G");
             Console.WriteLine("");
             Console.WriteLine("[아이템 목록]");
-            if (Shop1hasItem.Count == 0 ) AddItem.Shop1(0, 1, 2, 10, 11, 12);
+            if (Shop1hasItem.Count == 0 ) AddItem.Shop1(0, 1, 2, 10, 11, 12, 100, 200);
 
             for (int i = 0; i < Shop1hasItem.Count; i++)
             {
@@ -33,12 +33,12 @@ namespace _15TeamProject
                 if (Shop1ItemCount[i] == 0)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkGray;
-                    Console.WriteLine($"- {item.ItemNames}    |    {(item.ItemTypes == 0 ? "공격력" : "방어력")} + {item.ItemValue}    |    {item.ItemDesc}    |    구매완료");
+                    Console.WriteLine($"- {item.ItemNames}    |    {ItemDB.TypeText(Shop1hasItem[i].ItemTypes)} + {item.ItemValue}    |    {item.ItemDesc}    |    구매완료");
                     Console.ResetColor();
                 }
                 else
                 {
-                    Console.WriteLine($"- {item.ItemNames}    |    {(item.ItemTypes == 0 ? "공격력" : "방어력")} + {item.ItemValue}    |    {item.ItemDesc}    |    {item.ItemBuyPrice} G");
+                    Console.WriteLine($"- {item.ItemNames}    |    {ItemDB.TypeText(Shop1hasItem[i].ItemTypes)} + {item.ItemValue}    |    {item.ItemDesc}    |    {item.ItemBuyPrice} G");
                 }
             }
             Console.WriteLine("");
@@ -75,12 +75,12 @@ namespace _15TeamProject
                 if (Shop1ItemCount[i] == 0)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkGray;
-                    Console.WriteLine($"- {i + 1}. {item.ItemNames}    |    {(item.ItemTypes == 0 ? "공격력" : "방어력")} + {item.ItemValue}    |    {item.ItemDesc}    |    구매완료");
+                    Console.WriteLine($"- {i + 1}. {item.ItemNames}    |    {ItemDB.TypeText(Shop1hasItem[i].ItemTypes)} + {item.ItemValue}    |    {item.ItemDesc}    |    구매완료");
                     Console.ResetColor();
                 }
                 else
                 {
-                    Console.WriteLine($"- {i + 1}. {item.ItemNames}    |    {(item.ItemTypes == 0 ? "공격력" : "방어력")} + {item.ItemValue}    |    {item.ItemDesc}    |    {item.ItemBuyPrice} G");
+                    Console.WriteLine($"- {i + 1}. {item.ItemNames}    |    {ItemDB.TypeText(Shop1hasItem[i].ItemTypes)} + {item.ItemValue}    |    {item.ItemDesc}    |    {item.ItemBuyPrice} G");
                 }
                 
             }
@@ -100,17 +100,24 @@ namespace _15TeamProject
                 ItemData item = Shop1hasItem[input];
                 if (Shop1ItemCount[input] >= 1)
                 {
-                    if (Player.Instance.gold >= item.ItemBuyPrice)
+                    if (Player.Instance.gold >= item.ItemBuyPrice)  // 구매할 돈이 있을 때
                     {
+                        
+
                         int index = ItemDB.ItemList.IndexOf(item);
                         Inventory.inventory.Add(Shop1hasItem[input]);
                         Shop1ItemCount[input] -= 1;
                         Player.Instance.gold -= item.ItemBuyPrice;
+                        if (item.ItemTypes == 10)
+                        {
+                            Player.Instance.potionCount++;
+                            Inventory.inventory.Remove(Shop1hasItem[input]);
+                        }
                         Console.WriteLine("구매를 완료하였습니다. (Enter키 입력 시 진행)");
                         Console.ReadLine();
                         ShopBuyUI();
                     }
-                    else
+                    else                                            //  구매할 돈이 없을 때
                     {
                         Console.WriteLine("골드가 부족합니다. (Enter키 입력 시 진행)");
                         Console.ReadLine();
