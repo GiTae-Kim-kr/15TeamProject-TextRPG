@@ -9,6 +9,9 @@ namespace _15TeamProject
     internal class HpPotion
     {
         Player player = Player.Instance;
+        StartScene startScene = StartScene.Instance;
+        
+
         int addHp = 30;
         public void UsePotion()
         {
@@ -16,19 +19,19 @@ namespace _15TeamProject
             {
                 if (player.hp == 100)
                 {
-                    Console.WriteLine($"체력이 가득 찼습니다. 남은포션개수 : {player.potionCount}");
-                }                
+                    Console.WriteLine($"체력이 가득 찼습니다. 현재 체력 : {player.hp} 남은포션개수 : {player.potionCount}");
+                }
                 else if (player.hp > 71)
                 {
                     player.hp = 100;
                     player.potionCount--;
-                    Console.WriteLine($"회복을 완료했습니다. 남은포션개수 : {player.potionCount}");
+                    Console.WriteLine($"회복을 완료했습니다. 현재 체력 : {player.hp} 남은포션개수 : {player.potionCount}");
                 }
                 else
                 {
                     player.hp += addHp;
                     player.potionCount--;
-                    Console.WriteLine($"회복을 완료했습니다. 남은포션개수 : {player.potionCount}");
+                    Console.WriteLine($"회복을 완료했습니다. 현재 체력 : {player.hp} 남은포션개수 : {player.potionCount}");
                 }
             }
             else
@@ -36,10 +39,7 @@ namespace _15TeamProject
                 Console.WriteLine("포션이 부족합니다.");
             }
         }
-        public void GetPotion()
-        {
-            player.potionCount++;
-        }
+        
         public void ViewPotionInfo()
         {
             Console.WriteLine("회복");
@@ -58,7 +58,7 @@ namespace _15TeamProject
             }
             else if (input == 0)
             {
-
+                startScene.GameStartScene();
             }
             else
             {
