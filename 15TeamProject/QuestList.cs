@@ -8,6 +8,9 @@ namespace _15TeamProject
 {
     internal class QuestList
     {
+        
+        public int num { get; private set; }
+
         public void QuestScene()
         {
             Console.Clear();
@@ -51,21 +54,22 @@ namespace _15TeamProject
         {
             Console.Clear();
             //리스트는 0부터 시작이라 -1 해줌.
-            int num = questChoice - 1;
+            num = questChoice - 1;
             Console.ForegroundColor = ConsoleColor.Magenta;
             Console.WriteLine("Quest!!\n");
             Console.ResetColor();
             // 선택한 퀘스트 이름과 정보 나열
             Console.WriteLine($"{QuestDB.questList[num].questName}\n");  //제목
             Console.WriteLine($"{QuestDB.questList[num].questDescription}\n");  //설명
-            Console.WriteLine($"-{QuestDB.questList[num].questCondition}\n");  //완료 조건, 진행도 추가
+            Console.Write($"-{QuestDB.questList[num].questCondition}  ");  //완료 조건, 진행도 추가
+            Console.WriteLine($"({QuestDB.questList[num].currentProgressCount}/{QuestDB.questList[num].questProgress})");  // 진행도 추가
             Console.WriteLine($"-보상-");
             Console.WriteLine($"금액: {QuestDB.questList[num].questMoneyReward} G");
             Console.WriteLine($"경험치: {QuestDB.questList[num].questExpReward} EXP");
             Console.WriteLine($"아이템: {QuestDB.questList[num].questItemReward}\n");
             Console.WriteLine("1. 퀘스트 수락");
             Console.WriteLine("2. 퀘스트 취소");
-            Console.WriteLine("0. 퀘스트 목록으로 돌아가기");
+            Console.WriteLine("0. 퀘스트 목록으로 돌아가기\n");
             Console.Write("원하시는 행동을 입력해주세요. \n>>");
 
             int choice = Input.GetInt();
@@ -80,6 +84,7 @@ namespace _15TeamProject
                 case 2:
                     QuestDB.questList[num].isQuestAccept = false;  // 퀘스트 거절
                     Console.WriteLine($"퀘스트 '{QuestDB.questList[num].questName}'을(를) 취소했습니다.");
+                    QuestDB.questList[num].currentProgressCount = 0;  // 퀘스트 진행도 초기화
                     Console.ReadKey();
                     QuestAcceptScene(questChoice);                   
                     break;
@@ -94,5 +99,57 @@ namespace _15TeamProject
         {
             Console.Clear();
         }
+
+        private static QuestList? instance;  // 싱글톤을 위한 필드 선언
+        public static QuestList Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new QuestList();
+                }
+                return instance;
+            }
+        }
+
     }
+
+    // 퀘스트 진행상황 달성 하는 메서드 모음 클래스
+    internal class QuestConditioning
+    {
+        
+
+        // 몬스터 처치 시 퀘스트 진행도 증가하는 메서드
+        public void OnMonsterKilled(Monster monster)
+        {
+            // for문 써줘야 퀘스트가 여러개일 때도 진행도 증가 가능함. 안 쓰면 마지막 선택한 퀘스트 진행도만 오름.
+            for (int i= 0; i < QuestDB.questList.Count; i++)
+            {
+                if (QuestDB.questList[i].isQuestAccept)  // 수주한 퀘스트 모두 확인
+                {
+                    if (monster.name == QuestDB.questList[i].targetMonsterName)
+                        QuestDB.questList[i].currentProgressCount++;
+                }
+            }
+                
+        }
+
+
+        // 싱글톤 : BattleScene에 퀘스트 진행상황 메서드 추가할 때마다 필요해서 생성
+        private static QuestConditioning? instance;
+        public static QuestConditioning Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new QuestConditioning();
+                }
+                return instance;
+            }
+        }
+
+    }
+
 }
