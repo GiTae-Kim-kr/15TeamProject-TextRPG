@@ -190,7 +190,7 @@ partial class BattleScene
         {
             monster.isDead = true;
             monster.hp = 0;    // 체력이 0이 되면 죽은 상태로 변경
-            QuestConditioning.Instance.OnMonsterKilled(monster);   // 미니언 퀘스트
+            QuestConditioning.Instance.OnMonsterKilled(monster);   // 몬스터 처치 퀘스트
             DroppedPotion();
         }
 
@@ -265,6 +265,7 @@ partial class BattleScene
 
     void ResultVictory()    // 전투 승리시 나오는 씬 메서드
     {
+        bool isLevelUp;
         Console.Clear();
         // 상단에 Battle 색 입혀서 출력
         Console.ForegroundColor = ConsoleColor.Magenta;
@@ -273,7 +274,11 @@ partial class BattleScene
         Console.WriteLine("Victory\n");
         Console.WriteLine($"던전에서 몬스터 {monsterInfo.Length}마리를 잡았습니다.\n");  // 몇 마리인지 표시하는 코드 추가 필요 => 어차피 생성된 모든 몬스터 잡아야 승리니까
         GetPotion();
-        Console.WriteLine($"Lv.{player.level}  {player.name} ({player.job})");
+        Console.WriteLine("[캐릭터 정보]\n");
+        Console.Write($"Lv.{player.level}  {player.name} ({player.job})");
+        QuestList.Instance.LevelUp(out isLevelUp);
+        if (isLevelUp) Console.WriteLine($" -> Lv.{player.level}  {player.name} ({player.job})");
+        else Console.WriteLine();
         Console.WriteLine($"HP {StartScene.Instance.pastPlayerHP} -> {player.hp}\n");  // 플레이어의 체력 표시 코드 추가 필요/ 아마 추가적인 hp 필드가 필요할 수도?
         Console.WriteLine("전투에서 승리했습니다! \n(Enter키 입력 시 진행)");
         Console.ReadLine();
