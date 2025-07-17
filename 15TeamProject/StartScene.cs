@@ -9,6 +9,8 @@ namespace _15TeamProject
     internal class StartScene
     {
         public int pastPlayerHP { get; set; }
+        public int pastPlayerMP { get; set; }
+        public int pastPlayerExp { get; set; }
 
         public void GameStartScene()
         {
@@ -17,6 +19,8 @@ namespace _15TeamProject
             QuestList questList= new QuestList();
             Inventory inventory = new Inventory();
             Shop shop = new Shop();
+            StatusScene statusScene = new StatusScene();
+
             Console.Clear();
             Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
             Console.WriteLine("이제 전투를 시작할 수 있습니다.\n");
@@ -31,8 +35,8 @@ namespace _15TeamProject
             int choice = Input.GetInt();
             switch (choice)
             {
-                case 1: 
-                    Console.WriteLine("추후 추가"); 
+                case 1:
+                    statusScene.StatusViewScene();
                     break;
                 case 2:                   
                     inventory.InventoryUI();
@@ -41,11 +45,13 @@ namespace _15TeamProject
                     // 몬스터 랜덤으로 생성해서 monsterInfo에 저장.
                     battleScene.RandomMonster();
                     pastPlayerHP = Player.Instance.hp; // 현재 플레이어의 HP를 pastPlayerHP에 저장
+                    pastPlayerMP = Player.Instance.mp; // 현재 플레이어의 MP를 pastPlayerMP에 저장
+                    pastPlayerExp = Player.Instance.exp; // 현재 플레이어의 exp를 pastPlayerExp에 저장
                     // battleScene의 전투 시작화면으로 이동.
                     battleScene.Run();
                     break;
                 case 4:
-                    shop.ShopUI();
+                    shop.ShopMainUI();
                     break;
                 case 5:
                     Console.Clear();

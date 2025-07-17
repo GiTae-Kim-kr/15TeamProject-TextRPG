@@ -10,7 +10,8 @@ class Player
     public int mp;
     public int gold;
     public int exp;
-    public int potionCount=3;
+    public int potionCount = 3;
+    public int mpPotionCount = 2;
 
     private Random rand = new Random();
 
@@ -38,7 +39,7 @@ class Player
         def = 5;
         hp = 100; // 초기 체력
         mp = 50; // 초기 마나
-        gold = 1500; // 초기 골드
+        gold = 15000; // 초기 골드
         exp = 0; // 초기 경험치
     }
 
