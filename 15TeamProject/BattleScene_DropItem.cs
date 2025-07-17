@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 partial class BattleScene
 {
+
     public void DroppedPotion()
     {
         Random random = new Random();
@@ -30,9 +31,10 @@ partial class BattleScene
         droppedHPPotion = 0;
         droppedMPPotion = 0;
     }
-    public void DroppedItems()
+    public void DroppedItems(int target)
     {
-
+        Monster monster = monsterInfo[target];
+        
     }
     public void GetItems()
     {

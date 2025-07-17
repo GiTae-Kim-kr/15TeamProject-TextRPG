@@ -11,6 +11,7 @@ partial class BattleScene
     private int beforeHp;
     private int droppedHPPotion;
     private int droppedMPPotion;
+    private int droppedGold;
     private int afterExp;     // 몬스터 처치하면 얻는 경험치 총 합.
     public void Run()
     {
@@ -194,6 +195,7 @@ partial class BattleScene
             monster.hp = 0;    // 체력이 0이 되면 죽은 상태로 변경
             QuestConditioning.Instance.OnMonsterKilled(monster);   // 몬스터 처치 퀘스트
             afterExp += monster.exp;              // 처치된 몬스터 경험치 획득
+            droppedGold += monster.gold;
             DroppedPotion(); 
         }
 
@@ -270,6 +272,7 @@ partial class BattleScene
     void ResultVictory()    // 전투 승리시 나오는 씬 메서드
     {
         Player.Instance.exp += afterExp;       // 승리 씬 나와야 경험치 획득
+        player.gold += droppedGold;
         bool isLevelUp;
         Console.Clear();
         // 상단에 Battle 색 입혀서 출력
@@ -279,6 +282,7 @@ partial class BattleScene
         Console.WriteLine("Victory\n");
         Console.WriteLine($"던전에서 몬스터 {monsterInfo.Length}마리를 잡았습니다.\n");  // 몇 마리인지 표시하는 코드 추가 필요 => 어차피 생성된 모든 몬스터 잡아야 승리니까
         GetPotion();
+        
         Console.WriteLine("\n[캐릭터 정보]\n");
         Console.Write($"Lv.{player.level}  {player.name} ({player.job})");
         QuestList.Instance.LevelUp(out isLevelUp);
