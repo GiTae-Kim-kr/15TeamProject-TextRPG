@@ -33,15 +33,20 @@ partial class BattleScene
         }
         Console.WriteLine("\n\n[내정보]");
         Console.WriteLine($"Lv.{player.level}  {player.name} ({player.job})");
-        Console.WriteLine($"HP : {player.hp}/100\n");
+        Console.WriteLine($"HP : {player.hp}/100");
+        Console.WriteLine($"MP : {player.mp}/50\n");
 
-        // 스킬 목록 출력 - 마나 부족 시 색깔 다르게 출력.                            // 수정사항 있음!
+        // 스킬 목록 출력
         int i = 0;
         foreach (Skill skill in SkillDB.skillDB)
         {
             i++;
+            if (player.mp < skill.ConsumeMp)    // 마나 부족 시 색깔 다르게 출력
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+
             Console.Write($"{i}. ");
             skill.Describe();
+            Console.ResetColor();
         }
 
         // 입력 안내 출력
@@ -49,19 +54,30 @@ partial class BattleScene
         Console.WriteLine("원하시는 행동을 입력해주세요.");
         Console.Write(">>");
 
-        // 입력 구분 - 마나 부족 시 스킬 실행 안됨 (마나가 부족합니다 메시지 출력)   // 수정사항 있음!
-        int input = Input.GetInt(0, SkillDB.skillDB.Count);
-        if (input == 0)
-        {            
-            Run();
-            return;            
-        }
-        else
+        // 입력 구분
+        while (true)
         {
-            Skill skill = SkillDB.skillDB[input - 1];
-            List<Monster> monsters = new List<Monster>(monsterInfo);
-            PlayerSkillPhase(skill, monsters);
-            return;
+            int input = Input.GetInt(0, SkillDB.skillDB.Count);
+            if (input == 0) // 0 입력시 뒤로
+            {
+                Run();
+                return;
+            }
+            else
+            {
+                Skill skill = SkillDB.skillDB[input - 1];
+
+                if (player.mp < skill.ConsumeMp)    // 마나가 부족할 때
+                {
+                    Console.WriteLine("마나가 부족합니다!");
+                }
+                else
+                {
+                    List<Monster> monsters = new List<Monster>(monsterInfo);
+                    PlayerSkillPhase(skill, monsters);
+                    return;
+                }
+            }
         }
     }
 
@@ -117,12 +133,12 @@ partial class BattleScene
         }
 
         // 입력 대기 
-        Console.WriteLine("\n1. 확인\n");
+        Console.WriteLine("\n1. 확인");
         Console.Write("0. 취소\n\n>>");
         int input = Input.GetInt(0, 1);
         switch (input) 
         {
-            case 0: Run(); return;
+            case 0: SkillSelect(); return;
             case 1: PlayerAttackPhase(skill, targetMonsters); return;
         }       
     }
@@ -136,9 +152,13 @@ partial class BattleScene
         Console.ForegroundColor = ConsoleColor.Magenta;
         Console.WriteLine("Battle!!\n");
         Console.ResetColor();
-        Console.WriteLine($"{player.name} 의 {skill.Name}!");
+        Console.WriteLine($"{player.name} 의 {skill.Name}!\n");
 
-        // - 마나 소모 적용                                        // 수정사항 있음!
+        // 마나 소모 적용
+        int beforeMp = player.mp;
+        player.mp -= skill.ConsumeMp;
+        Console.WriteLine($"Lv. {player.level} {player.name}");
+        Console.WriteLine($"MP {beforeMp} -> {player.mp}\n");
 
         // 각 대상에 데미지 적용
         int enemyBeforeHp = 0;
