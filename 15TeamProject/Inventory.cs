@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,8 +12,8 @@ namespace _15TeamProject
     {
         public static List<ItemData> inventory = new List<ItemData>();        // 인벤토리에 있는 장비, itemID로 관리. item.cs에서 itemlist에 들어가있는 순서임
         private static List<ItemData> equipList = new List<ItemData>();       // 장착한 장비, itemID로 관리. item.cs에서 itemlist에 들어가있는 순서임
-        private static ItemData[] equipmentWeapon = new ItemData[1] {null};   // 무기 칸에 어떤 장비가 있는지 확인. -1 이 초기화값
-        private static ItemData[] equipmentArmor = new ItemData[1] { null };    // 방어구 칸에 어떤 장비가 있는지 확인. -1 이 초기화값
+        private static ItemData[] equipmentWeapon = new ItemData[1] {null};   // 무기 칸에 어떤 장비가 있는지 확인.
+        private static ItemData[] equipmentArmor = new ItemData[1] { null };    // 방어구 칸에 어떤 장비가 있는지 확인.
 
 
         public void InventoryUI() //Inventory UI Scene
@@ -101,6 +102,7 @@ namespace _15TeamProject
                 {
                     if (item.ItemTypes == 0)// 장착한 무기 해제
                     {
+                        WeaponStatsOFF();                         // 스탯 적용(해제한 무기 공격력 적용)
                         equipList.Remove(item);                // 장착 리스트에서 제거
                         equipmentWeapon[0] = null;                // 무기 칸 초기화라는 의미
                         Console.Write("장비를 해제했습니다. (Enter키 입력 시 진행)");
@@ -109,6 +111,8 @@ namespace _15TeamProject
                     }
                     else if (item.ItemTypes == 1) // 장착한 방어구 해제
                     {
+
+                        ArmorStatsOFF();                        // 스탯 적용(해제한 방어구 방어력 적용)
                         equipList.Remove(item);              // 장착 리스트 제거
                         equipmentArmor[0] = null;                 // 방어구 칸 초기화라는 의미
                         Console.Write("장비를 해제했습니다. (Enter키 입력 시 진행)");
@@ -122,9 +126,11 @@ namespace _15TeamProject
                     {
                         if (equipmentWeapon[0] != null)             // 이미 "무기 칸"에 무기 장비가 있다면
                         {
+                            WeaponStatsOFF();                         // 스탯 적용(해제한 무기 공격력 적용)
                             equipList.Remove(equipmentWeapon[0]); // 그 무기 장비를 "장착 리스트"에서 제거
-                        }
+                        }         
                         equipmentWeapon[0] = item;           // "무기 칸"에 해당 장비가 있음을 표시
+                        WeaponStatsON();                     // 스탯 적용(장착한 무기 공격력 적용)
                         equipList.Add(item);                 // "장착 리스트"에 장비(무기) 추가
                         Console.Write("장비를 장착했습니다. (Enter키 입력 시 진행)");
                         Console.ReadLine();
@@ -135,9 +141,11 @@ namespace _15TeamProject
                     {
                         if (equipmentArmor[0] != null)                // 이미 "방어구 칸"에 방어구 장비가 있다면
                         {
+                            ArmorStatsOFF();
                             equipList.Remove(equipmentArmor[0]);    // 그 방어구 장비를 "장착 리스트"에서 제거
                         }
                         equipmentArmor[0] = item;              // "방어구 칸"에 해당 방어구가 있음을 표시
+                        ArmorStatsON();
                         equipList.Add(item);                   // "장착 리스트:에 장비(방어구) 추가
                         Console.Write("장비를 장착했습니다. (Enter키 입력 시 진행)");
                         Console.ReadLine();
@@ -146,6 +154,36 @@ namespace _15TeamProject
                     }
                 }
             }
+            
+        }
+        public void WeaponStatsOFF() // 장착했던 장비의 스탯 제거 // equipmentArmor에 장비를 할당하기 전에 써야함 ex) equipmentArmor[0] = item;의 윗줄에 작성
+        {
+            if (equipmentWeapon[0] != null)
+            {
+                Player.Instance.atk -= equipmentWeapon[0].ItemValue;
+                
+            }
+        }
+        public void WeaponStatsON() // 장착하는 장비의 스탯 추가
+        {  
+            
+            Player.Instance.atk += equipmentWeapon[0].ItemValue;
+            
+            
+        }
+
+        public void ArmorStatsOFF() // 장착했던 장비의 스탯 제거 // equipmentArmor에 장비를 할당하기 전에 써야함 ex) equipmentArmor[0] = item;의 윗줄에 작성
+        {
+            if (equipmentArmor[0] != null)
+            {
+                Player.Instance.def -= equipmentArmor[0].ItemValue;
+                
+            }
+        }
+        public void ArmorStatsON() // 장착하는 장비의 스탯 추가
+        {
+
+            Player.Instance.def += equipmentArmor[0].ItemValue;
             
 
         }
