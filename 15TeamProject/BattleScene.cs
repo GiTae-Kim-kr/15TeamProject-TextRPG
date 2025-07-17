@@ -37,7 +37,8 @@ partial class BattleScene
         }
         Console.WriteLine("\n\n[내정보]");
         Console.WriteLine($"Lv.{player.level}  {player.name} ({player.job})");
-        Console.WriteLine($"HP : {player.hp}/100\n");    // 한 칸 띄움
+        Console.WriteLine($"HP : {player.hp}/100");
+        Console.WriteLine($"MP : {player.mp}/50\n");    // 한 칸 띄움
         Console.WriteLine("1. 공격");
         Console.WriteLine("2. 스킬 사용");
         Console.WriteLine("3. 포션 사용\n");
@@ -106,7 +107,8 @@ partial class BattleScene
         }
         Console.WriteLine("\n\n[내정보]");
         Console.WriteLine($"Lv.{player.level}  {player.name} ({player.job})");
-        Console.WriteLine($"HP : {player.hp}/100\n");    // 한 칸 띄움
+        Console.WriteLine($"HP : {player.hp}/100");
+        Console.WriteLine($"MP : {player.mp}/50\n");    // 한 칸 띄움
         Console.WriteLine("0. 취소\n");
         Console.Write("대상을 선택해주세요. \n>>");
         
@@ -274,7 +276,8 @@ partial class BattleScene
         Console.WriteLine($"던전에서 몬스터 {monsterInfo.Length}마리를 잡았습니다.\n");  // 몇 마리인지 표시하는 코드 추가 필요 => 어차피 생성된 모든 몬스터 잡아야 승리니까
         GetPotion();
         Console.WriteLine($"Lv.{player.level}  {player.name} ({player.job})");
-        Console.WriteLine($"HP {StartScene.Instance.pastPlayerHP} -> {player.hp}\n");  // 플레이어의 체력 표시 코드 추가 필요/ 아마 추가적인 hp 필드가 필요할 수도?
+        Console.WriteLine($"HP {StartScene.Instance.pastPlayerHP} -> {player.hp}");  // 플레이어의 체력 표시 코드 추가 필요/ 아마 추가적인 hp 필드가 필요할 수도?
+        Console.WriteLine($"HP {StartScene.Instance.pastPlayerMP} -> {player.mp}\n");
         Console.WriteLine("전투에서 승리했습니다! \n(Enter키 입력 시 진행)");
         Console.ReadLine();
 
