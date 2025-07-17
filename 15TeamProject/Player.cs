@@ -1,15 +1,17 @@
 ﻿// See https://aka.ms/new-console-template for more information
 class Player
 {
-    public int level;
+    public int level = 1;
     public string name;
     public string job;
     public int atk;
     public int def;
+    public int maxHp;
     public int hp;
+    public int maxMp;
     public int mp;
     public int gold;
-    public int exp;
+    public int exp = 0;
     public int potionCount = 3;
     public int mpPotionCount = 2;
 
@@ -30,17 +32,35 @@ class Player
         }
     }
 
-    private Player()
+    // 생성자
+    public Player()
     {
-        level = 1;
         name = "르탄이";
         job = "전사";
         atk = 10;
         def = 5;
-        hp = 100; // 초기 체력
-        mp = 50; // 초기 마나
-        gold = 15000; // 초기 골드
-        exp = 0; // 초기 경험치
+        hp = 100;           // 초기 체력
+        mp = 50;            // 초기 마나
+        gold = 15000;   // 초기 골드
+    }
+
+    // 필드 초기화 확인 변수
+    private bool isInitialized = false;
+
+    // 필드 초기화 메서드
+    public void Init(string name, string job, int atk, int def, int hp, int mp, int gold)
+    {
+        if (isInitialized) return;  // 초기화 되어있으면, 덮어 쓰기 안함.
+
+        this.name = name;
+        this.job = job;
+        this.atk = atk;
+        this.def = def;
+        this.hp = hp;
+        this.mp = mp;
+        this.gold = gold;
+
+        isInitialized = true;
     }
 
     // 공격 - 데미지를반환

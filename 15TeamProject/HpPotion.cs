@@ -129,6 +129,7 @@ namespace _15TeamProject
                 if (num == 1)
                 {
                     UsePotion();
+                    ViewPotionInfo();
                 }
                 else if (num == 0)
                 {

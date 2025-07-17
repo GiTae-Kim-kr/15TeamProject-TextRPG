@@ -33,6 +33,7 @@ public class Monster
     public int hp;
     public bool isDead;
     public int exp;
+    public int gold;
 
     Random random = new Random();
 
@@ -43,6 +44,7 @@ public class Monster
         this.hp = data.hp;
         this.isDead = false;    // 살아있는 상태로 시작
         this.exp = 1 * data.level;
+        this.gold = 100 * data.level;
     }
 
 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 partial class BattleScene
 {
+
     public void DroppedPotion()
     {
         Random random = new Random();
@@ -29,6 +30,15 @@ partial class BattleScene
         Console.WriteLine($"마나포션을 {droppedMPPotion} 개 획득 하셨습니다.");
         droppedHPPotion = 0;
         droppedMPPotion = 0;
+    }
+    public void DroppedItems(int target)
+    {
+        Monster monster = monsterInfo[target];
+        
+    }
+    public void GetItems()
+    {
+
     }
 }
 
