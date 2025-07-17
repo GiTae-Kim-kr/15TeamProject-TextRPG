@@ -273,8 +273,13 @@ partial class BattleScene
         Console.WriteLine("Battle!! - Result\n");
         Console.ResetColor();
         Console.WriteLine("Victory\n");
-        Console.WriteLine($"던전에서 몬스터 {monsterInfo.Length}마리를 잡았습니다.\n");  // 몇 마리인지 표시하는 코드 추가 필요 => 어차피 생성된 모든 몬스터 잡아야 승리니까
+        Console.WriteLine($"던전에서 몬스터 {monsterInfo.Length}마리를 잡았습니다.");  // 몇 마리인지 표시하는 코드 추가 필요 => 어차피 생성된 모든 몬스터 잡아야 승리니까
         GetPotion();
+
+        Console.WriteLine($"MP를 10 회복합니다.\n");    // mp 회복 
+        player.mp += 10;
+        if (player.mp >= 50) player.mp = 50;
+
         Console.WriteLine($"Lv.{player.level}  {player.name} ({player.job})");
         Console.WriteLine($"HP {StartScene.Instance.pastPlayerHP} -> {player.hp}");  // 플레이어의 체력 표시 코드 추가 필요/ 아마 추가적인 hp 필드가 필요할 수도?
         Console.WriteLine($"HP {StartScene.Instance.pastPlayerMP} -> {player.mp}\n");
