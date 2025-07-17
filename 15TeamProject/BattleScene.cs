@@ -303,6 +303,7 @@ partial class BattleScene
         Console.WriteLine("You Lose\n");
         Console.WriteLine($"Lv.{player.level}  {player.name} ({player.job})");
         Console.WriteLine($"HP {beforeHp} -> 0 \n");  // 플레이어의 체력 표시 코드 추가 필요/ 아마 추가적인 hp 필드가 필요할 수도?
+        Console.WriteLine($"전투에서 획득한 경험치를 모두 잃었습니다..\n");
         Console.WriteLine("전투에서 패배했습니다... \n(Enter키 입력 시 진행)");
         Console.ReadLine();
 
