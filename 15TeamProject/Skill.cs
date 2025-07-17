@@ -12,8 +12,8 @@ internal abstract class Skill
     protected bool isAutoTargeting; // 자동 타겟팅 여부
 
     // 읽기 전용
-    public string Name => name;    
-    public int ConsumeMp => consumeMp;  
+    public string Name => name;
+    public int ConsumeMp => consumeMp;
     public string Description => description;
     public bool IsAutoTargeting => isAutoTargeting;
 
@@ -49,7 +49,7 @@ internal static class SkillDB
 class AlphaStrike : Skill
 {
     // 생성자
-    public AlphaStrike(string name, int consumeMp, string description, bool isAutoTargeting) 
+    public AlphaStrike(string name, int consumeMp, string description, bool isAutoTargeting)
         : base(name, consumeMp, description, isAutoTargeting) { }
 
     // 대상 지정 메서드
@@ -57,9 +57,11 @@ class AlphaStrike : Skill
     {
         while (true)
         {
-           int target = Input.GetInt(1, monsters.Count);
+            int target = Input.GetInt(1, monsters.Count);
 
-           return new List<Monster> { monsters[target - 1] };
+            if (monsters[target - 1].isDead)
+                Console.WriteLine("이미 죽은 몬스터입니다! 다시 선택하여 주세요");
+            else return new List<Monster> { monsters[target - 1] };
         }
     }
 
@@ -72,7 +74,7 @@ class AlphaStrike : Skill
 class DoubleStrike : Skill
 {
     // 생성자
-    public DoubleStrike(string name, int consumeMp, string description, bool isAutoTargeting) 
+    public DoubleStrike(string name, int consumeMp, string description, bool isAutoTargeting)
         : base(name, consumeMp, description, isAutoTargeting) { }
 
     Random rand = new Random();
@@ -82,11 +84,11 @@ class DoubleStrike : Skill
     {
         // 대상이 1마리 일 경우
         if (monsters.Count < 2)
-        {            
+        {
             return new List<Monster>(monsters);
         }
 
-        List<Monster> tempMonsters = new List<Monster> (monsters);
+        List<Monster> tempMonsters = new List<Monster>(monsters);
         Monster first = tempMonsters[rand.Next(0, tempMonsters.Count)];
         tempMonsters.Remove(first);
         Monster second = tempMonsters[rand.Next(0, tempMonsters.Count)];

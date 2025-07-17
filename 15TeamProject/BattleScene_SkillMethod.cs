@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _15TeamProject;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -44,7 +45,7 @@ partial class BattleScene
         }
 
         // 입력 안내 출력
-        Console.WriteLine("0. 취소\n");
+        Console.WriteLine("\n0. 취소\n");
         Console.WriteLine("원하시는 행동을 입력해주세요.");
         Console.Write(">>");
 
@@ -66,13 +67,16 @@ partial class BattleScene
 
     void PlayerSkillPhase(Skill skill, List<Monster> monsters)
     {
-        // 상단부는 이전 화면과 동일하게 출력
+        // 상단부 - Battle! ~ 몬스터 목록 출력
         Console.Clear();
         Console.ForegroundColor = ConsoleColor.Magenta;
         Console.WriteLine("Battle!!\n");
         Console.ResetColor();
+        int i = 0;
         foreach (Monster monster in monsterInfo)
         {
+            i++;
+
             string afterHp;
             if (monster.isDead)
             {
@@ -84,32 +88,94 @@ partial class BattleScene
                 afterHp = monster.hp.ToString();
             }
 
-            Console.WriteLine($"Lv.{monster.data.level} {monster.data.name}  HP {afterHp}");
+            Console.WriteLine($"{i}. Lv.{monster.data.level} {monster.data.name}  HP {afterHp}");
             Console.ResetColor();
         }
 
         // 선택된 스킬 설명
+        Console.WriteLine();
         skill.Describe();
         Console.WriteLine();
 
         // 타겟팅
+        List<Monster> targetMonsters = new List<Monster>();
         if (skill.IsAutoTargeting)  // 자동 대상 지정이면
         {
             Console.WriteLine("자동으로 대상을 지정합니다.");
-            List<Monster> aliveMonsters = new List<Monster>(monsterInfo);
+            List<Monster> aliveMonsters = new List<Monster>();
             foreach (Monster monster in monsterInfo)
             {
                 if (!monster.isDead)
                     aliveMonsters.Add(monster);
             }
-            List<Monster> targetMonsters = skill.Targeting(aliveMonsters);
+            targetMonsters = skill.Targeting(aliveMonsters);
         }
         else
         {
-            Console.WriteLine($"대상을 선택해주세요. (1 ~ {monsters.Count})\n>>");
-            List<Monster> targetMonsters = skill.Targeting(monsters);
+            Console.Write($"대상을 선택해주세요.\n>>");
+            targetMonsters = skill.Targeting(monsters);
         }
 
-        // 작성 중... 타겟팅한 몬스터에 공격 -> 몬스터 턴 진행으로 넘김
+        // 입력 대기 
+        Console.WriteLine("\n1. 확인\n");
+        Console.Write("0. 취소\n\n>>");
+        int input = Input.GetInt(0, 1);
+        switch (input) 
+        {
+            case 0: Run(); return;
+            case 1: PlayerAttackPhase(skill, targetMonsters); return;
+        }       
+    }
+
+    void PlayerAttackPhase(Skill skill, List<Monster> targetMonsters)
+    {
+        // 화면 리셋
+        Console.Clear();
+
+        // 상단에 Battle 색 입혀서 출력, 스킬 사용 메시지 출력
+        Console.ForegroundColor = ConsoleColor.Magenta;
+        Console.WriteLine("Battle!!\n");
+        Console.ResetColor();
+        Console.WriteLine($"{player.name} 의 {skill.Name}!");
+
+        // 각 대상에 데미지 적용
+        int enemyBeforeHp = 0;
+        foreach (Monster monster in targetMonsters)
+        {                           
+            // 몬스터 hp 임시 저장
+            enemyBeforeHp = monster.hp;
+
+            // 데미지 적용
+            int damage = player.atk;
+            skill.CalculateDamage(out damage);
+            monster.hp -= damage;
+
+            // 적중 메시지
+            Console.WriteLine($"Lv.{monster.level} {monster.name} 을(를) 맞췄습니다. [데미지 : {damage}] ");                       
+        }
+
+        // 각 대상 남은 hp 확인
+        Console.WriteLine();
+        foreach (Monster monster in targetMonsters)
+        {
+            // 적 사망 확인
+            if (monster.hp <= 0)
+            {
+                monster.isDead = true;
+                monster.hp = 0;    // 체력이 0이 되면 죽은 상태로 변경
+                QuestConditioning.Instance.OnMonsterKilled(monster);   // 미니언 퀘스트
+                DroppedPotion();
+            }
+
+            // 적 남은 hp 출력
+            string afterHp = monster.isDead ? "Dead" : monster.hp.ToString();
+            Console.WriteLine($"Lv.{monster.level} {monster.name}");
+            Console.WriteLine($"HP {enemyBeforeHp} -> {afterHp}");
+        }
+
+        // 입력 대기 
+        Console.WriteLine($"\n{player.name} 의 공격이 진행 중입니다.. \n(Enter키 입력 시 진행)");
+        Console.ReadLine();
+        EnemyPhase();
     }
 }
