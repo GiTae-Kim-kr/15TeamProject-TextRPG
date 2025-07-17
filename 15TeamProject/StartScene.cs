@@ -47,7 +47,7 @@ namespace _15TeamProject
                     battleScene.Run();
                     break;
                 case 4:
-                    shop.ShopUI();
+                    shop.ShopMainUI();
                     break;
                 case 5:
                     Console.Clear();
