@@ -31,9 +31,9 @@ internal abstract class Skill
         Console.WriteLine(description);
     }
 
-
+    // 추상 메서드 - 각 자식(스킬)에서 구현
     public abstract List<Monster> Targeting(List<Monster> monsters);
-    public abstract void CalculateDamage(out int damage);  // 스킬 사용 - 각 클래스에서 구현
+    public abstract void CalculateDamage(out int damage);
 }
 
 internal static class SkillDB
