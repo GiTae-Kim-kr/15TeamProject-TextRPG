@@ -30,5 +30,13 @@ partial class BattleScene
         droppedHPPotion = 0;
         droppedMPPotion = 0;
     }
+    public void DroppedItems()
+    {
+
+    }
+    public void GetItems()
+    {
+
+    }
 }
 
