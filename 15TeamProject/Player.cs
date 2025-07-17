@@ -10,7 +10,8 @@ class Player
     public int mp;
     public int gold;
     public int exp;
-    public int potionCount=3;
+    public int potionCount = 3;
+    public int mpPotionCount = 2;
 
     private Random rand = new Random();
 

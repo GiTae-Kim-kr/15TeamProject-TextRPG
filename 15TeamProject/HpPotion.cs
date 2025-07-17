@@ -13,57 +13,139 @@ namespace _15TeamProject
         
 
         int addHp = 30;
+        int addMp = 15;
         public void UsePotion()
-        {
-            if (player.potionCount > 0)
+        {            
+            Console.WriteLine();
+            Console.WriteLine("사용할 포션을 선택해주세요");
+            Console.WriteLine();
+            Console.Write("1. ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("체력");
+            Console.ResetColor();
+            Console.WriteLine("포션");
+            Console.Write("2. ");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("마나");
+            Console.ResetColor();
+            Console.WriteLine("포션");
+            Console.WriteLine();
+            Console.Write("사용할 포션 : ");
+            string input = Console.ReadLine();
+            if (int.TryParse(input, out int num))
             {
-                if (player.hp == 100)
+                if (num == 1)
                 {
-                    Console.WriteLine($"체력이 가득 찼습니다. 현재 체력 : {player.hp} 남은포션개수 : {player.potionCount}");
+                    if (player.potionCount > 0)
+                    {
+                        if (player.hp == 100)
+                        {
+                            Console.Clear();
+                            Console.WriteLine($"체력이 가득 찼습니다. 현재 체력 : {player.hp} 남은포션개수 : {player.potionCount}");
+                        }
+                        else if (player.hp > 70)
+                        {
+                            Console.Clear();
+                            player.hp = 100;
+                            player.potionCount--;
+                            Console.WriteLine($"회복을 완료했습니다. 현재 체력 : {player.hp} 남은포션개수 : {player.potionCount}");
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            player.hp += addHp;
+                            player.potionCount--;
+                            Console.WriteLine($"회복을 완료했습니다. 현재 체력 : {player.hp} 남은포션개수 : {player.potionCount}");
+                        }
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("포션이 부족합니다.");
+                    }
                 }
-                else if (player.hp > 71)
+                else if (num == 2)
                 {
-                    player.hp = 100;
-                    player.potionCount--;
-                    Console.WriteLine($"회복을 완료했습니다. 현재 체력 : {player.hp} 남은포션개수 : {player.potionCount}");
+                    if (player.mpPotionCount > 0)
+                    {
+                        if (player.mp == 50)
+                        {
+                            Console.Clear();
+                            Console.WriteLine($"마나가 가득 찼습니다. 현재 마나 : {player.mp} 남은포션개수 : {player.mpPotionCount}");
+                        }
+                        else if (player.mp > 35)
+                        {
+                            Console.Clear();
+                            player.mp = 50;
+                            player.mpPotionCount--;
+                            Console.WriteLine($"회복을 완료했습니다. 현재 마나 : {player.mp} 남은포션개수 : {player.mpPotionCount}");
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            player.mp += addMp;
+                            player.mpPotionCount--;
+                            Console.WriteLine($"회복을 완료했습니다. 현재 마나 : {player.mp} 남은포션개수 : {player.mpPotionCount}");
+                        }
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("포션이 부족합니다.");
+                    }
                 }
                 else
                 {
-                    player.hp += addHp;
-                    player.potionCount--;
-                    Console.WriteLine($"회복을 완료했습니다. 현재 체력 : {player.hp} 남은포션개수 : {player.potionCount}");
+                    Console.Clear();
+                    Console.WriteLine("사용할 포션을 정확히 선택하세요");
                 }
             }
-            else
+            else 
             {
-                Console.WriteLine("포션이 부족합니다.");
+                Console.Clear();
+                Console.WriteLine("숫자를 입력해주세요.");
+                Console.WriteLine("");
+                UsePotion();
             }
         }
         
         public void ViewPotionInfo()
         {
-            Console.WriteLine("회복");
-            Console.WriteLine($"포션을 사용하면 체력을 {addHp} 회복 할 수 있습니다. (남은 포션 : {player.potionCount})");
-            Console.WriteLine("");
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("(회복)");
+            Console.ResetColor();
+            Console.WriteLine();
+            Console.WriteLine($"체력포션을 사용하면 체력을 {addHp} 회복 할 수 있습니다. (남은 포션 : {player.potionCount})");
+            Console.WriteLine($"마나포션을 사용하면 마나를 {addMp} 회복 할 수 있습니다. (남은 포션 : {player.mpPotionCount})");
+            Console.WriteLine();
             Console.WriteLine("1. 사용하기");
             Console.WriteLine("0. 나가기");
-            Console.WriteLine("");
-            Console.WriteLine("원하시는 행동을 입력해주세요");
-            int input = int.Parse(Console.ReadLine());
-            if (input == 1)
+            Console.WriteLine();
+            Console.Write("원하시는 행동을 입력해주세요 : ");
+            string input = Console.ReadLine();
+            if(int.TryParse(input,out int num))
             {
-                UsePotion();
-                Console.WriteLine();
-                ViewPotionInfo();
-            }
-            else if (input == 0)
-            {
-                startScene.GameStartScene();
+                if (num == 1)
+                {
+                    UsePotion();
+                }
+                else if (num == 0)
+                {
+                    startScene.GameStartScene();
+                }
+                else 
+                {
+                    Console.Clear();
+                    Console.WriteLine();
+                    Console.Write("정확한 숫자를 입력해주세요.");
+                    Console.ReadLine();
+                }
             }
             else
             {
                 Console.Clear();
-                Console.WriteLine("원하시는 행동을 정확히 입력해주세요.");
+                Console.WriteLine("숫자를 입력해주세요.");
                 Console.WriteLine("");
                 ViewPotionInfo();
             }
