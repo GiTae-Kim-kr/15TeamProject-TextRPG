@@ -11,7 +11,7 @@ namespace _15TeamProject
     internal class Inventory
     {
         public static List<ItemData> inventory = new List<ItemData>();        // 인벤토리에 있는 장비, itemID로 관리. item.cs에서 itemlist에 들어가있는 순서임
-        private static List<ItemData> equipList = new List<ItemData>();       // 장착한 장비, itemID로 관리. item.cs에서 itemlist에 들어가있는 순서임
+        public static List<ItemData> equipList = new List<ItemData>();       // 장착한 장비, itemID로 관리. item.cs에서 itemlist에 들어가있는 순서임
         private static ItemData[] equipmentWeapon = new ItemData[1] {null};   // 무기 칸에 어떤 장비가 있는지 확인.
         private static ItemData[] equipmentArmor = new ItemData[1] { null };    // 방어구 칸에 어떤 장비가 있는지 확인.
 

@@ -24,19 +24,23 @@ namespace _15TeamProject
             Console.WriteLine($"{Player.Instance.gold} G");
             Console.WriteLine("");
             Console.WriteLine("[상점 목록]");
-            Console.WriteLine("1. 상점");
-            Console.WriteLine("2. 포션 상점");
+            Console.WriteLine("1. 구매 상점");
+            Console.WriteLine("2. 판매 상점");
+            Console.WriteLine("3. 포션 상점");
             Console.WriteLine("0. 나가기");
             Console.WriteLine("");
             Console.WriteLine("원하시는 행동을 입력해주세요.");
-            Console.WriteLine(">>    ");
-            int input = Input.GetInt(0, 2);
+            Console.Write(">>    ");
+            int input = Input.GetInt(0, 3);
             switch (input)
             {
                 case 1:
                     ShopUI();
                     break;
                 case 2:
+                    ShopSellUI();
+                    break;
+                case 3:
                     ShopPotionUI();
                     break;
                 case 0:
@@ -78,8 +82,8 @@ namespace _15TeamProject
             Console.WriteLine("0. 나가기");
             Console.WriteLine("");
             Console.WriteLine("원하시는 행동을 입력해주세요.");
-            Console.WriteLine(">>    ");
-            int input = Input.GetInt(0, Shop1hasItem.Count);
+            Console.Write(">>    ");
+            int input = Input.GetInt(0, 1);
             switch (input)
             {
                 case 1:
@@ -120,7 +124,7 @@ namespace _15TeamProject
             Console.WriteLine("0. 나가기");
             Console.WriteLine("");
             Console.WriteLine("원하시는 행동을 입력해주세요.");
-            Console.WriteLine(">>    ");
+            Console.Write(">>    ");
             int input = Input.GetInt(0, Shop1hasItem.Count);
             if (input == 0)
             {
@@ -163,6 +167,66 @@ namespace _15TeamProject
             }
         }
 
+        public void ShopSellUI()
+        {
+            Console.Clear();
+            Console.WriteLine("상점 - 아이템 판매");
+            Console.WriteLine("아이템을 판매할 수 있는 상점입니다.");
+            Console.WriteLine("");
+            Console.WriteLine("[보유 골드]");
+            Console.WriteLine($"{Player.Instance.gold} G");
+            Console.WriteLine("");
+            Console.WriteLine("[아이템 목록]");
+            for (int i = 0; i < Inventory.inventory.Count; i++)
+            {
+                ItemData item = Inventory.inventory[i];
+                bool IsEquipped = Inventory.equipList.Contains(item);
+                if (IsEquipped)
+                {
+                    Console.BackgroundColor = ConsoleColor.Blue;
+                }
+                string EquipDisplay = IsEquipped ? "[E]" : "";
+                Console.WriteLine($"- {i + 1}. {EquipDisplay} {item.ItemNames}    |    {(item.ItemTypes == 0 ? "공격력" : "방어력")} + {item.ItemValue}    |    {item.ItemDesc}");
+                if (IsEquipped)
+                {
+                    Console.ResetColor();
+                }
+            }
+            Console.WriteLine("");
+            Console.WriteLine("0. 나가기");
+            Console.WriteLine("");
+            Console.WriteLine("원하시는 행동을 입력해주세요.");
+            Console.Write(">>    ");
+            int input = Input.GetInt(0, Inventory.inventory.Count);
+            if (input == 0)
+            {
+                ShopMainUI();
+            }
+            else
+            {
+                input -= 1;
+                ItemData item = Inventory.inventory[input];
+                bool IsEquipped = Inventory.equipList.Contains(item);
+                if (IsEquipped)
+                {
+                    Console.WriteLine("장착한 장비는 판매할 수 없습니다. 장착 해제 후 다시 시도해주세요.(Enter키 입력 시 진행)");
+                    Console.ReadLine();
+                    ShopSellUI();
+                }
+                else
+                {
+                    Inventory.inventory.Remove(Inventory.inventory[input]);
+                    Player.Instance.gold += item.ItemSellPrice;
+                    Console.WriteLine($"판매하였습니다. {item.ItemSellPrice}G를 획득하였습니다.(Enter키 입력 시 진행)");
+                    Console.ReadLine();
+                    ShopSellUI();
+                }
+            }
+
+
+            
+        }
+
         int Shop1HPCount = -1; // 회복 포션 수량 초기화
         int Shop1MPCount = -1; // 회복 포션 수량 초기화
 
@@ -183,19 +247,23 @@ namespace _15TeamProject
             Console.WriteLine("[포션 목록]");
             if(Shop1HPCount == 0)
             {
+                Console.ForegroundColor = ConsoleColor.DarkGray;
                 Console.WriteLine(" - 1. 회복 포션    |    체력 + 30    |     500 G    |    구매완료");
+                Console.ResetColor();
             }
             else Console.WriteLine($" - 1. 회복 포션    |    체력 + 30    |     500 G    |    남은 수량  {Shop1HPCount}개");
             if (Shop1MPCount == 0)
             {
+                Console.ForegroundColor = ConsoleColor.DarkGray;
                 Console.WriteLine($" - 2. 마나 포션    |    마나 + 30    |     500 G    |    구매완료");
+                Console.ResetColor();
             }
             else Console.WriteLine($" - 2. 마나 포션    |    마나 + 30    |     500 G    |    남은 수량  {Shop1MPCount}개");
             Console.WriteLine("");
             Console.WriteLine("0. 나가기");
             Console.WriteLine("");
             Console.WriteLine("원하시는 행동을 입력해주세요.");
-            Console.WriteLine(">>    ");
+            Console.Write(">>    ");
             int input = Input.GetInt(0, 2);
             switch (input)
             {

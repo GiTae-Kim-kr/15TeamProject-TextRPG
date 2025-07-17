@@ -9,18 +9,20 @@ internal abstract class Skill
     protected string name;    // 스킬이름
     protected int consumeMp;  // 소비마나
     protected string description; // 설명 
-
+    protected bool isAutoTargeting; // 자동 타겟팅 여부
 
     // 읽기 전용
-    public string Name => name;    
-    public int ConsumeMp => consumeMp;  
+    public string Name => name;
+    public int ConsumeMp => consumeMp;
     public string Description => description;
+    public bool IsAutoTargeting => isAutoTargeting;
 
-    public Skill(string name, int consumeMp, string description)
+    public Skill(string name, int consumeMp, string description, bool isAutoTargeting)
     {
         this.name = name;
         this.consumeMp = consumeMp;
         this.description = description;
+        this.isAutoTargeting = isAutoTargeting;
     }
 
     public void Describe()  // 스킬 설명
@@ -29,17 +31,17 @@ internal abstract class Skill
         Console.WriteLine(description);
     }
 
-
+    // 추상 메서드 - 각 자식(스킬)에서 구현
     public abstract List<Monster> Targeting(List<Monster> monsters);
-    public abstract void CalculateDamage(out int damage);  // 스킬 사용 - 각 클래스에서 구현
+    public abstract void CalculateDamage(out int damage);
 }
 
 internal static class SkillDB
 {
     public static List<Skill> skillDB = new List<Skill>()
     {
-        new AlphaStrike("알파 스트라이크", 10, "공격력 * 2 로 하나의 적을 공격합니다."),
-        new DoubleStrike("더블 스트라이크", 15, "공격력 * 1.5 로 2명의 적을 랜덤으로 공격합니다.")
+        new AlphaStrike("알파 스트라이크", 10, "공격력 * 2 로 하나의 적을 공격합니다.", false),
+        new DoubleStrike("더블 스트라이크", 15, "공격력 * 1.5 로 2명의 적을 랜덤으로 공격합니다.", true),
 
     };
 }
@@ -47,24 +49,19 @@ internal static class SkillDB
 class AlphaStrike : Skill
 {
     // 생성자
-    public AlphaStrike(string name, int consumeMp, string description) : base(name, consumeMp, description) { }
+    public AlphaStrike(string name, int consumeMp, string description, bool isAutoTargeting)
+        : base(name, consumeMp, description, isAutoTargeting) { }
 
+    // 대상 지정 메서드
     public override List<Monster> Targeting(List<Monster> monsters)
     {
         while (true)
         {
-            Console.WriteLine("타겟을 선택하세요. (1 ~ {0})", monsters.Count);
-            int target = Input.GetInt();
+            int target = Input.GetInt(1, monsters.Count);
 
-            // 유효 범위 체크
-            if (target >= 1 && target < monsters.Count)
-            {
-                return new List<Monster> { monsters[target - 1] };
-            }
-            else
-            {
-                Console.WriteLine("잘못된 번호입니다. 다시 입력해주세요.");
-            }
+            if (monsters[target - 1].isDead)
+                Console.WriteLine("이미 죽은 몬스터입니다! 다시 선택하여 주세요");
+            else return new List<Monster> { monsters[target - 1] };
         }
     }
 
@@ -77,10 +74,12 @@ class AlphaStrike : Skill
 class DoubleStrike : Skill
 {
     // 생성자
-    public DoubleStrike(string name, int consumeMp, string description) : base(name, consumeMp, description) { }
+    public DoubleStrike(string name, int consumeMp, string description, bool isAutoTargeting)
+        : base(name, consumeMp, description, isAutoTargeting) { }
 
     Random rand = new Random();
 
+    // 대상 지정 메서드
     public override List<Monster> Targeting(List<Monster> monsters)
     {
         // 대상이 1마리 일 경우
@@ -89,10 +88,11 @@ class DoubleStrike : Skill
             return new List<Monster>(monsters);
         }
 
-        List<Monster> tempMonsters = new List<Monster> (monsters);
+        List<Monster> tempMonsters = new List<Monster>(monsters);
         Monster first = tempMonsters[rand.Next(0, tempMonsters.Count)];
         tempMonsters.Remove(first);
         Monster second = tempMonsters[rand.Next(0, tempMonsters.Count)];
+
         return new List<Monster> { first, second };
     }
 
