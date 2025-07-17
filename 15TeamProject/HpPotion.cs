@@ -128,8 +128,7 @@ namespace _15TeamProject
             {
                 if (num == 1)
                 {
-                    UsePotion();
-                    ViewPotionInfo();
+                    UsePotion();                    
                 }
                 else if (num == 0)
                 {
@@ -148,8 +147,8 @@ namespace _15TeamProject
                 Console.Clear();
                 Console.WriteLine("숫자를 입력해주세요.");
                 Console.WriteLine("");
-                ViewPotionInfo();
             }
+            ViewPotionInfo();
         }
 
     }
