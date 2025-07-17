@@ -194,9 +194,9 @@ partial class BattleScene
             string afterHp = monster.isDead ? "Dead" : monster.hp.ToString();
             Console.WriteLine($"Lv.{monster.level} {monster.name}");
             Console.WriteLine($"HP {enemyBeforeHp} -> {afterHp}\n");
-            if ( afterExp > 0) Console.WriteLine($"얻은 경험치 : {afterExp}\n");
+            
         }
-
+        if (afterExp > 0) Console.WriteLine($"총 얻은 경험치 : {afterExp}\n");
         // 입력 대기 
         Console.WriteLine($"\n{player.name} 의 공격이 진행 중입니다.. \n(Enter키 입력 시 진행)");
         Console.ReadLine();
