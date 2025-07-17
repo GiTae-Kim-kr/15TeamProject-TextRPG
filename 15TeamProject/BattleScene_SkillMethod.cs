@@ -186,13 +186,15 @@ partial class BattleScene
                 monster.isDead = true;
                 monster.hp = 0;    // 체력이 0이 되면 죽은 상태로 변경
                 QuestConditioning.Instance.OnMonsterKilled(monster);   // 미니언 퀘스트
+                afterExp += monster.exp;              // 처치된 몬스터 경험치 획득
                 DroppedPotion();
             }
 
             // 적 남은 hp 출력
             string afterHp = monster.isDead ? "Dead" : monster.hp.ToString();
             Console.WriteLine($"Lv.{monster.level} {monster.name}");
-            Console.WriteLine($"HP {enemyBeforeHp} -> {afterHp}");
+            Console.WriteLine($"HP {enemyBeforeHp} -> {afterHp}\n");
+            if ( afterExp > 0) Console.WriteLine($"얻은 경험치 : {afterExp}\n");
         }
 
         // 입력 대기 

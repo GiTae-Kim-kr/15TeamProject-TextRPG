@@ -11,7 +11,7 @@ partial class BattleScene
     private int beforeHp;
     private int droppedHPPotion;
     private int droppedMPPotion;
-
+    private int afterExp;     // 몬스터 처치하면 얻는 경험치 총 합.
     public void Run()
     {
         Console.Clear();
@@ -193,7 +193,9 @@ partial class BattleScene
             monster.isDead = true;
             monster.hp = 0;    // 체력이 0이 되면 죽은 상태로 변경
             QuestConditioning.Instance.OnMonsterKilled(monster);   // 몬스터 처치 퀘스트
-            DroppedPotion();
+            afterExp += monster.exp;              // 처치된 몬스터 경험치 획득
+            Console.WriteLine($"얻은 경험치 : {monster.exp}\n");
+            DroppedPotion(); 
         }
 
         // 적 남은 hp 출력
@@ -267,6 +269,7 @@ partial class BattleScene
 
     void ResultVictory()    // 전투 승리시 나오는 씬 메서드
     {
+        Player.Instance.exp += afterExp;       // 승리 씬 나와야 경험치 획득
         bool isLevelUp;
         Console.Clear();
         // 상단에 Battle 색 입혀서 출력
@@ -276,14 +279,14 @@ partial class BattleScene
         Console.WriteLine("Victory\n");
         Console.WriteLine($"던전에서 몬스터 {monsterInfo.Length}마리를 잡았습니다.\n");  // 몇 마리인지 표시하는 코드 추가 필요 => 어차피 생성된 모든 몬스터 잡아야 승리니까
         GetPotion();
-
         Console.WriteLine("[캐릭터 정보]\n");
         Console.Write($"Lv.{player.level}  {player.name} ({player.job})");
         QuestList.Instance.LevelUp(out isLevelUp);
         if (isLevelUp) Console.WriteLine($" -> Lv.{player.level}  {player.name} ({player.job})");
         else Console.WriteLine();
         Console.WriteLine($"HP {StartScene.Instance.pastPlayerHP} -> {player.hp}");  // 플레이어의 체력 표시 코드 추가 필요/ 아마 추가적인 hp 필드가 필요할 수도?
-        Console.WriteLine($"MP {StartScene.Instance.pastPlayerMP} -> {player.mp}\n");
+        Console.WriteLine($"MP {StartScene.Instance.pastPlayerMP} -> {player.mp}");
+        Console.WriteLine($"Exp {StartScene.Instance.pastPlayerExp} -> {StartScene.Instance.pastPlayerExp + afterExp}\n");
         Console.WriteLine("전투에서 승리했습니다! \n(Enter키 입력 시 진행)");
         Console.ReadLine();
 

@@ -10,6 +10,7 @@ namespace _15TeamProject
     {
         public int pastPlayerHP { get; set; }
         public int pastPlayerMP { get; set; }
+        public int pastPlayerExp { get; set; }
 
         public void GameStartScene()
         {
@@ -45,6 +46,7 @@ namespace _15TeamProject
                     battleScene.RandomMonster();
                     pastPlayerHP = Player.Instance.hp; // 현재 플레이어의 HP를 pastPlayerHP에 저장
                     pastPlayerMP = Player.Instance.mp; // 현재 플레이어의 MP를 pastPlayerMP에 저장
+                    pastPlayerExp = Player.Instance.exp; // 현재 플레이어의 exp를 pastPlayerExp에 저장
                     // battleScene의 전투 시작화면으로 이동.
                     battleScene.Run();
                     break;

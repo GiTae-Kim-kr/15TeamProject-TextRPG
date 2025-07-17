@@ -133,8 +133,10 @@ namespace _15TeamProject
                             Console.WriteLine($"아이템 : {QuestDB.questList[num].questItemReward}를 획득하셨습니다!");  // 아이템 획득 메시지
                         }
                         else Console.WriteLine();
+
                         LevelUp(out isLevelUp);             // 레벨업 함수 호출. 퀘스트 완료 보상으로 경험치 받고 레벨업했는지 여부 확인.
-                        if (isLevelUp)
+                        
+                        if (isLevelUp)                     // 레벨업 여부 확인 후 작동.
                         {
                             Console.WriteLine("\n축하합니다! 레벨업 하셨습니다!!\n");
                             Console.WriteLine($"Lv.{Player.Instance.level - 1} -> Lv.{Player.Instance.level}");
@@ -192,8 +194,8 @@ namespace _15TeamProject
         //임시로 레벨업 메서드 제작.
         public void LevelUp(out bool isLevelUp)
         {
-            isLevelUp = false;
-            int needPlusExp = 0;
+            isLevelUp = false;     // LevelUp 함수가 쓰이는 스크립트에서 레벨업 했는지 안했는지 구분 해줌. 
+            int needPlusExp = 0;   // 총 필요 경험치량 (레벨마다 다르게 설정)
             int levelLimit = 5;    //우선 만렙 5렙으로 설정
             for (int i = 1; i < levelLimit; i++)
             {
@@ -204,12 +206,11 @@ namespace _15TeamProject
                     {
                         Player.Instance.level += 1;
                         Player.Instance.exp = 0;  // 레벨업 하면 경험치 초기화
-                        
-                        Player.Instance.atk += 1;
+                        Player.Instance.atk += 1;  // 레벨업 하면 공격력 1 증가. 아래 방어력도 마찬가지
                         Player.Instance.def += 1;
                         isLevelUp = true;
                     }
-                    else if (Player.Instance.exp > needPlusExp)
+                    else if (Player.Instance.exp > needPlusExp)   // 레벨업 필요 용량보다 많이 얻었을 때
                     {
                         Player.Instance.level += 1;
                         Player.Instance.exp = Player.Instance.exp - needPlusExp;     //레벨업 하면 남은 만큼만 표시하기
