@@ -22,7 +22,7 @@ namespace _15TeamProject
             Console.WriteLine($"방어력 : {Player.Instance.def}");
             Console.WriteLine($"마  나 : {Player.Instance.mp}");
             Console.WriteLine($"체  력 : {Player.Instance.hp}");
-            Console.WriteLine($"경험치 : {Player.Instance.exp}");
+            Console.WriteLine($"경험치 : {Player.Instance.exp}/{QuestList.NeedTotalExp(Player.Instance.level)}");
             Console.WriteLine($"Gold   : {Player.Instance.gold} G\n");
 
             Console.WriteLine("0. 나가기\n");
