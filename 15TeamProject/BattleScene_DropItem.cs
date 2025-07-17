@@ -11,11 +11,11 @@ partial class BattleScene
         Random random = new Random();
         int dromHPPotion = random.Next(0, 100);
         int dromMPPotion = random.Next(0, 100);
-        if (dromHPPotion < 30)
+        if (dromHPPotion < 15)
         {
             droppedHPPotion++;
         }
-        if (dromMPPotion < 20)
+        if (dromMPPotion < 10)
         {
             droppedMPPotion++;
         }
@@ -24,8 +24,11 @@ partial class BattleScene
     public void GetPotion()
     {
         player.potionCount += droppedHPPotion;
-        Console.WriteLine($"포션을 {droppedHPPotion} 개 획득 하셨습니다.");
+        player.mpPotionCount += droppedMPPotion;
+        Console.WriteLine($"체력포션을 {droppedHPPotion} 개 획득 하셨습니다.");
+        Console.WriteLine($"마나포션을 {droppedMPPotion} 개 획득 하셨습니다.");
         droppedHPPotion = 0;
+        droppedMPPotion = 0;
     }
 }
 
