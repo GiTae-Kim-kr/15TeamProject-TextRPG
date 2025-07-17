@@ -11,11 +11,11 @@ partial class BattleScene
         Random random = new Random();
         int dromHPPotion = random.Next(0, 100);
         int dromMPPotion = random.Next(0, 100);
-        if (dromHPPotion < 30)
+        if (dromHPPotion < 15)
         {
             droppedHPPotion++;
         }
-        if (dromMPPotion < 20)
+        if (dromMPPotion < 10)
         {
             droppedMPPotion++;
         }
