@@ -35,7 +35,7 @@ partial class BattleScene
         Console.WriteLine($"Lv.{player.level}  {player.name} ({player.job})");
         Console.WriteLine($"HP : {player.hp}/100\n");
 
-        // 스킬 목록 출력
+        // 스킬 목록 출력 - 마나 부족 시 색깔 다르게 출력.                            // 수정사항 있음!
         int i = 0;
         foreach (Skill skill in SkillDB.skillDB)
         {
@@ -49,7 +49,7 @@ partial class BattleScene
         Console.WriteLine("원하시는 행동을 입력해주세요.");
         Console.Write(">>");
 
-        // 입력 구분
+        // 입력 구분 - 마나 부족 시 스킬 실행 안됨 (마나가 부족합니다 메시지 출력)   // 수정사항 있음!
         int input = Input.GetInt(0, SkillDB.skillDB.Count);
         if (input == 0)
         {            
@@ -67,7 +67,7 @@ partial class BattleScene
 
     void PlayerSkillPhase(Skill skill, List<Monster> monsters)
     {
-        // 상단부 - Battle! ~ 몬스터 목록 출력
+        // 상단부: Battle! ~ 몬스터 목록 출력
         Console.Clear();
         Console.ForegroundColor = ConsoleColor.Magenta;
         Console.WriteLine("Battle!!\n");
@@ -137,6 +137,8 @@ partial class BattleScene
         Console.WriteLine("Battle!!\n");
         Console.ResetColor();
         Console.WriteLine($"{player.name} 의 {skill.Name}!");
+
+        // - 마나 소모 적용                                        // 수정사항 있음!
 
         // 각 대상에 데미지 적용
         int enemyBeforeHp = 0;
