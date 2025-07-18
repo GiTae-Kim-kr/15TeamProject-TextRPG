@@ -66,12 +66,7 @@ namespace _15TeamProject
 
         public void EquipUI() // 장비 장착 관리
         {
-            if (invenEquip.Count == 0)
-            {
-    
-                   invenEquip = inventory.Where(item => item.ItemTypes < 2).ToList();
- 
-            }
+            invenEquip = inventory.Where(item => item.ItemTypes < 2).ToList();
 
             Console.Clear();
             Console.WriteLine("인벤토리 - 장착 관리");
@@ -109,7 +104,8 @@ namespace _15TeamProject
             else if (input >= 1 && input <= invenEquip.Count) // 장비를 선택한 경우
             {
                 ItemData item = invenEquip[input - 1];
-
+                // 장비 아이템 장착/해제 소리
+                AudioManager.Instance.PlaySoundEffect("itemEquip.mp3", 0.7f); 
                 if (equipList.Contains(item)) // 이미 장착한 장비를 선택했을 때
                 {
                     if (item.ItemTypes == 0)// 장착한 무기 해제
@@ -208,10 +204,7 @@ namespace _15TeamProject
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.");
             Console.WriteLine("");
             Console.WriteLine("[소비 아이템 목록]");
-            if (invenCons.Count == 0)
-            {
-                invenCons = inventory.Where(item => item.ItemTypes >= 10).ToList();
-            }
+            invenCons = inventory.Where(item => item.ItemTypes >= 10).ToList();
             for (int i = 0; i < invenCons.Count; i++)
             {
                 ItemData item = invenCons[i];
@@ -234,9 +227,10 @@ namespace _15TeamProject
                 if( invenCons[input].ItemTypes == 11)
                 {
                     Player.Instance.exp += invenCons[input].ItemValue;
+                    
+                    Console.WriteLine($"{ItemDB.TypeText(invenCons[input].ItemTypes)}를 {invenCons[input].ItemValue}획득했습니다.  (Enter키 입력 시 진행)");
                     inventory.Remove(invenCons[input]);
                     invenCons.Remove(invenCons[input]);
-                    Console.WriteLine($"{ItemDB.TypeText(invenCons[input].ItemTypes)}를 {invenCons[input].ItemValue}획득했습니다.  (Enter키 입력 시 진행)");
                     Console.ReadLine();
                     ConsumUI();
                 }
@@ -267,8 +261,28 @@ namespace _15TeamProject
                     
                     
                 }
+                else if (invenCons[input].ItemTypes == 12)
+                {
+                    Player.Instance.atk += invenCons[input].ItemValue;
+                    
+                    Console.WriteLine($"{ItemDB.TypeText(invenCons[input].ItemTypes)}을 {invenCons[input].ItemValue}만큼 획득했습니다.  (Enter키 입력 시 진행)");
+                    inventory.Remove(invenCons[input]);
+                    invenCons.Remove(invenCons[input]);
+                    Console.ReadLine();
+                    ConsumUI();
+                }
+                else if (invenCons[input].ItemTypes == 13)
+                {
+                    Player.Instance.def += invenCons[input].ItemValue;
+                    
+                    Console.WriteLine($"{ItemDB.TypeText(invenCons[input].ItemTypes)}을 {invenCons[input].ItemValue}만큼 획득했습니다.  (Enter키 입력 시 진행)");
+                    inventory.Remove(invenCons[input]);
+                    invenCons.Remove(invenCons[input]);
+                    Console.ReadLine();
+                    ConsumUI();
+                }
 
-                
+
             }
         }
 

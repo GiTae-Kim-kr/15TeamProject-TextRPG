@@ -11,12 +11,18 @@ namespace _15TeamProject
         public static List<ItemData> NorTokenbox = new List<ItemData>();
         public static List<ItemData> PreTokenbox = new List<ItemData>();
         static Random dicerandom = new Random();
-        static int firsttime = 0;
+        public static int firsttime { get; set; }
 
+        public Pub()
+        {
+            firsttime = 0;
+        }
         
         public static void PubMainUI() 
         {
             Console.Clear();
+            // 배경 음악 재생
+            AudioManager.Instance.PlayBgm("cazinoBackground.mp3", 0.07f);
             Console.WriteLine("펍 안쪽");
             Console.WriteLine("자~ 돈 놓고 돈 먹기~~");
             Console.WriteLine("");
@@ -101,6 +107,7 @@ namespace _15TeamProject
                     if (Player.Instance.gold >= inputToken*500)
                     {
                         for (int i = 0; i < inputToken; i++) AddItem.TokenBoxAdd(500);
+                        Player.Instance.gold -= inputToken * 500;
                         Console.WriteLine($"입장권 {inputToken}장을 구매했습니다. (Enter키 입력 시 진행)");
                         Console.ReadLine();
                         PubMainUI();
@@ -110,6 +117,7 @@ namespace _15TeamProject
                     PubMainUI(); ;
                     break;
                 case 0:
+                    AudioManager.Instance.StopBgm();     // 배경 음악 종료
                     StartScene.Instance.GameStartScene();
                     break;
             }

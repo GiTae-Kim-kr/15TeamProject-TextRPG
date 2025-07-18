@@ -54,6 +54,8 @@ namespace _15TeamProject
             new ItemData(50, "무형검",0, 75, "공격력이 매우 강력하다고 알려진 희귀한 검입니다.", 3, 150000),
             new ItemData(51, "[1% 무형검] 상자",20, 1, "1% 확률로 무형검을 획득할 수 있는 상자입니다.", 10, 0),
             new ItemData(52, "[50% 무형검] 상자",20, 50, "50% 확률로 무형검을 획득할 수 있는 상자입니다.", 1, 0),
+            new ItemData(201, "공격력 비약",12, 1, "공격력", 15000, 0),
+            new ItemData(202, "방어력 비약",13, 1, "공격력", 15000, 0),
         };
 
         public static string TypeText(int ItemType)

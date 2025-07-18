@@ -61,7 +61,7 @@ namespace _15TeamProject
             Console.WriteLine($"{Player.Instance.gold} G");
             Console.WriteLine("");
             Console.WriteLine("[아이템 목록]");
-            if (Shop1hasItem.Count == 0) AddItem.Shop1(0, 1, 2, 10, 11, 12, 12,12,12, 200, 200, 200);
+            if (Shop1hasItem.Count == 0) AddItem.Shop1(0, 1, 2, 10, 11, 12, 201,202);
 
             for (int i = 0; i < Shop1hasItem.Count; i++)
             {
@@ -150,6 +150,7 @@ namespace _15TeamProject
                             Player.Instance.potionCount++;
                             Inventory.inventory.Remove(Shop1hasItem[input]);
                         }
+                        AudioManager.Instance.PlaySoundEffect("buyItem.mp3", 0.3f, 0.0f, 1.4f);
                         Console.WriteLine("구매를 완료하였습니다. (Enter키 입력 시 진행)");
                         Console.ReadLine();
                         ShopBuyUI();
@@ -290,6 +291,7 @@ namespace _15TeamProject
                 case 2:
                     if (Shop1MPCount > 0)
                     {
+                        Player.Instance.mpPotionCount++;
                         Shop1MPCount--;
                         Player.Instance.gold -= 500;
                         Console.WriteLine("마나 포션 획득(Enter키 입력 시 진행)");

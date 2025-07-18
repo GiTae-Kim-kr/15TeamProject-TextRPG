@@ -15,6 +15,8 @@ partial class BattleScene
     private int afterExp;     // 몬스터 처치하면 얻는 경험치 총 합.
     public void Run()
     {
+        // 배경음악 재생
+        AudioManager.Instance.PlayBgm("battlebackground.wav", 0.1f); 
         Console.Clear();
         Console.ForegroundColor = ConsoleColor.Magenta;
         Console.WriteLine("Battle!!\n");
@@ -148,8 +150,7 @@ partial class BattleScene
         int enemyBeforeHp = monster.hp;
 
         // 화면 리셋
-        Console.Clear();    
-        
+        Console.Clear();
         // 상단에 Battle 색 입혀서 출력, 공격 메시지 출력
         Console.ForegroundColor = ConsoleColor.Magenta;
         Console.WriteLine("Battle!!\n");
@@ -164,6 +165,7 @@ partial class BattleScene
         }
         else // 공격 적중 시
         {
+            AudioManager.Instance.PlaySoundEffect("punch1.mp3", 0.5f, 0.0f, 0.5f);
             // 플레이어 공격 데미지 계산        
             int damage = player.Attack();
             float damageRatio = player.Critical();
@@ -306,7 +308,7 @@ partial class BattleScene
 
         // 던전 층 수 증가
         StartScene.Instance.dungeonLevel++;
-
+        AudioManager.Instance.StopBgm();  // 배경음악 정지
         StartScene.Instance.GameStartScene();  // 시작 화면으로 돌아가기
     }   
 
@@ -323,7 +325,7 @@ partial class BattleScene
         Console.WriteLine($"전투에서 획득한 경험치를 모두 잃었습니다..\n");
         Console.WriteLine("전투에서 패배했습니다... \n(Enter키 입력 시 진행)");
         Console.ReadLine();
-
+        AudioManager.Instance.StopBgm();  // 배경음악 정지
         StartScene.Instance.GameStartScene();  // 시작 화면으로 돌아가기
     }
 
