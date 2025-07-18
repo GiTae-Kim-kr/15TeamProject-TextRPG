@@ -13,6 +13,15 @@ public class MonsterData
         this.hp = hp;
         this.atk = atk;
     }
+
+    // 복사 생성자
+    public MonsterData(MonsterData other)
+    {
+        name = other.name;
+        level = other.level;
+        hp = other.hp;
+        atk = other.atk;
+    }
 }
 
 // 몬스터 종류 MonsterDB.monsterList[숫자]로 접근
@@ -40,7 +49,7 @@ public class Monster
     // 생성자
     public Monster(MonsterData data)
     {
-        this.data = data;
+        this.data = new MonsterData(data);
         this.hp = data.hp;
         this.isDead = false;    // 살아있는 상태로 시작
         this.exp = 1 * data.level;

@@ -11,7 +11,8 @@ namespace _15TeamProject
         public int pastPlayerHP { get; set; }
         public int pastPlayerMP { get; set; }
         public int pastPlayerExp { get; set; }
-
+        
+        public int dungeonLevel = 1;    // 던전 층 저장
         public void GameStartScene()
         {
             BattleScene battleScene = new BattleScene();
@@ -27,7 +28,7 @@ namespace _15TeamProject
             Console.WriteLine("이제 전투를 시작할 수 있습니다.\n");
             Console.WriteLine("1. 상태보기");
             Console.WriteLine("2. 인벤토리");
-            Console.WriteLine("3. 전투 시작");
+            Console.WriteLine($"3. 전투 시작 (현제 진행 : {dungeonLevel}층)");
             Console.WriteLine("4. 상점");
             Console.WriteLine("5. 퀘스트 목록");
             Console.WriteLine("6. 회복 아이템");

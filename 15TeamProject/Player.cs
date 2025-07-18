@@ -46,14 +46,10 @@ class Player
         gold = 15000;   // 초기 골드
     }
 
-    // 필드 초기화 확인 변수
-    private bool isInitialized = false;
-
     // 필드 초기화 메서드
     public void Init(string name, string job, int atk, int def, int maxHp, int maxMp, int gold)
     {
-        if (isInitialized) return;  // 초기화 되어있으면, 덮어 쓰기 안함.
-
+        
         this.name = name;
         this.job = job;
         this.atk = atk;
@@ -64,7 +60,6 @@ class Player
         this.mp = maxMp;
         this.gold = gold;
 
-        isInitialized = true;
     }
 
     // 공격 - 데미지를반환
