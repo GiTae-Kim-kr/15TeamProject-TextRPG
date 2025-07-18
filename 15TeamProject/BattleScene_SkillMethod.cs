@@ -33,8 +33,8 @@ partial class BattleScene
         }
         Console.WriteLine("\n\n[내정보]");
         Console.WriteLine($"Lv.{player.level}  {player.name} ({player.job})");
-        Console.WriteLine($"HP : {player.hp}/{player.maxHp}");
-        Console.WriteLine($"MP : {player.mp}/{player.maxMp}\n");
+        Console.WriteLine($"HP : {player.hp} / {player.maxHp}");
+        Console.WriteLine($"MP : {player.mp} / {player.maxMp}\n");
 
         // 스킬 목록 출력
         int i = 0;
