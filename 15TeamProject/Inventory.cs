@@ -12,8 +12,8 @@ namespace _15TeamProject
     {
         public static List<ItemData> inventory = new List<ItemData>();        // 인벤토리에 있는 장비, itemID로 관리. item.cs에서 itemlist에 들어가있는 순서임
         public static List<ItemData> equipList = new List<ItemData>();       // 장착한 장비, itemID로 관리. item.cs에서 itemlist에 들어가있는 순서임
-        private static ItemData[] equipmentWeapon = new ItemData[1] { null };   // 무기 칸에 어떤 장비가 있는지 확인.
-        private static ItemData[] equipmentArmor = new ItemData[1] { null };    // 방어구 칸에 어떤 장비가 있는지 확인.
+        public static ItemData[] equipmentWeapon = new ItemData[1] { null };   // 무기 칸에 어떤 장비가 있는지 확인.
+        public static ItemData[] equipmentArmor = new ItemData[1] { null };    // 방어구 칸에 어떤 장비가 있는지 확인.
         private static List<ItemData> invenEquip = new List<ItemData>();        // 인벤 중 장비 아이템 모음
         private static List<ItemData> invenCons = new List<ItemData>();        // 인벤 중 소비 아이템 모음 
 
@@ -239,6 +239,20 @@ namespace _15TeamProject
                     Console.ReadLine();
                     ConsumUI();
                 }
+            }
+        }
+
+
+        private static Inventory? instance;
+        public static Inventory Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new Inventory();
+                }
+                return instance;
             }
         }
     }
