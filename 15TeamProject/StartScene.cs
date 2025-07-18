@@ -29,6 +29,7 @@ namespace _15TeamProject
             Console.WriteLine("4. 상점");
             Console.WriteLine("5. 퀘스트 목록");
             Console.WriteLine("6. 회복 아이템");
+            Console.WriteLine("7. 펍 안쪽");
             Console.WriteLine();
             Console.Write("원하시는 행동을 입력해주세요. \n>>");
             int choice = Input.GetInt();
@@ -59,6 +60,10 @@ namespace _15TeamProject
                     Console.Clear();
                     // 회복 아이템 사용 화면으로 이동
                     hpPotion.ViewPotionInfo();
+                    break;
+                case 7:
+                    Console.Clear();
+                    Pub.PubMainUI();
                     break;
                 default:
                     Console.WriteLine("잘못된 입력입니다. 다시 시도해주세요.");
