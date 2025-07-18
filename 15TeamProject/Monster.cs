@@ -5,7 +5,6 @@ public class MonsterData
     public string name;
     public int hp;
     public int atk;
-
     // 생성자
     public MonsterData(int level, string name, int hp, int atk)
     {
@@ -13,6 +12,15 @@ public class MonsterData
         this.name = name;
         this.hp = hp;
         this.atk = atk;
+    }
+
+    // 복사 생성자
+    public MonsterData(MonsterData other)
+    {
+        name = other.name;
+        level = other.level;
+        hp = other.hp;
+        atk = other.atk;
     }
 }
 
@@ -33,15 +41,19 @@ public class Monster
     public MonsterData data;
     public int hp;
     public bool isDead;
+    public int exp;
+    public int gold;
 
     Random random = new Random();
 
     // 생성자
     public Monster(MonsterData data)
     {
-        this.data = data;
+        this.data = new MonsterData(data);
         this.hp = data.hp;
         this.isDead = false;    // 살아있는 상태로 시작
+        this.exp = 1 * data.level;
+        this.gold = 100 * data.level;
     }
 
 

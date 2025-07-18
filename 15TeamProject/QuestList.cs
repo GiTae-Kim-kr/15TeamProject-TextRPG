@@ -80,6 +80,7 @@ namespace _15TeamProject
 
         public void QuestAcceptScene(int questChoice)
         {
+            bool isLevelUp;
             Console.Clear();
             //리스트는 0부터 시작이라 -1 해줌.
             num = questChoice - 1;
@@ -133,6 +134,13 @@ namespace _15TeamProject
                         }
                         else Console.WriteLine();
 
+                        LevelUp(out isLevelUp);             // 레벨업 함수 호출. 퀘스트 완료 보상으로 경험치 받고 레벨업했는지 여부 확인.
+                        
+                        if (isLevelUp)                     // 레벨업 여부 확인 후 작동.
+                        {
+                            Console.WriteLine("\n축하합니다! 레벨업 하셨습니다!!\n");
+                            Console.WriteLine($"Lv.{Player.Instance.level - 1} -> Lv.{Player.Instance.level}");
+                        }
                         QuestDB.questList[num].isQuestAccept = false;  // 보상받고 일단은 다시 수락 안한 상태로
                         QuestDB.questList[num].isQuestComplete = true;  // 퀘스트 완료 상태로 변경
                         QuestDB.questList[num].currentProgressCount = 0;
@@ -183,6 +191,54 @@ namespace _15TeamProject
             }
         }
 
+        //임시로 레벨업 메서드 제작.
+        public void LevelUp(out bool isLevelUp)
+        {
+            isLevelUp = false;     // LevelUp 함수가 쓰이는 스크립트에서 레벨업 했는지 안했는지 구분 해줌. 
+            int needPlusExp = 0;   // 총 필요 경험치량 (레벨마다 다르게 설정)
+            int levelLimit = 5;    //우선 만렙 5렙으로 설정
+            for (int i = 1; i < levelLimit; i++)
+            {
+                if (Player.Instance.level == i)
+                {
+                    needPlusExp = NeedTotalExp(i);
+                    if (Player.Instance.exp == needPlusExp)  //레벨마다 다른 경험치량 요구
+                    {
+                        Player.Instance.level += 1;
+                        Player.Instance.exp = 0;  // 레벨업 하면 경험치 초기화
+                        Player.Instance.atk += 1;  // 레벨업 하면 공격력 1 증가. 아래 방어력도 마찬가지
+                        Player.Instance.def += 1;
+                        isLevelUp = true;
+                    }
+                    else if (Player.Instance.exp > needPlusExp)   // 레벨업 필요 용량보다 많이 얻었을 때
+                    {
+                        Player.Instance.level += 1;
+                        Player.Instance.exp = Player.Instance.exp - needPlusExp;     //레벨업 하면 남은 만큼만 표시하기
+                        Player.Instance.atk += 1;
+                        Player.Instance.def += 1;
+                        isLevelUp = true;
+                    }
+                }
+
+
+            }
+        }
+
+        // 재귀 함수 이용해서 레벨업에 필요한 경험치 총량 계산하기
+        public static int NeedTotalExp(int level)
+        {  // level 4 일때 10 + 25 + 30 + 35 ..
+            int defaultExp = 10;
+            if (level <= 0) return 0;
+
+            if (level % 2 == 0)   //레벨이 짝수일때
+            {
+                return (defaultExp * level + 5) + NeedTotalExp(level - 1);
+            }
+            else     // 레벨이 홀수일때.
+            {
+                return (defaultExp * level) + NeedTotalExp(level - 1);
+            }
+        }
     }
 
     // 퀘스트 진행상황 달성 하는 메서드 모음 클래스
@@ -211,6 +267,7 @@ namespace _15TeamProject
             }
                 
         }
+
 
 
         // 싱글톤 : BattleScene에 퀘스트 진행상황 메서드 추가할 때마다 필요해서 생성

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 partial class BattleScene
 {
+
     public void DroppedPotion()
     {
         Random random = new Random();
@@ -25,10 +26,21 @@ partial class BattleScene
     {
         player.potionCount += droppedHPPotion;
         player.mpPotionCount += droppedMPPotion;
-        Console.WriteLine($"체력포션을 {droppedHPPotion} 개 획득 하셨습니다.");
-        Console.WriteLine($"마나포션을 {droppedMPPotion} 개 획득 하셨습니다.");
+        Console.WriteLine($"체력포션을 {droppedHPPotion} 개 획득하셨습니다.");
+        Console.WriteLine($"마나포션을 {droppedMPPotion} 개 획득하셨습니다.");
         droppedHPPotion = 0;
         droppedMPPotion = 0;
+    }
+    public void DroppedItems()
+    {
+        
+        
+    }
+    public void GetItems()
+    {
+        player.gold += droppedGold;
+        Console.WriteLine($"{droppedGold}G 를 획득하셨습니다.");
+        droppedGold = 0;
     }
 }
 

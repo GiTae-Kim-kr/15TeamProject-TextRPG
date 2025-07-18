@@ -61,7 +61,7 @@ namespace _15TeamProject
             Console.WriteLine($"{Player.Instance.gold} G");
             Console.WriteLine("");
             Console.WriteLine("[아이템 목록]");
-            if (Shop1hasItem.Count == 0) AddItem.Shop1(0, 1, 2, 10, 11, 12, 12,12,12, 200, 200, 200);
+            if (Shop1hasItem.Count == 0) AddItem.Shop1(0, 1, 2, 10, 11, 12, 201,202);
 
             for (int i = 0; i < Shop1hasItem.Count; i++)
             {

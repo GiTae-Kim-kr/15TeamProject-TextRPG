@@ -12,8 +12,8 @@ namespace _15TeamProject
     {
         public static List<ItemData> inventory = new List<ItemData>();        // 인벤토리에 있는 장비, itemID로 관리. item.cs에서 itemlist에 들어가있는 순서임
         public static List<ItemData> equipList = new List<ItemData>();       // 장착한 장비, itemID로 관리. item.cs에서 itemlist에 들어가있는 순서임
-        private static ItemData[] equipmentWeapon = new ItemData[1] { null };   // 무기 칸에 어떤 장비가 있는지 확인.
-        private static ItemData[] equipmentArmor = new ItemData[1] { null };    // 방어구 칸에 어떤 장비가 있는지 확인.
+        public static ItemData[] equipmentWeapon = new ItemData[1] { null };   // 무기 칸에 어떤 장비가 있는지 확인.
+        public static ItemData[] equipmentArmor = new ItemData[1] { null };    // 방어구 칸에 어떤 장비가 있는지 확인.
         private static List<ItemData> invenEquip = new List<ItemData>();        // 인벤 중 장비 아이템 모음
         private static List<ItemData> invenCons = new List<ItemData>();        // 인벤 중 소비 아이템 모음 
 
@@ -34,7 +34,7 @@ namespace _15TeamProject
                     Console.BackgroundColor = ConsoleColor.Blue;
                 }
                 string EquipDisplay = IsEquipped ? "[E]" : "";
-                Console.WriteLine($"- {i + 1}. {EquipDisplay} {item.ItemNames}    |    {ItemDB.TypeText(item.ItemTypes)} + {item.ItemValue}    |    {item.ItemDesc} {item.UID}");
+                Console.WriteLine($"- {EquipDisplay} {item.ItemNames}    |    {ItemDB.TypeText(item.ItemTypes)} + {item.ItemValue}    |    {item.ItemDesc}");
                 if (IsEquipped)
                 {
                     Console.ResetColor();
@@ -88,7 +88,7 @@ namespace _15TeamProject
                     Console.BackgroundColor = ConsoleColor.Blue;
                 }
                 string EquipDisplay = IsEquipped ? "[E]" : "";
-                Console.WriteLine($"- {i+1} {EquipDisplay} {item.ItemNames}    |    {ItemDB.TypeText(item.ItemTypes)} + {item.ItemValue}    |    {item.ItemDesc}");
+                Console.WriteLine($"- {i+1}. {EquipDisplay} {item.ItemNames}    |    {ItemDB.TypeText(item.ItemTypes)} + {item.ItemValue}    |    {item.ItemDesc}");
                 if (IsEquipped)
                 {
                     Console.ResetColor();
@@ -102,6 +102,7 @@ namespace _15TeamProject
 
             int input = Input.GetInt(0, invenEquip.Count);
 
+            
             if (input == 0) InventoryUI(); // 0번 누르면 인벤토리로 이동
 
 
@@ -233,12 +234,76 @@ namespace _15TeamProject
                 if( invenCons[input].ItemTypes == 11)
                 {
                     Player.Instance.exp += invenCons[input].ItemValue;
+                    
+                    Console.WriteLine($"{ItemDB.TypeText(invenCons[input].ItemTypes)}를 {invenCons[input].ItemValue}획득했습니다.  (Enter키 입력 시 진행)");
                     inventory.Remove(invenCons[input]);
                     invenCons.Remove(invenCons[input]);
-                    Console.WriteLine($"{ItemDB.TypeText(invenCons[input].ItemTypes)}를 {invenCons[input].ItemValue}획득했습니다.  (Enter키 입력 시 진행)");
                     Console.ReadLine();
                     ConsumUI();
                 }
+                else if (invenCons[input].ItemTypes == 20)
+                {
+
+                    if(invenCons[input].ItemIDs == 51)
+                    {
+                        if(AddItem.ChanceBox(13, 1)) Console.WriteLine("1% 확률로 [무형검]을 획득하였습니다.");
+                        else Console.WriteLine("아무일도 일어나지 않았습니다.");
+                        inventory.Remove(invenCons[input]);
+                        invenCons.Remove(invenCons[input]);
+                        Console.ReadLine();
+                        ConsumUI();
+                    }
+                    
+                    
+                    if (invenCons[input].ItemIDs == 52)
+
+                    {
+                        if (AddItem.ChanceBox(13, 50)) Console.WriteLine("50% 확률로 [무형검]을 획득하였습니다.");
+                        else Console.WriteLine("아무일도 일어나지 않았습니다.");
+                        inventory.Remove(invenCons[input]);
+                        invenCons.Remove(invenCons[input]);
+                        Console.ReadLine();
+                        ConsumUI();
+                    }
+                    
+                    
+                }
+                else if (invenCons[input].ItemTypes == 12)
+                {
+                    Player.Instance.atk += invenCons[input].ItemValue;
+                    
+                    Console.WriteLine($"{ItemDB.TypeText(invenCons[input].ItemTypes)}을 {invenCons[input].ItemValue}만큼 획득했습니다.  (Enter키 입력 시 진행)");
+                    inventory.Remove(invenCons[input]);
+                    invenCons.Remove(invenCons[input]);
+                    Console.ReadLine();
+                    ConsumUI();
+                }
+                else if (invenCons[input].ItemTypes == 13)
+                {
+                    Player.Instance.def += invenCons[input].ItemValue;
+                    
+                    Console.WriteLine($"{ItemDB.TypeText(invenCons[input].ItemTypes)}을 {invenCons[input].ItemValue}만큼 획득했습니다.  (Enter키 입력 시 진행)");
+                    inventory.Remove(invenCons[input]);
+                    invenCons.Remove(invenCons[input]);
+                    Console.ReadLine();
+                    ConsumUI();
+                }
+
+
+            }
+        }
+
+
+        private static Inventory? instance;
+        public static Inventory Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new Inventory();
+                }
+                return instance;
             }
         }
     }
