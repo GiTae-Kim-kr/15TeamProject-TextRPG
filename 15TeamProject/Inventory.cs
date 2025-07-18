@@ -34,7 +34,7 @@ namespace _15TeamProject
                     Console.BackgroundColor = ConsoleColor.Blue;
                 }
                 string EquipDisplay = IsEquipped ? "[E]" : "";
-                Console.WriteLine($"- {i + 1}. {EquipDisplay} {item.ItemNames}    |    {(item.ItemTypes == 0 ? "공격력" : "방어력")} + {item.ItemValue}    |    {item.ItemDesc} {item.UID}");
+                Console.WriteLine($"- {i + 1}. {EquipDisplay} {item.ItemNames}    |    {ItemDB.TypeText(item.ItemTypes)} + {item.ItemValue}    |    {item.ItemDesc} {item.UID}");
                 if (IsEquipped)
                 {
                     Console.ResetColor();
@@ -42,9 +42,10 @@ namespace _15TeamProject
             }
             Console.WriteLine("");
             Console.WriteLine("1. 장착관리");
+            Console.WriteLine("2. 소비 아이템 관리");
             Console.WriteLine("0. 나가기");
             Console.WriteLine("");
-            int input = Input.GetInt(0, 1);
+            int input = Input.GetInt(0, 2);
             switch (input)
             {
                 case 0:
@@ -55,16 +56,22 @@ namespace _15TeamProject
                     EquipUI();
                     break;
 
+                case 2:
+                    ConsumUI();
+                    break;
+
             }
 
         }
 
         public void EquipUI() // 장비 장착 관리
         {
-            //if(invenEquip == null)
-            //{
-            //    invenEquip = inventory.Where(item => inventory.Itemtypes <2).Tolist
-            //}
+            if (invenEquip.Count == 0)
+            {
+    
+                   invenEquip = inventory.Where(item => item.ItemTypes < 2).ToList();
+ 
+            }
 
             Console.Clear();
             Console.WriteLine("인벤토리 - 장착 관리");
@@ -72,16 +79,16 @@ namespace _15TeamProject
             Console.WriteLine("");
             Console.WriteLine("[아이템 목록]");
 
-            for (int i = 0; i < inventory.Count; i++)
+            for (int i = 0; i < invenEquip.Count; i++)
             {
-                ItemData item = inventory[i];
+                ItemData item = invenEquip[i];
                 bool IsEquipped = equipList.Contains(inventory[i]);
                 if (IsEquipped)
                 {
                     Console.BackgroundColor = ConsoleColor.Blue;
                 }
                 string EquipDisplay = IsEquipped ? "[E]" : "";
-                Console.WriteLine($"- {i + 1}. {EquipDisplay} {item.ItemNames}    |    {(item.ItemTypes == 0 ? "공격력" : "방어력")} + {item.ItemValue}    |    {item.ItemDesc}");
+                Console.WriteLine($"- {i+1} {EquipDisplay} {item.ItemNames}    |    {ItemDB.TypeText(item.ItemTypes)} + {item.ItemValue}    |    {item.ItemDesc}");
                 if (IsEquipped)
                 {
                     Console.ResetColor();
@@ -93,14 +100,14 @@ namespace _15TeamProject
             Console.WriteLine("원하시는 행동을 입력해주세요.");
             Console.Write(">>    ");
 
-            int input = Input.GetInt(0, inventory.Count);
+            int input = Input.GetInt(0, invenEquip.Count);
 
             if (input == 0) InventoryUI(); // 0번 누르면 인벤토리로 이동
 
 
-            else if (input >= 1 && input <= inventory.Count) // 장비를 선택한 경우
+            else if (input >= 1 && input <= invenEquip.Count) // 장비를 선택한 경우
             {
-                ItemData item = inventory[input - 1];
+                ItemData item = invenEquip[input - 1];
 
                 if (equipList.Contains(item)) // 이미 장착한 장비를 선택했을 때
                 {
@@ -192,7 +199,7 @@ namespace _15TeamProject
 
         }
 
-        public void ConsumUI() // 장비 장착 관리
+        public void ConsumUI() // 소비 아이템 관리
         {
 
             Console.Clear();
@@ -200,21 +207,16 @@ namespace _15TeamProject
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.");
             Console.WriteLine("");
             Console.WriteLine("[소비 아이템 목록]");
-
-            for (int i = 0; i < inventory.Count; i++)
+            if (invenCons.Count == 0)
             {
-                ItemData item = inventory[i];
-                bool IsEquipped = equipList.Contains(inventory[i]);
-                if (IsEquipped)
-                {
-                    Console.BackgroundColor = ConsoleColor.Blue;
-                }
-                string EquipDisplay = IsEquipped ? "[E]" : "";
-                Console.WriteLine($"- {i + 1}. {EquipDisplay} {item.ItemNames}    |    {(item.ItemTypes == 0 ? "공격력" : "방어력")} + {item.ItemValue}    |    {item.ItemDesc}");
-                if (IsEquipped)
-                {
-                    Console.ResetColor();
-                }
+                invenCons = inventory.Where(item => item.ItemTypes >= 10).ToList();
+            }
+            for (int i = 0; i < invenCons.Count; i++)
+            {
+                ItemData item = invenCons[i];
+                
+                Console.WriteLine($"- {i + 1}. {item.ItemNames}    |    {ItemDB.TypeText(item.ItemTypes)} + {item.ItemValue}    |    {item.ItemDesc}");
+                
             }
             Console.WriteLine("");
             Console.WriteLine("0. 나가기");
@@ -222,9 +224,22 @@ namespace _15TeamProject
             Console.WriteLine("원하시는 행동을 입력해주세요.");
             Console.Write(">>    ");
 
-            int input = Input.GetInt(0, inventory.Count);
+            int input = Input.GetInt(0, invenCons.Count);
 
             if (input == 0) InventoryUI(); // 0번 누르면 인벤토리로 이동
+            else
+            {
+                input = input - 1;
+                if( invenCons[input].ItemTypes == 11)
+                {
+                    Player.Instance.exp += invenCons[input].ItemValue;
+                    inventory.Remove(invenCons[input]);
+                    invenCons.Remove(invenCons[input]);
+                    Console.WriteLine($"{ItemDB.TypeText(invenCons[input].ItemTypes)}를 {invenCons[input].ItemValue}획득했습니다.  (Enter키 입력 시 진행)");
+                    Console.ReadLine();
+                    ConsumUI();
+                }
+            }
         }
     }
 }

@@ -11,7 +11,7 @@ namespace _15TeamProject
     {
 
         public static List<ItemData> Shop1hasItem = new List<ItemData> { };
-        public static List<int> Shop1ItemCount = new List<int>() { }; // shop1 이 가지고 있는 아이템 수량
+        
 
 
         public void ShopMainUI()
@@ -61,12 +61,12 @@ namespace _15TeamProject
             Console.WriteLine($"{Player.Instance.gold} G");
             Console.WriteLine("");
             Console.WriteLine("[아이템 목록]");
-            if (Shop1hasItem.Count == 0) AddItem.Shop1(0, 1, 2, 10, 11, 12, 12,12,12);
+            if (Shop1hasItem.Count == 0) AddItem.Shop1(0, 1, 2, 10, 11, 12, 12,12,12, 200, 200, 200);
 
             for (int i = 0; i < Shop1hasItem.Count; i++)
             {
                 ItemData item = Shop1hasItem[i];
-                if (Shop1ItemCount[i] == 0)
+                if (Shop1hasItem[i].ItemCount == 0)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkGray;
                     Console.WriteLine($"- {item.ItemNames}    |    {ItemDB.TypeText(Shop1hasItem[i].ItemTypes)} + {item.ItemValue}    |    {item.ItemDesc}    |    구매완료");
@@ -108,7 +108,7 @@ namespace _15TeamProject
             for (int i = 0; i < Shop1hasItem.Count; i++)
             {
                 ItemData item = Shop1hasItem[i];
-                if (Shop1ItemCount[i] == 0)
+                if (Shop1hasItem[i].ItemCount == 0)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkGray;
                     Console.WriteLine($"- {i + 1}. {item.ItemNames}    |    {ItemDB.TypeText(Shop1hasItem[i].ItemTypes)} + {item.ItemValue}    |    {item.ItemDesc}    |    구매완료");
@@ -134,7 +134,8 @@ namespace _15TeamProject
             {
                 input -= 1;
                 ItemData item = Shop1hasItem[input];
-                if (Shop1ItemCount[input] >= 1)
+
+                if (Shop1hasItem[input].ItemCount >= 1)
                 {
                     if (Player.Instance.gold >= item.ItemBuyPrice)  // 구매할 돈이 있을 때
                     {
@@ -142,7 +143,7 @@ namespace _15TeamProject
 
                         int index = ItemDB.ItemList.IndexOf(item);
                         Inventory.inventory.Add(Shop1hasItem[input]);
-                        Shop1ItemCount[input] -= 1;
+                        Shop1hasItem[input].ItemCount -= 1;
                         Player.Instance.gold -= item.ItemBuyPrice;
                         if (item.ItemTypes == 10)
                         {
@@ -162,7 +163,9 @@ namespace _15TeamProject
                 }
                 else
                 {
-                    Console.WriteLine("이미 구매한 아이템입니다.");
+                    Console.WriteLine("이미 구매한 아이템입니다. (Enter키 입력 시 진행)");
+                    Console.ReadLine();
+                    ShopBuyUI();
                 }
             }
         }
@@ -186,7 +189,7 @@ namespace _15TeamProject
                     Console.BackgroundColor = ConsoleColor.Blue;
                 }
                 string EquipDisplay = IsEquipped ? "[E]" : "";
-                Console.WriteLine($"- {i + 1}. {EquipDisplay} {item.ItemNames}    |    {(item.ItemTypes == 0 ? "공격력" : "방어력")} + {item.ItemValue}    |    {item.ItemDesc}");
+                Console.WriteLine($"- {i + 1}. {EquipDisplay} {item.ItemNames}    |    {(item.ItemTypes == 0 ? "공격력" : "방어력")} + {item.ItemValue}    |    {item.ItemDesc}    |    {item.ItemSellPrice} G");
                 if (IsEquipped)
                 {
                     Console.ResetColor();

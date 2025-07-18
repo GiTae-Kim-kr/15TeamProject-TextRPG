@@ -17,6 +17,7 @@ namespace _15TeamProject
         public int ItemSellPrice;
         private static int firstUID = 0;
         public int UID{get; private set;}
+        public int ItemCount;
 
         public ItemData(int ItemID, string ItemName, int ItemType, int ItemValue, string ItemDesc, int ItemBuyPrice, int ItemSellPrice)
         {
@@ -28,6 +29,7 @@ namespace _15TeamProject
             this.ItemBuyPrice = ItemBuyPrice;
             this.ItemSellPrice = ItemSellPrice;
             this.UID = firstUID++;
+            this.ItemCount = 1;
         }
     }
 
@@ -87,7 +89,6 @@ namespace _15TeamProject
                     Shop.Shop1hasItem.Add(newitem);
                 }
 
-                Shop.Shop1ItemCount.Add(1);
             }
         }
     }
