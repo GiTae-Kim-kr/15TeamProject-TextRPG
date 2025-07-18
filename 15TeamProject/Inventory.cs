@@ -234,9 +234,10 @@ namespace _15TeamProject
                 if( invenCons[input].ItemTypes == 11)
                 {
                     Player.Instance.exp += invenCons[input].ItemValue;
+                    
+                    Console.WriteLine($"{ItemDB.TypeText(invenCons[input].ItemTypes)}를 {invenCons[input].ItemValue}획득했습니다.  (Enter키 입력 시 진행)");
                     inventory.Remove(invenCons[input]);
                     invenCons.Remove(invenCons[input]);
-                    Console.WriteLine($"{ItemDB.TypeText(invenCons[input].ItemTypes)}를 {invenCons[input].ItemValue}획득했습니다.  (Enter키 입력 시 진행)");
                     Console.ReadLine();
                     ConsumUI();
                 }
@@ -267,8 +268,28 @@ namespace _15TeamProject
                     
                     
                 }
+                else if (invenCons[input].ItemTypes == 12)
+                {
+                    Player.Instance.atk += invenCons[input].ItemValue;
+                    
+                    Console.WriteLine($"{ItemDB.TypeText(invenCons[input].ItemTypes)}을 {invenCons[input].ItemValue}만큼 획득했습니다.  (Enter키 입력 시 진행)");
+                    inventory.Remove(invenCons[input]);
+                    invenCons.Remove(invenCons[input]);
+                    Console.ReadLine();
+                    ConsumUI();
+                }
+                else if (invenCons[input].ItemTypes == 13)
+                {
+                    Player.Instance.def += invenCons[input].ItemValue;
+                    
+                    Console.WriteLine($"{ItemDB.TypeText(invenCons[input].ItemTypes)}을 {invenCons[input].ItemValue}만큼 획득했습니다.  (Enter키 입력 시 진행)");
+                    inventory.Remove(invenCons[input]);
+                    invenCons.Remove(invenCons[input]);
+                    Console.ReadLine();
+                    ConsumUI();
+                }
 
-                
+
             }
         }
 
