@@ -27,11 +27,24 @@ public class MonsterData
 // 몬스터 종류 MonsterDB.monsterList[숫자]로 접근
 public static class MonsterDB
 {
+    // 몬스터 난이도는 몬스터 추가 시 스탯 참고 용입니다.
+    // 레벨 1 ~ 5 사이, 스탯값은 레벨*7 정도 
     public static List<MonsterData> monsterList = new List<MonsterData>()
     {
-        new MonsterData(2, "미니언", 15, 5),
-        new MonsterData(3, "공허충", 10, 9),
-        new MonsterData(5, "대포미니언", 25, 8)
+        // 초급 몬스터: 레벨 1 ~ 3
+        new MonsterData(1, "나약한 개발자", 5, 2),
+        new MonsterData(1, "연습용 허수아비", 5, 2),
+        new MonsterData(2, "코드덩어리", 15, 4),
+        new MonsterData(2, "공허충", 10, 7),
+        new MonsterData(3, "도망친 노예", 15, 5),
+        new MonsterData(3, "미니언", 15, 5),
+
+        // 중급 몬스터: 레벨 4 ~ 5
+        new MonsterData(4, "딸기괴인", 20, 9),
+        new MonsterData(4, "노상강도", 20, 8),
+        new MonsterData(5, "대포미니언", 25, 10),
+        new MonsterData(5, "꼬인 코드덩어리", 30, 5)
+
     };
 }
 
