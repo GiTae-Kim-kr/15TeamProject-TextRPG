@@ -1,4 +1,7 @@
-﻿internal static class Input
+﻿using _15TeamProject;
+using System.IO;
+
+internal static class Input
 {
     // 사용 예시) int choice = Input.GetInt(); 와 같이 사용
     public static int GetInt()
@@ -8,6 +11,8 @@
         while (true)
         {
             string? input = Console.ReadLine();
+            // 입력 소리 효과 추가
+            AudioManager.Instance.PlaySoundEffect("click.mp3", 0.3f, 0.2f);
 
             if (int.TryParse(input, out num))
             {

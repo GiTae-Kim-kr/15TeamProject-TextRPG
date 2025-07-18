@@ -24,6 +24,7 @@ namespace _15TeamProject
             SaveLoadScene saveloadScene = SaveLoadScene.Instance;
 
             Console.Clear();
+            AudioManager.Instance.PlayBgm("mainBackground.mp3", 0.07f);
             Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
             Console.WriteLine("이제 전투를 시작할 수 있습니다.\n");
             Console.WriteLine("1. 상태보기");
@@ -42,31 +43,39 @@ namespace _15TeamProject
                 case 1:
                     statusScene.StatusViewScene();
                     break;
-                case 2:                   
+                case 2:
+                    AudioManager.Instance.StopBgm();
                     inventory.InventoryUI();
                     break;
                 case 3:
+                    AudioManager.Instance.StopBgm();
                     // 몬스터 랜덤으로 생성해서 monsterInfo에 저장.
                     battleScene.RandomMonster();
                     pastPlayerHP = Player.Instance.hp; // 현재 플레이어의 HP를 pastPlayerHP에 저장
                     pastPlayerMP = Player.Instance.mp; // 현재 플레이어의 MP를 pastPlayerMP에 저장
                     pastPlayerExp = Player.Instance.exp; // 현재 플레이어의 exp를 pastPlayerExp에 저장
                     // battleScene의 전투 시작화면으로 이동.
-                    battleScene.Run();
+                    if (Player.Instance.hp > 0)
+                        battleScene.Run();
+                    else if (Player.Instance.hp == 0) Console.WriteLine("플레이어의 HP가 0입니다. 전투를 시작할 수 없습니다!");
                     break;
                 case 4:
+                    AudioManager.Instance.StopBgm();
                     shop.ShopMainUI();
                     break;
                 case 5:
                     Console.Clear();
+                    AudioManager.Instance.StopBgm();
                     questList.QuestScene();
                     break;
                 case 6:
                     Console.Clear();
+                    AudioManager.Instance.StopBgm();
                     // 회복 아이템 사용 화면으로 이동
                     hpPotion.ViewPotionInfo();
                     break;
                 case 7:
+                    AudioManager.Instance.StopBgm();
                     Console.Clear();
                     Pub.PubMainUI();
                     break;

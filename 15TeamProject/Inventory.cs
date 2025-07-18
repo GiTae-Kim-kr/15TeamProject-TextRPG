@@ -109,7 +109,8 @@ namespace _15TeamProject
             else if (input >= 1 && input <= invenEquip.Count) // 장비를 선택한 경우
             {
                 ItemData item = invenEquip[input - 1];
-
+                // 장비 아이템 장착/해제 소리
+                AudioManager.Instance.PlaySoundEffect("itemEquip.mp3", 0.7f); 
                 if (equipList.Contains(item)) // 이미 장착한 장비를 선택했을 때
                 {
                     if (item.ItemTypes == 0)// 장착한 무기 해제

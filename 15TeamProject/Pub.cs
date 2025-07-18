@@ -21,6 +21,8 @@ namespace _15TeamProject
         public static void PubMainUI() 
         {
             Console.Clear();
+            // 배경 음악 재생
+            AudioManager.Instance.PlayBgm("cazinoBackground.mp3", 0.07f);
             Console.WriteLine("펍 안쪽");
             Console.WriteLine("자~ 돈 놓고 돈 먹기~~");
             Console.WriteLine("");
@@ -115,6 +117,7 @@ namespace _15TeamProject
                     PubMainUI(); ;
                     break;
                 case 0:
+                    AudioManager.Instance.StopBgm();     // 배경 음악 종료
                     StartScene.Instance.GameStartScene();
                     break;
             }

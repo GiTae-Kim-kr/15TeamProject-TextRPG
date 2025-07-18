@@ -150,6 +150,7 @@ namespace _15TeamProject
                             Player.Instance.potionCount++;
                             Inventory.inventory.Remove(Shop1hasItem[input]);
                         }
+                        AudioManager.Instance.PlaySoundEffect("buyItem.mp3", 0.3f, 0.0f, 1.4f);
                         Console.WriteLine("구매를 완료하였습니다. (Enter키 입력 시 진행)");
                         Console.ReadLine();
                         ShopBuyUI();
