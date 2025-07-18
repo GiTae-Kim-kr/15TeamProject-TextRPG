@@ -32,6 +32,7 @@ namespace _15TeamProject
             Console.WriteLine("4. 상점");
             Console.WriteLine("5. 퀘스트 목록");
             Console.WriteLine("6. 회복 아이템");
+            Console.WriteLine("7. 펍 안쪽");
             Console.WriteLine("\n9. 저장하기");
             Console.WriteLine();
             Console.Write("원하시는 행동을 입력해주세요. \n>>");
@@ -65,6 +66,10 @@ namespace _15TeamProject
                     // 회복 아이템 사용 화면으로 이동
                     hpPotion.ViewPotionInfo();
                     break;
+                 case 7:
+                    Console.Clear();
+                    Pub.PubMainUI();
+
                 case 9:
                     saveloadScene.SaveScene(); // 게임 저장 화면으로 이동
                     break;
