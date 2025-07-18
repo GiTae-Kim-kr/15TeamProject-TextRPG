@@ -29,8 +29,9 @@ namespace _15TeamProject
             Console.Write("마나");
             Console.ResetColor();
             Console.WriteLine("포션");
+            Console.WriteLine("0. 나가기");
             Console.WriteLine();
-            Console.Write("사용할 포션 : ");
+            Console.Write("원하시는 행동을 입력해주세요 : ");
             string input = Console.ReadLine();
             if (int.TryParse(input, out int num))
             {
@@ -105,8 +106,9 @@ namespace _15TeamProject
                 Console.Clear();
                 Console.WriteLine("숫자를 입력해주세요.");
                 Console.WriteLine("");
-                UsePotion();
+                
             }
+            
         }
         
         public void ViewPotionInfo()
