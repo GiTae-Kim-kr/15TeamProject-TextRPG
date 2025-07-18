@@ -99,7 +99,7 @@ namespace _15TeamProject
                     }
                     else if (input == "N")
                     {
-                        Console.WriteLine("\n저장하지 않고 진행합니다.");
+                        Console.WriteLine("\n게임을 불러오지 않고 새로 진행합니다.");
                         Console.WriteLine("\n계속하려면 아무 키나 누르세오...\n");
                         Console.ReadKey();
                         return;
