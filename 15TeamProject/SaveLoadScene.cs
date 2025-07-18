@@ -11,6 +11,8 @@ namespace _15TeamProject
         SaveLoad saveLoad = new SaveLoad();
         Player player = Player.Instance;
         Inventory inventory = Inventory.Instance;
+        StartScene startScene = StartScene.Instance;
+
         public void SaveScene()
         {
             Console.WriteLine("지금까지 진행한 내용을 저장하시겠습니까? (Y/N)");
@@ -21,7 +23,7 @@ namespace _15TeamProject
                 string input = Console.ReadLine().ToUpper();
                 if (input == "Y")
                 {
-                    saveLoad.SaveGame(player, inventory);
+                    saveLoad.SaveGame(player, inventory, startScene.dungeonLevel, Pub.firsttime );
                     Console.WriteLine("계속하려면 아무 키나 누르세오...");
                     Console.ReadKey();
                     StartScene.Instance.GameStartScene(); // 시작 화면으로 이동
@@ -90,6 +92,14 @@ namespace _15TeamProject
                         QuestDB.questList = load.questListData.Select(q => q).ToList();    // 퀘스트 리스트 정보 불러오기
                         // 상점 정보 불러오기
                         Shop.Shop1hasItem = load.shopItemData.Select(item => item).ToList(); // 상점 아이템 데이터 불러오기
+
+                        //던전 레벨 정보 불러오기
+                        StartScene.Instance.dungeonLevel = load.dungeonLevel;
+
+                        // 펍 정보 불러오기
+                        Pub.Tokenbox = load.tokenBox.Select(item => item).ToList(); // 토큰박스 아이템 데이터 불러오기
+                        Pub.NorTokenbox = load.norTokenbox.Select(item => item).ToList(); // 노말 토큰박스 아이템 데이터 불러오기
+                        Pub.PreTokenbox = load.preTokenbox.Select(item => item).ToList(); // 프리미엄 토큰박스 아이템 데이터 불러오기
 
                         Console.WriteLine("\n게임이 성공적으로 불러와졌습니다!");
                         Console.WriteLine("\n시작 화면으로 이동합니다!");

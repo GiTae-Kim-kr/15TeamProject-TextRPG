@@ -11,8 +11,12 @@ namespace _15TeamProject
         public static List<ItemData> NorTokenbox = new List<ItemData>();
         public static List<ItemData> PreTokenbox = new List<ItemData>();
         static Random dicerandom = new Random();
-        static int firsttime = 0;
+        public static int firsttime { get; set; }
 
+        public Pub()
+        {
+            firsttime = 0;
+        }
         
         public static void PubMainUI() 
         {

@@ -22,8 +22,12 @@ namespace _15TeamProject
         public int? equippedArmorUid { get; set; }              // 방어구 슬롯 장착 UID
         public List<Quest> questListData { get; set; }    // 실제 퀘스트 데이터 저장된곳
         public List<ItemData> shopItemData { get; set; }   // 상점 아이템 데이터 저장용
-
-        public void SaveGame(Player player, Inventory inventory)
+        public int dungeonLevel { get; set; }
+        public List<ItemData> tokenBox { get; set; }   // 토큰박스 아이템 데이터 저장용
+        public List<ItemData> norTokenbox { get; set; }  // 노말 토큰박스 아이템
+        public List<ItemData> preTokenbox { get; set; }  // 프리미엄 토큰박스 아이템
+        public int firsttime { get; set; }
+        public void SaveGame(Player player, Inventory inventory, int dungeonLevel, int firsttime)
         {
             
             List<ItemData> currentInventory = Inventory.inventory.ToList();   // 인벤토리 아이템 리스트 복사
@@ -32,6 +36,11 @@ namespace _15TeamProject
             int? equippedArmorUid = Inventory.equipmentArmor[0]?.UID; // 방어구 슬롯 장착 UID
             List<Quest> questListCopy = QuestDB.questList.ToList(); // 퀘스트 리스트 복사
             List<ItemData> shopItemData = Shop.Shop1hasItem.ToList(); // 상점 아이템 데이터 복사
+            List<ItemData> tokenBox = Pub.Tokenbox.ToList(); // 토큰박스 아이템 데이터 복사
+            List<ItemData> norTokenBox = Pub.NorTokenbox.ToList(); // 노말 토큰박스 아이템 데이터 복사
+            List<ItemData> preTokenBox = Pub.PreTokenbox.ToList(); // 프리미엄 토큰박스 아이템 데이터 복사
+
+
 
             SaveLoad save = new SaveLoad
             {
@@ -42,6 +51,12 @@ namespace _15TeamProject
                 equippedArmorUid = equippedArmorUid,
                 questListData = questListCopy,
                 shopItemData = shopItemData,
+                dungeonLevel = dungeonLevel,
+                firsttime = firsttime,
+                tokenBox = tokenBox,
+                norTokenbox = norTokenBox,
+                preTokenbox = preTokenBox,
+
             };
 
             string json = JsonConvert.SerializeObject(save, Newtonsoft.Json.Formatting.Indented);
