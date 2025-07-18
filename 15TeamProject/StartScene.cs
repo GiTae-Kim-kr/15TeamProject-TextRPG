@@ -66,9 +66,10 @@ namespace _15TeamProject
                     // 회복 아이템 사용 화면으로 이동
                     hpPotion.ViewPotionInfo();
                     break;
-                 case 7:
+                case 7:
                     Console.Clear();
                     Pub.PubMainUI();
+                    break;
 
                 case 9:
                     saveloadScene.SaveScene(); // 게임 저장 화면으로 이동
