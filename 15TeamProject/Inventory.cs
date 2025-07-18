@@ -34,7 +34,7 @@ namespace _15TeamProject
                     Console.BackgroundColor = ConsoleColor.Blue;
                 }
                 string EquipDisplay = IsEquipped ? "[E]" : "";
-                Console.WriteLine($"- {i + 1}. {EquipDisplay} {item.ItemNames}    |    {ItemDB.TypeText(item.ItemTypes)} + {item.ItemValue}    |    {item.ItemDesc} {item.UID}");
+                Console.WriteLine($"- {EquipDisplay} {item.ItemNames}    |    {ItemDB.TypeText(item.ItemTypes)} + {item.ItemValue}    |    {item.ItemDesc}");
                 if (IsEquipped)
                 {
                     Console.ResetColor();
@@ -88,7 +88,7 @@ namespace _15TeamProject
                     Console.BackgroundColor = ConsoleColor.Blue;
                 }
                 string EquipDisplay = IsEquipped ? "[E]" : "";
-                Console.WriteLine($"- {i+1} {EquipDisplay} {item.ItemNames}    |    {ItemDB.TypeText(item.ItemTypes)} + {item.ItemValue}    |    {item.ItemDesc}");
+                Console.WriteLine($"- {i+1}. {EquipDisplay} {item.ItemNames}    |    {ItemDB.TypeText(item.ItemTypes)} + {item.ItemValue}    |    {item.ItemDesc}");
                 if (IsEquipped)
                 {
                     Console.ResetColor();
@@ -102,6 +102,7 @@ namespace _15TeamProject
 
             int input = Input.GetInt(0, invenEquip.Count);
 
+            
             if (input == 0) InventoryUI(); // 0번 누르면 인벤토리로 이동
 
 
@@ -239,6 +240,35 @@ namespace _15TeamProject
                     Console.ReadLine();
                     ConsumUI();
                 }
+                else if (invenCons[input].ItemTypes == 20)
+                {
+
+                    if(invenCons[input].ItemIDs == 51)
+                    {
+                        if(AddItem.ChanceBox(13, 1)) Console.WriteLine("1% 확률로 [무형검]을 획득하였습니다.");
+                        else Console.WriteLine("아무일도 일어나지 않았습니다.");
+                        inventory.Remove(invenCons[input]);
+                        invenCons.Remove(invenCons[input]);
+                        Console.ReadLine();
+                        ConsumUI();
+                    }
+                    
+                    
+                    if (invenCons[input].ItemIDs == 52)
+
+                    {
+                        if (AddItem.ChanceBox(13, 50)) Console.WriteLine("50% 확률로 [무형검]을 획득하였습니다.");
+                        else Console.WriteLine("아무일도 일어나지 않았습니다.");
+                        inventory.Remove(invenCons[input]);
+                        invenCons.Remove(invenCons[input]);
+                        Console.ReadLine();
+                        ConsumUI();
+                    }
+                    
+                    
+                }
+
+                
             }
         }
 
