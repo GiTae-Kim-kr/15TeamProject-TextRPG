@@ -291,6 +291,7 @@ namespace _15TeamProject
                 case 2:
                     if (Shop1MPCount > 0)
                     {
+                        Player.Instance.mpPotionCount++;
                         Shop1MPCount--;
                         Player.Instance.gold -= 500;
                         Console.WriteLine("마나 포션 획득(Enter키 입력 시 진행)");

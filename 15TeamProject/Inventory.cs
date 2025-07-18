@@ -66,12 +66,7 @@ namespace _15TeamProject
 
         public void EquipUI() // 장비 장착 관리
         {
-            if (invenEquip.Count == 0)
-            {
-    
-                   invenEquip = inventory.Where(item => item.ItemTypes < 2).ToList();
- 
-            }
+            invenEquip = inventory.Where(item => item.ItemTypes < 2).ToList();
 
             Console.Clear();
             Console.WriteLine("인벤토리 - 장착 관리");
@@ -209,10 +204,7 @@ namespace _15TeamProject
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.");
             Console.WriteLine("");
             Console.WriteLine("[소비 아이템 목록]");
-            if (invenCons.Count == 0)
-            {
-                invenCons = inventory.Where(item => item.ItemTypes >= 10).ToList();
-            }
+            invenCons = inventory.Where(item => item.ItemTypes >= 10).ToList();
             for (int i = 0; i < invenCons.Count; i++)
             {
                 ItemData item = invenCons[i];
