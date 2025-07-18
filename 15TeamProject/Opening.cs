@@ -17,6 +17,8 @@ namespace _15TeamProject
 
             // 시작 문구 출력
             Console.WriteLine("TXT RPG에 오신 여러분 환영합니다.");
+
+            // 게임 파일 로드 확인
             saveloadScene.LoadScene();
             Console.WriteLine("원하시는 이름을 설정해주세요.");
             Console.Write(">>");
@@ -48,7 +50,7 @@ namespace _15TeamProject
 
             // 직업 목록 출력 예정
             Console.WriteLine("1. 전사");
-            Console.WriteLine("방어력(구현 안됨)과 기본 체력이 높습니다,");
+            Console.WriteLine("방어력과 기본 체력이 높습니다,");
             Console.WriteLine("2. 검사");
             Console.WriteLine("상대적으로 낮은 체력에 높은 공격력을 가집니다.");
             Console.WriteLine("3. 거지");
