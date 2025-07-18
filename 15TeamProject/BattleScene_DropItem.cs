@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 partial class BattleScene
@@ -12,6 +13,7 @@ partial class BattleScene
         Random random = new Random();
         int dromHPPotion = random.Next(0, 100);
         int dromMPPotion = random.Next(0, 100);
+        
         if (dromHPPotion < 15)
         {
             droppedHPPotion++;
@@ -31,10 +33,20 @@ partial class BattleScene
         droppedHPPotion = 0;
         droppedMPPotion = 0;
     }
-    public void DroppedItems()
+    public void DroppedItems(string name)
     {
-        
-        
+        if (name=="미니언")
+        {
+
+        }
+        else if (name=="공허충")
+        {
+
+        }
+        else if(name=="대포미니언")
+        {
+
+        }
     }
     public void GetItems()
     {
