@@ -11,6 +11,7 @@ partial class BattleScene
     private int beforeHp;
     private int droppedHPPotion;
     private int droppedMPPotion;
+    private int droppedGold;
     private int afterExp;     // 몬스터 처치하면 얻는 경험치 총 합.
     public void Run()
     {
@@ -37,8 +38,8 @@ partial class BattleScene
         }
         Console.WriteLine("\n\n[내정보]");
         Console.WriteLine($"Lv.{player.level}  {player.name} ({player.job})");
-        Console.WriteLine($"HP : {player.hp}/100");
-        Console.WriteLine($"MP : {player.mp}/50\n");    // 한 칸 띄움
+        Console.WriteLine($"HP : {player.hp}/{player.maxHp}");
+        Console.WriteLine($"MP : {player.mp}/{player.maxMp}\n");    // 한 칸 띄움
         Console.WriteLine("1. 공격");
         Console.WriteLine("2. 스킬 사용");
         Console.WriteLine("3. 포션 사용\n");
@@ -107,8 +108,8 @@ partial class BattleScene
         }
         Console.WriteLine("\n\n[내정보]");
         Console.WriteLine($"Lv.{player.level}  {player.name} ({player.job})");
-        Console.WriteLine($"HP : {player.hp}/100");
-        Console.WriteLine($"MP : {player.mp}/50\n");    // 한 칸 띄움
+        Console.WriteLine($"HP : {player.hp}/{player.maxHp}");
+        Console.WriteLine($"MP : {player.mp}/{player.maxMp}\n");    // 한 칸 띄움
         Console.WriteLine("0. 취소\n");
         Console.Write("대상을 선택해주세요. \n>>");
         
@@ -185,7 +186,7 @@ partial class BattleScene
 
             // 적 hp에 데미지 적용
             monster.hp -= damage;
-        }                 
+        }
 
         // 적 사망 확인
         if (monster.hp <= 0)
@@ -194,6 +195,7 @@ partial class BattleScene
             monster.hp = 0;    // 체력이 0이 되면 죽은 상태로 변경
             QuestConditioning.Instance.OnMonsterKilled(monster);   // 몬스터 처치 퀘스트
             afterExp += monster.exp;              // 처치된 몬스터 경험치 획득
+            droppedGold += monster.gold;            
             DroppedPotion(); 
         }
 
@@ -230,11 +232,17 @@ partial class BattleScene
 
                 // 적 공격 메시지 출력
                 Console.WriteLine($"Lv.{monster.level} {monster.name} 의 공격!");
-                Console.WriteLine($"{player.name} 을(를) 맞췄습니다. [데미지 : {monster.atk}]\n");
+
+                // 공격 데미지 계산
+                int damage = Math.Max( (int)( monster.atk * (1 - ( (float)player.def / 100)) ), 0 );   // 최소 데미지 0
+                if (damage > 0)
+                    Console.WriteLine($"{player.name} 을(를) 맞췄습니다. [데미지 : {damage}]\n");
+                else
+                    Console.WriteLine($"{player.name} 이(가) 공격을 막았습니다.");
 
                 // 플레이어 남은 체력 계산
                 beforeHp = player.hp;
-                player.hp -= monster.atk;
+                player.hp -= damage;
                 if (player.hp <= 0) player.hp = 0;  // 체력이 0 이하면 0으로 리셋                              
 
                 // 플레이어 남은 체력 출력
@@ -277,13 +285,18 @@ partial class BattleScene
         Console.WriteLine("Battle!! - Result\n");
         Console.ResetColor();
         Console.WriteLine("Victory\n");
-        Console.WriteLine($"던전에서 몬스터 {monsterInfo.Length}마리를 잡았습니다.\n");  // 몇 마리인지 표시하는 코드 추가 필요 => 어차피 생성된 모든 몬스터 잡아야 승리니까
+        Console.WriteLine($"던전에서 몬스터 {monsterInfo.Length}마리를 잡았습니다.");  // 몇 마리인지 표시하는 코드 추가 필요 => 어차피 생성된 모든 몬스터 잡아야 승리니까
         GetPotion();
+        GetItems();        
+        Console.WriteLine($"MP를 10 회복합니다.\n");    // mp 회복 
+        player.mp += 10;
+        if (player.mp >= player.maxMp) player.mp = player.maxMp;
         Console.WriteLine("\n[캐릭터 정보]\n");
         Console.Write($"Lv.{player.level}  {player.name} ({player.job})");
         QuestList.Instance.LevelUp(out isLevelUp);
         if (isLevelUp) Console.WriteLine($" -> Lv.{player.level}  {player.name} ({player.job})");
         else Console.WriteLine();
+        
         Console.WriteLine($"HP {StartScene.Instance.pastPlayerHP} -> {player.hp}");  // 플레이어의 체력 표시 코드 추가 필요/ 아마 추가적인 hp 필드가 필요할 수도?
         Console.WriteLine($"MP {StartScene.Instance.pastPlayerMP} -> {player.mp}");
         Console.WriteLine($"Exp {StartScene.Instance.pastPlayerExp} -> {StartScene.Instance.pastPlayerExp + afterExp}\n");
@@ -303,6 +316,7 @@ partial class BattleScene
         Console.WriteLine("You Lose\n");
         Console.WriteLine($"Lv.{player.level}  {player.name} ({player.job})");
         Console.WriteLine($"HP {beforeHp} -> 0 \n");  // 플레이어의 체력 표시 코드 추가 필요/ 아마 추가적인 hp 필드가 필요할 수도?
+        Console.WriteLine($"전투에서 획득한 경험치를 모두 잃었습니다..\n");
         Console.WriteLine("전투에서 패배했습니다... \n(Enter키 입력 시 진행)");
         Console.ReadLine();
 

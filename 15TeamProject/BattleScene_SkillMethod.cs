@@ -33,8 +33,8 @@ partial class BattleScene
         }
         Console.WriteLine("\n\n[내정보]");
         Console.WriteLine($"Lv.{player.level}  {player.name} ({player.job})");
-        Console.WriteLine($"HP : {player.hp}/100");
-        Console.WriteLine($"MP : {player.mp}/50\n");
+        Console.WriteLine($"HP : {player.hp}/{player.maxHp}");
+        Console.WriteLine($"MP : {player.mp}/{player.maxMp}\n");
 
         // 스킬 목록 출력
         int i = 0;
@@ -187,6 +187,7 @@ partial class BattleScene
                 monster.hp = 0;    // 체력이 0이 되면 죽은 상태로 변경
                 QuestConditioning.Instance.OnMonsterKilled(monster);   // 미니언 퀘스트
                 afterExp += monster.exp;              // 처치된 몬스터 경험치 획득
+                droppedGold += monster.gold;
                 DroppedPotion();
             }
 
