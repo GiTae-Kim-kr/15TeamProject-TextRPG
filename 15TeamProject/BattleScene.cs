@@ -38,8 +38,8 @@ partial class BattleScene
         }
         Console.WriteLine("\n\n[내정보]");
         Console.WriteLine($"Lv.{player.level}  {player.name} ({player.job})");
-        Console.WriteLine($"HP : {player.hp} / {player.maxHp}");
-        Console.WriteLine($"MP : {player.mp} / {player.maxMp}\n");    // 한 칸 띄움
+        Console.WriteLine($"HP : {player.hp}/{player.maxHp}");
+        Console.WriteLine($"MP : {player.mp}/{player.maxMp}\n");    // 한 칸 띄움
         Console.WriteLine("1. 공격");
         Console.WriteLine("2. 스킬 사용");
         Console.WriteLine("3. 포션 사용\n");
@@ -108,8 +108,8 @@ partial class BattleScene
         }
         Console.WriteLine("\n\n[내정보]");
         Console.WriteLine($"Lv.{player.level}  {player.name} ({player.job})");
-        Console.WriteLine($"HP : {player.hp} / {player.maxHp}");
-        Console.WriteLine($"MP : {player.mp} / {player.maxMp}\n");    // 한 칸 띄움
+        Console.WriteLine($"HP : {player.hp}/{player.maxHp}");
+        Console.WriteLine($"MP : {player.mp}/{player.maxMp}\n");    // 한 칸 띄움
         Console.WriteLine("0. 취소\n");
         Console.Write("대상을 선택해주세요. \n>>");
         
