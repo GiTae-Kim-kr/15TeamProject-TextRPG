@@ -6,7 +6,7 @@ using System.Diagnostics;
 partial class BattleScene
 {
     Player player = Player.Instance;
-    private Monster[]? monsterInfo;       
+    private Monster[]? monsterInfo;
     
     private int beforeHp;
     private int droppedHPPotion;
@@ -233,11 +233,17 @@ partial class BattleScene
 
                 // 적 공격 메시지 출력
                 Console.WriteLine($"Lv.{monster.level} {monster.name} 의 공격!");
-                Console.WriteLine($"{player.name} 을(를) 맞췄습니다. [데미지 : {monster.atk}]\n");
+
+                // 공격 데미지 계산
+                int damage = Math.Max( (int)( monster.atk * (1 - ( (float)player.def / 100)) ), 0 );   // 최소 데미지 0
+                if (damage > 0)
+                    Console.WriteLine($"{player.name} 을(를) 맞췄습니다. [데미지 : {damage}]\n");
+                else
+                    Console.WriteLine($"{player.name} 이(가) 공격을 막았습니다.");
 
                 // 플레이어 남은 체력 계산
                 beforeHp = player.hp;
-                player.hp -= monster.atk;
+                player.hp -= damage;
                 if (player.hp <= 0) player.hp = 0;  // 체력이 0 이하면 0으로 리셋                              
 
                 // 플레이어 남은 체력 출력
@@ -298,6 +304,9 @@ partial class BattleScene
         Console.WriteLine("전투에서 승리했습니다! \n(Enter키 입력 시 진행)");
         Console.ReadLine();
 
+        // 던전 층 수 증가
+        StartScene.Instance.dungeonLevel++;
+
         StartScene.Instance.GameStartScene();  // 시작 화면으로 돌아가기
     }   
 
@@ -322,13 +331,31 @@ partial class BattleScene
     {
         Random random = new Random();
 
-        int monsterListIndex = MonsterDB.monsterList.Count; // 몬스터 리스트에 있는 몬스터 개수
-        int monsterNumber = random.Next(1, 5); // 1부터 4까지의 랜덤 숫자 생성
-        monsterInfo = new Monster[monsterNumber];    // 랜덤으로 뽑힌 몬스터 정보 저장 배열
+        // 몬스터DB 리스트에 있는 몬스터 개수
+        int monsterListIndex = MonsterDB.monsterList.Count;
+
+        // 몬스터의 수 설정 - 기본 1~4마리에서 최대 4~7마리 까지
+        int min = Math.Min( 1 + ( StartScene.Instance.dungeonLevel/5 ), 4 );    // 5층마다 설정값이 1마리씩 증가
+        int max = Math.Min( 4 + ( StartScene.Instance.dungeonLevel /5 ), 7 );
+
+        // 몬스터 범위 내에서 무작위 숫자 결정
+        int monsterNumber = random.Next(min, max + 1);
+
+        // 몬스터 수만큼 배열로 저장
+        monsterInfo = new Monster[monsterNumber];
+                
         for (int i = 0; i < monsterNumber; i++)
         {
-            int monsterIndex = random.Next(0,monsterListIndex); // 0부터 2까지의 랜덤 숫자 생성 -> 하드코딩했던거 수정했습니다.
+            // 몬스터DB에서 무작위 몬스터 가져오기
+            int monsterIndex = random.Next(0,monsterListIndex);                        
             Monster monster = new Monster(MonsterDB.monsterList[monsterIndex]);
+
+            // 몬스터의 래밸 보정 - 3층에서 처음, 5층 올라갈 때마다 래밸 +1, 공격력 +2, 체력 +5 씩 증가
+            int levelScailingValue = (StartScene.Instance.dungeonLevel + 2) / 5;
+            monster.data.level += 1 * levelScailingValue;
+            monster.data.atk += 2 * levelScailingValue;
+            monster.hp += 5 * levelScailingValue;
+
             monsterInfo[i] = monster;
             //Console.WriteLine($"몬스터 {i + 1}: {monsterInfo[i].data.name}");  //잘 저장됬는지 디버깅용
         }
