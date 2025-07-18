@@ -26,7 +26,7 @@ namespace _15TeamProject
                     bgmAudioFile?.Dispose();                                    // 이전 파일이 있다면 해제
                     bgmOutputDevice?.Dispose();                                 // 이전 출력 장치가 있다면 해제
 
-                    bgmAudioFile = new AudioFileReader($"D:\\C#\\TeamSparta\\15TeamProject\\15TeamProject\\GameSoundResources\\{path}");// 사운드파일 경로
+                    bgmAudioFile = new AudioFileReader($"GameSoundResources\\{path}");// 사운드파일 경로
                     bgmOutputDevice = new WaveOutEvent();                       // 새 출력 장치 생성
                     bgmOutputDevice.Init(bgmAudioFile);                        // 출력 장치에 오디오 파일 초기화   
                     bgmAudioFile.CurrentTime = TimeSpan.FromSeconds(3);        // 1초부터 시작
@@ -84,7 +84,7 @@ namespace _15TeamProject
 
             Task.Run(() =>    // 비동기적 실행 : 콘솔 실행이랑 사운드 실행 별개로 둘다 진행될 수 있게
             {
-                using (var audioFile = new AudioFileReader("D:\\C#\\TeamSparta\\15TeamProject\\15TeamProject\\GameSoundResources\\normalAttackSwordSound.mp3"))
+                using (var audioFile = new AudioFileReader("GameSoundResources\\normalAttackSwordSound.mp3"))
                 using (var outputDevice = new WaveOutEvent())
                 {
                     outputDevice.Init(audioFile);
@@ -102,7 +102,7 @@ namespace _15TeamProject
         {
             Task.Run(() =>
             {
-                using (var audioFile = new AudioFileReader($"D:\\C#\\TeamSparta\\15TeamProject\\15TeamProject\\GameSoundResources\\{path}"))
+                using (var audioFile = new AudioFileReader($"GameSoundResources\\{path}"))
                 using (var outputDevice = new WaveOutEvent())
                 {
                     audioFile.Volume = volume;
