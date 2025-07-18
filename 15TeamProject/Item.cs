@@ -15,6 +15,9 @@ namespace _15TeamProject
         public string ItemDesc;
         public int ItemBuyPrice;
         public int ItemSellPrice;
+        private static int firstUID = 0;
+        public int UID{get; private set;}
+        public int ItemCount;
 
         public ItemData(int ItemID, string ItemName, int ItemType, int ItemValue, string ItemDesc, int ItemBuyPrice, int ItemSellPrice)
         {
@@ -25,6 +28,8 @@ namespace _15TeamProject
             this.ItemDesc = ItemDesc;
             this.ItemBuyPrice = ItemBuyPrice;
             this.ItemSellPrice = ItemSellPrice;
+            this.UID = firstUID++;
+            this.ItemCount = 1;
         }
     }
 
@@ -64,7 +69,9 @@ namespace _15TeamProject
                 int Index = ItemDB.ItemList.FindIndex(item => item.ItemIDs == itemID);
                 if (Index != -1)
                 {
-                    Inventory.inventory.Add(ItemDB.ItemList[Index]);
+                    ItemData ItemTemplate = ItemDB.ItemList[Index];
+                    ItemData newitem = new ItemData(ItemTemplate.ItemIDs, ItemTemplate.ItemNames, ItemTemplate.ItemTypes, ItemTemplate.ItemValue, ItemTemplate.ItemDesc, ItemTemplate.ItemBuyPrice, ItemTemplate.ItemSellPrice);
+                    Inventory.inventory.Add(newitem);
                 }
             }
         }
@@ -77,10 +84,11 @@ namespace _15TeamProject
                 int Index = ItemDB.ItemList.FindIndex(item => item.ItemIDs == itemID);
                 if (Index != -1)
                 {
-                    Shop.Shop1hasItem.Add(ItemDB.ItemList[Index]);
+                    ItemData ItemTemplate = ItemDB.ItemList[Index];
+                    ItemData newitem = new ItemData(ItemTemplate.ItemIDs, ItemTemplate.ItemNames, ItemTemplate.ItemTypes, ItemTemplate.ItemValue, ItemTemplate.ItemDesc, ItemTemplate.ItemBuyPrice, ItemTemplate.ItemSellPrice);
+                    Shop.Shop1hasItem.Add(newitem);
                 }
 
-                Shop.Shop1ItemCount.Add(1);
             }
         }
     }
