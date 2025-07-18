@@ -346,13 +346,14 @@ partial class BattleScene
         for (int i = 0; i < monsterNumber; i++)
         {
             // 몬스터DB에서 무작위 몬스터 가져오기
-            int monsterIndex = random.Next(0,monsterListIndex); 
+            int monsterIndex = random.Next(0,monsterListIndex);                        
             Monster monster = new Monster(MonsterDB.monsterList[monsterIndex]);
 
             // 몬스터의 래밸 보정 - 3층에서 처음, 5층 올라갈 때마다 래밸 +1, 공격력 +2, 체력 +5 씩 증가
-            monster.data.level += 1 * ( (StartScene.Instance.dungeonLevel + 2) / 5 ) ;
-            monster.data.atk += 2 * ( (StartScene.Instance.dungeonLevel + 2) / 5 ) ;
-            monster.data.hp += 5 * ( (StartScene.Instance.dungeonLevel + 2) / 5 ) ;
+            int levelScailingValue = (StartScene.Instance.dungeonLevel + 2) / 5;
+            monster.data.level += 1 * levelScailingValue;
+            monster.data.atk += 2 * levelScailingValue;
+            monster.hp += 5 * levelScailingValue;
 
             monsterInfo[i] = monster;
             //Console.WriteLine($"몬스터 {i + 1}: {monsterInfo[i].data.name}");  //잘 저장됬는지 디버깅용
