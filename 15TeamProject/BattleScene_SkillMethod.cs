@@ -187,6 +187,7 @@ partial class BattleScene
                 monster.hp = 0;    // 체력이 0이 되면 죽은 상태로 변경
                 QuestConditioning.Instance.OnMonsterKilled(monster);   // 미니언 퀘스트
                 afterExp += monster.exp;              // 처치된 몬스터 경험치 획득
+                droppedGold += monster.gold;
                 DroppedPotion();
             }
 

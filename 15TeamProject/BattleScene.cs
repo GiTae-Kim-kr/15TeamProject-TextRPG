@@ -186,7 +186,7 @@ partial class BattleScene
 
             // 적 hp에 데미지 적용
             monster.hp -= damage;
-        }                 
+        }
 
         // 적 사망 확인
         if (monster.hp <= 0)
@@ -195,7 +195,7 @@ partial class BattleScene
             monster.hp = 0;    // 체력이 0이 되면 죽은 상태로 변경
             QuestConditioning.Instance.OnMonsterKilled(monster);   // 몬스터 처치 퀘스트
             afterExp += monster.exp;              // 처치된 몬스터 경험치 획득
-            droppedGold += monster.gold;
+            droppedGold += monster.gold;            
             DroppedPotion(); 
         }
 
@@ -272,7 +272,6 @@ partial class BattleScene
     void ResultVictory()    // 전투 승리시 나오는 씬 메서드
     {
         Player.Instance.exp += afterExp;       // 승리 씬 나와야 경험치 획득
-        player.gold += droppedGold;
         bool isLevelUp;
         Console.Clear();
         // 상단에 Battle 색 입혀서 출력
@@ -282,6 +281,7 @@ partial class BattleScene
         Console.WriteLine("Victory\n");
         Console.WriteLine($"던전에서 몬스터 {monsterInfo.Length}마리를 잡았습니다.");  // 몇 마리인지 표시하는 코드 추가 필요 => 어차피 생성된 모든 몬스터 잡아야 승리니까
         GetPotion();
+        GetItems();        
         Console.WriteLine($"MP를 10 회복합니다.\n");    // mp 회복 
         player.mp += 10;
         if (player.mp >= 50) player.mp = 50;
