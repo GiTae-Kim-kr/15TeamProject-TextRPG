@@ -38,8 +38,8 @@ partial class BattleScene
         }
         Console.WriteLine("\n\n[내정보]");
         Console.WriteLine($"Lv.{player.level}  {player.name} ({player.job})");
-        Console.WriteLine($"HP : {player.hp}/100");
-        Console.WriteLine($"MP : {player.mp}/50\n");    // 한 칸 띄움
+        Console.WriteLine($"HP : {player.hp}/{player.maxHp}");
+        Console.WriteLine($"MP : {player.mp}/{player.maxMp}\n");    // 한 칸 띄움
         Console.WriteLine("1. 공격");
         Console.WriteLine("2. 스킬 사용");
         Console.WriteLine("3. 포션 사용\n");
@@ -108,8 +108,8 @@ partial class BattleScene
         }
         Console.WriteLine("\n\n[내정보]");
         Console.WriteLine($"Lv.{player.level}  {player.name} ({player.job})");
-        Console.WriteLine($"HP : {player.hp}/100");
-        Console.WriteLine($"MP : {player.mp}/50\n");    // 한 칸 띄움
+        Console.WriteLine($"HP : {player.hp}/{player.maxHp}");
+        Console.WriteLine($"MP : {player.mp}/{player.maxMp}\n");    // 한 칸 띄움
         Console.WriteLine("0. 취소\n");
         Console.Write("대상을 선택해주세요. \n>>");
         
@@ -285,7 +285,7 @@ partial class BattleScene
         GetItems();        
         Console.WriteLine($"MP를 10 회복합니다.\n");    // mp 회복 
         player.mp += 10;
-        if (player.mp >= 50) player.mp = 50;
+        if (player.mp >= player.maxMp) player.mp = player.maxMp;
         Console.WriteLine("\n[캐릭터 정보]\n");
         Console.Write($"Lv.{player.level}  {player.name} ({player.job})");
         QuestList.Instance.LevelUp(out isLevelUp);

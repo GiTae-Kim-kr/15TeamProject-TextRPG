@@ -39,7 +39,9 @@ class Player
         job = "전사";
         atk = 10;
         def = 5;
+        maxHp = 100;
         hp = 100;           // 초기 체력
+        maxMp = 100;
         mp = 50;            // 초기 마나
         gold = 15000;   // 초기 골드
     }
@@ -48,7 +50,7 @@ class Player
     private bool isInitialized = false;
 
     // 필드 초기화 메서드
-    public void Init(string name, string job, int atk, int def, int hp, int mp, int gold)
+    public void Init(string name, string job, int atk, int def, int maxHp, int maxMp, int gold)
     {
         if (isInitialized) return;  // 초기화 되어있으면, 덮어 쓰기 안함.
 
@@ -56,8 +58,10 @@ class Player
         this.job = job;
         this.atk = atk;
         this.def = def;
-        this.hp = hp;
-        this.mp = mp;
+        this.maxHp = maxHp;
+        this.hp = maxHp;
+        this.maxMp = maxMp;
+        this.mp = maxMp;
         this.gold = gold;
 
         isInitialized = true;

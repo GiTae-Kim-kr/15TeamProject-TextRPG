@@ -38,15 +38,15 @@ namespace _15TeamProject
                 {
                     if (player.potionCount > 0)
                     {
-                        if (player.hp == 100)
+                        if (player.hp == player.maxHp)
                         {
                             Console.Clear();
                             Console.WriteLine($"체력이 가득 찼습니다. 현재 체력 : {player.hp} 남은포션개수 : {player.potionCount}");
                         }
-                        else if (player.hp > 70)
+                        else if (player.hp > player.maxHp - 30 )
                         {
                             Console.Clear();
-                            player.hp = 100;
+                            player.hp = player.maxHp;
                             player.potionCount--;
                             Console.WriteLine($"회복을 완료했습니다. 현재 체력 : {player.hp} 남은포션개수 : {player.potionCount}");
                         }
@@ -68,15 +68,15 @@ namespace _15TeamProject
                 {
                     if (player.mpPotionCount > 0)
                     {
-                        if (player.mp == 50)
+                        if (player.mp == player.maxMp)
                         {
                             Console.Clear();
                             Console.WriteLine($"마나가 가득 찼습니다. 현재 마나 : {player.mp} 남은포션개수 : {player.mpPotionCount}");
                         }
-                        else if (player.mp > 35)
+                        else if (player.mp > player.maxMp - 15)
                         {
                             Console.Clear();
-                            player.mp = 50;
+                            player.mp = player.maxMp;
                             player.mpPotionCount--;
                             Console.WriteLine($"회복을 완료했습니다. 현재 마나 : {player.mp} 남은포션개수 : {player.mpPotionCount}");
                         }

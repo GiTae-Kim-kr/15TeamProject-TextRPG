@@ -20,8 +20,8 @@ namespace _15TeamProject
             Console.WriteLine($"{Player.Instance.name} ({Player.Instance.job})");
             Console.WriteLine($"공격력 : {Player.Instance.atk}");
             Console.WriteLine($"방어력 : {Player.Instance.def}");
-            Console.WriteLine($"마  나 : {Player.Instance.mp}");
-            Console.WriteLine($"체  력 : {Player.Instance.hp}");
+            Console.WriteLine($"마  나 : {Player.Instance.mp}/{Player.Instance.maxMp}");
+            Console.WriteLine($"체  력 : {Player.Instance.hp}/{Player.Instance.maxMp}");
             Console.WriteLine($"경험치 : {Player.Instance.exp}/{QuestList.NeedTotalExp(Player.Instance.level)}");
             Console.WriteLine($"Gold   : {Player.Instance.gold} G\n");
 
