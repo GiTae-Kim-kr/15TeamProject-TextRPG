@@ -101,6 +101,7 @@ namespace _15TeamProject
                     if (Player.Instance.gold >= inputToken*500)
                     {
                         for (int i = 0; i < inputToken; i++) AddItem.TokenBoxAdd(500);
+                        Player.Instance.gold -= inputToken * 500;
                         Console.WriteLine($"입장권 {inputToken}장을 구매했습니다. (Enter키 입력 시 진행)");
                         Console.ReadLine();
                         PubMainUI();
