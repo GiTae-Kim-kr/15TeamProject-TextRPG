@@ -8,6 +8,8 @@ namespace _15TeamProject
 {
     internal class Opening
     {
+        SaveLoadScene saveloadScene = SaveLoadScene.Instance;
+
         public void Run()
         {
             // 화면 리셋
@@ -15,6 +17,7 @@ namespace _15TeamProject
 
             // 시작 문구 출력
             Console.WriteLine("TXT RPG에 오신 여러분 환영합니다.");
+            saveloadScene.LoadScene();
             Console.WriteLine("원하시는 이름을 설정해주세요.");
             Console.Write(">>");
 
@@ -22,7 +25,7 @@ namespace _15TeamProject
             string name = Console.ReadLine();
 
             // 이름 확인
-            Console.WriteLine($"\n 입력하신 이름이 {name} 이(가) 맞습니까?\n");
+            Console.WriteLine($"\n입력하신 이름이 {name} 이(가) 맞습니까?\n");
             Console.WriteLine("1. 확인");
             Console.WriteLine("0. 취소");
             Console.Write(">>");
