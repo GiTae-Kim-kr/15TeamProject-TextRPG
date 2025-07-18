@@ -232,11 +232,17 @@ partial class BattleScene
 
                 // 적 공격 메시지 출력
                 Console.WriteLine($"Lv.{monster.level} {monster.name} 의 공격!");
-                Console.WriteLine($"{player.name} 을(를) 맞췄습니다. [데미지 : {monster.atk}]\n");
+
+                // 공격 데미지 계산
+                int damage = Math.Max( (int)( monster.atk * (1 - ( (float)player.def / 100)) ), 0 );   // 최소 데미지 0
+                if (damage > 0)
+                    Console.WriteLine($"{player.name} 을(를) 맞췄습니다. [데미지 : {damage}]\n");
+                else
+                    Console.WriteLine($"{player.name} 이(가) 공격을 막았습니다.");
 
                 // 플레이어 남은 체력 계산
                 beforeHp = player.hp;
-                player.hp -= monster.atk;
+                player.hp -= damage;
                 if (player.hp <= 0) player.hp = 0;  // 체력이 0 이하면 0으로 리셋                              
 
                 // 플레이어 남은 체력 출력
