@@ -11,7 +11,9 @@ namespace _15TeamProject
         public static List<ItemData> NorTokenbox = new List<ItemData>();
         public static List<ItemData> PreTokenbox = new List<ItemData>();
         static Random dicerandom = new Random();
+        static int firsttime = 0;
 
+        
         public static void PubMainUI() 
         {
             Console.Clear();
@@ -22,6 +24,26 @@ namespace _15TeamProject
             Console.WriteLine("이 주사위를 3개 던져서 같은 숫자가 나오면");
             Console.WriteLine("생각만해도 짜릿하다네");
             Console.WriteLine("어때? 도전해 보겠나?");
+
+            if (firsttime == 0 && Player.Instance.job == "거지")
+            {
+                Console.ReadLine();
+                Console.WriteLine("잠깐만...");
+                Console.ReadLine();
+                Console.WriteLine("아닛! 자네처럼 누추한 사람이 이런 귀한 곳에 오다니");
+                Console.WriteLine("어서 나가게나");
+                Console.ReadLine();
+                Console.WriteLine("잠깐 자네 관상을 보니 예사롭지 않구만");
+                Console.WriteLine("흠.. 한 번 기대를 걸어봐야 하나");
+                Console.WriteLine("한 번 참여해보시오");
+                for (int i = 0; i<10; i++) AddItem.TokenBoxAdd(500);
+                firsttime++;
+                Console.ReadLine();
+                Console.WriteLine("입장권 10장을 획득했습니다.");
+                Console.WriteLine("잘됐을 때 나를 잊으면 안돼오!!(Enter키 입력 시 진행)");
+                Console.ReadLine();
+                
+            }
             if (Tokenbox.Where(item => item.ItemIDs == 500).Count() == 0) Console.WriteLine("입장권이 없으면 입장할 수 없다네. 입장권을 구매하게나.");
             Console.WriteLine("");
             Console.WriteLine("[보유 골드]");
@@ -163,7 +185,7 @@ namespace _15TeamProject
                 {
                     AddItem.TokenBoxAdd(501);
                     Console.WriteLine("좌절하지 말게나. 보통의 일이라네.\n노말 토큰을 획득하였습니다. (Enter키 입력 시 진행)");
-                    Console.Read();
+                    Console.ReadLine();
                 }
                 Console.WriteLine("");
                 Console.WriteLine("");
@@ -171,7 +193,7 @@ namespace _15TeamProject
                 Console.WriteLine("0. 나가기");
                 Console.WriteLine("");
                 Console.WriteLine("원하시는 행동을 입력해주세요.");
-                Console.Write(">>    ");
+                Console.Write(">>");
                 int input = Input.GetInt(0, 1);
                 switch (input)
                 {
