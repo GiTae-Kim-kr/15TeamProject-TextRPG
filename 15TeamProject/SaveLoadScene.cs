@@ -80,8 +80,8 @@ namespace _15TeamProject
                         // 인벤토리 정보 불러오기
                         Inventory.inventory = load.InventoryItems.ToList(); // 플레이어 인벤토리 불러오기
                         Inventory.equipList = Inventory.inventory.Where(item => load.equippedUids.Contains(item.UID)).ToList(); // 장착한 아이템 불러오기
-                        Inventory.equipmentWeapon[0] = null;  // 무기 슬롯 장착 아이템 초기화
-                        Inventory.equipmentArmor[0] = null;   // 방어구 슬롯 장착 아이템 초기화
+                        //Inventory.equipmentWeapon[0] = null;  // 무기 슬롯 장착 아이템 초기화
+                        //Inventory.equipmentArmor[0] = null;   // 방어구 슬롯 장착 아이템 초기화
                         if (load.equippedWeaponUid.HasValue)  // 무기 슬롯 장착 아이템이 있다면
                             Inventory.equipmentWeapon[0] = Inventory.inventory.FirstOrDefault(item => item.UID == load.equippedWeaponUid); // 무기 슬롯 장착 아이템 불러오기
 
