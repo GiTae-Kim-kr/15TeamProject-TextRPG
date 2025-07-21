@@ -63,25 +63,24 @@ namespace _15TeamProject
                     if (input == "Y")
                     {
                         // 플레이어 정보 불러오기
-                        player.name = load.player.name; // 플레이어 이름 불러오기
-                        player.level = load.player.level; // 플레이어 레벨 불러오기
-                        player.job = load.player.job; // 플레이어 직업 불러오기
-                        player.hp = load.player.hp; // 플레이어 체력 불러오기
+                        player.name = load.player.name; 
+                        player.level = load.player.level; 
+                        player.job = load.player.job; 
+                        player.hp = load.player.hp; 
                         player.maxHp = load.player.maxHp; // 플레이어 최대 체력 불러오기
-                        player.mp = load.player.mp; // 플레이어 마나 불러오기
+                        player.mp = load.player.mp; 
                         player.maxMp = load.player.maxMp; // 플레이어 최대 마나 불러오기
-                        player.atk = load.player.atk; // 플레이어 공격력 불러오기
-                        player.def = load.player.def; // 플레이어 방어력 불러오기
-                        player.gold = load.player.gold; // 플레이어 골드 불러오기
-                        player.exp = load.player.exp; // 플레이어 경험치 불러오기
+                        player.atk = load.player.atk; 
+                        player.def = load.player.def; 
+                        player.gold = load.player.gold; 
+                        player.exp = load.player.exp; 
                         player.potionCount = load.player.potionCount; // 플레이어 포션 개수 불러오기
                         player.mpPotionCount = load.player.mpPotionCount; // 플레이어 마나 포션 개수 불러오기
 
                         // 인벤토리 정보 불러오기
                         Inventory.inventory = load.InventoryItems.ToList(); // 플레이어 인벤토리 불러오기
                         Inventory.equipList = Inventory.inventory.Where(item => load.equippedUids.Contains(item.UID)).ToList(); // 장착한 아이템 불러오기
-                        //Inventory.equipmentWeapon[0] = null;  // 무기 슬롯 장착 아이템 초기화
-                        //Inventory.equipmentArmor[0] = null;   // 방어구 슬롯 장착 아이템 초기화
+
                         if (load.equippedWeaponUid.HasValue)  // 무기 슬롯 장착 아이템이 있다면
                             Inventory.equipmentWeapon[0] = Inventory.inventory.FirstOrDefault(item => item.UID == load.equippedWeaponUid); // 무기 슬롯 장착 아이템 불러오기
 
